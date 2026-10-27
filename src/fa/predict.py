@@ -38,9 +38,22 @@ CREATE TABLE IF NOT EXISTS forecasts (
     p_home DOUBLE, p_draw DOUBLE, p_away DOUBLE,
     xg_home DOUBLE, xg_away DOUBLE,
     top_score VARCHAR, top_score_p DOUBLE,   -- predicted score: best scoreline within the predicted result
-    market_home DOUBLE, market_draw DOUBLE, market_away DOUBLE
+    market_home DOUBLE, market_draw DOUBLE, market_away DOUBLE,
+    kickoff_utc TIMESTAMP,                   -- a forecast only counts if made before this
+    p_over25 DOUBLE, p_btts DOUBLE
 );
 """
+# Columns added after the first version: older tables get them on the next save.
+FORECASTS_MIGRATIONS = ["ALTER TABLE forecasts ADD COLUMN IF NOT EXISTS kickoff_utc TIMESTAMP",
+                        "ALTER TABLE forecasts ADD COLUMN IF NOT EXISTS p_over25 DOUBLE",
+                        "ALTER TABLE forecasts ADD COLUMN IF NOT EXISTS p_btts DOUBLE"]
+
+
+def kickoff_utc_from_local(date: pd.Series, time: pd.Series, tz: str) -> pd.Series:
+    """Combine a local date and 'HH:MM' into naive UTC timestamps (NaT if no time)."""
+    t = time.astype(str).str.strip().where(time.astype(str).str.match(r"^\d{1,2}:\d{2}$"))
+    local = pd.to_datetime(date.dt.strftime("%Y-%m-%d") + " " + t, errors="coerce")
+    return local.dt.tz_localize(tz, ambiguous="NaT", nonexistent="NaT").dt.tz_convert("UTC").dt.tz_localize(None)
 
 
 def read_fixtures(source: str) -> pd.DataFrame:
@@ -62,6 +75,8 @@ def read_fixtures(source: str) -> pd.DataFrame:
         "home_team": df["HomeTeam"].str.strip(),
         "away_team": df["AwayTeam"].str.strip(),
     })
+    # football-data.co.uk lists kickoff times in UK time.
+    out["kickoff_utc"] = kickoff_utc_from_local(out.date, out.time.fillna(""), "Europe/London")
     out[["market_home", "market_draw", "market_away"]] = np.nan
     for cols in ODDS_COLUMNS:
         if all(c in df.columns for c in cols):
@@ -119,16 +134,19 @@ def check_team_names(matches: pd.DataFrame, fixtures: pd.DataFrame) -> list[str]
 
 def save(preds: pd.DataFrame, created_at: datetime, model: str = "blend_v1") -> None:
     rows = preds.assign(created_at=created_at, model=model)
-    for c in ("market_home", "market_draw", "market_away"):
+    for c in ("market_home", "market_draw", "market_away", "kickoff_utc", "p_over25", "p_btts"):
         if c not in rows:
             rows[c] = np.nan
+    rows["kickoff_utc"] = pd.to_datetime(rows["kickoff_utc"])
     cols = ["created_at", "model", "match_id", "league", "date", "home_team", "away_team",
             "p_home", "p_draw", "p_away", "xg_home", "xg_away", "top_score", "top_score_p",
-            "market_home", "market_draw", "market_away"]
+            "market_home", "market_draw", "market_away", "kickoff_utc", "p_over25", "p_btts"]
     con = duckdb.connect(str(DB_PATH))
     con.execute(FORECASTS_SCHEMA)
+    for sql in FORECASTS_MIGRATIONS:
+        con.execute(sql)
     con.register("new_rows", rows[cols])
-    con.execute(f"INSERT INTO forecasts SELECT {', '.join(cols)} FROM new_rows")
+    con.execute(f"INSERT INTO forecasts ({', '.join(cols)}) SELECT {', '.join(cols)} FROM new_rows")
     con.close()
 
 
@@ -267,8 +285,9 @@ def main() -> None:
                   "(run `python -m fa.data.load_european` to enable them)")
         else:
             if not args.no_save:
-                save(cl_preds.assign(xg_home=np.nan, xg_away=np.nan, top_score=None,
-                                     top_score_p=np.nan), datetime.now(timezone.utc).replace(tzinfo=None),
+                save(cl_preds.assign(xg_home=np.nan, xg_away=np.nan, top_score=None, top_score_p=np.nan,
+                                     p_over25=np.nan, p_btts=np.nan),
+                     datetime.now(timezone.utc).replace(tzinfo=None),
                      model="cl_elo_v1")
             report += cl_markdown(cl_preds)
             show = cl_preds[["date", "home_team", "away_team"] + PCOLS].copy()

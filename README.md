@@ -27,7 +27,20 @@ python -m pytest -q                     # unit tests
 ```bash
 python -m fa.data.load_results          # pull the latest results first
 python -m fa.predict                    # upcoming matches in the next 8 days
+python -m fa.score                      # score past forecasts: the live track record
 ```
+
+### Track record rules (fixed before any result was seen)
+
+- For each match, only the **latest forecast made before kickoff** counts; kickoff times
+  are stored in UTC with every forecast.
+- The first forecasts (saved before kickoff times were stored) count only if made at
+  least 2 hours before the match day began.
+- Every eligible forecast is scored; nothing is removed afterwards. Backtests can't leak
+  in: a forecast saved after kickoff is never eligible.
+
+`reports/track_record.md` shows log loss, accuracy, exact scores, over 2.5 / both teams
+to score, model vs market, and breakdowns by competition and week.
 
 Writes `reports/predictions/<date>.md` and appends every forecast, with a timestamp, to
 the `forecasts` table, so forecasts can be scored once the matches are played.
@@ -167,6 +180,7 @@ src/fa/
   models/cl_predict.py   Champions League predictions
   features/form.py       form features (no look-ahead)
   predict.py             predictions for upcoming fixtures
+  score.py               live track record
   data/fixtures_api.py   football-data.org client
   data/team_names.py     cross-source team-name matching
 tests/                   unit tests (incl. no-look-ahead checks)
@@ -178,7 +192,7 @@ tests/                   unit tests (incl. no-look-ahead checks)
 2. ✅ Goals model (Dixon–Coles) + Elo blend, shots-informed ratings, form experiment
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
 4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
-5. Publish predictions before kickoff; score them after (public track record) — forecasting in place
+5. ✅ Publish predictions before kickoff; score them after (public track record)
 6. Write-up
 
 *This project is for analysis and learning, not betting advice.*
