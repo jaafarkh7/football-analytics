@@ -3,7 +3,7 @@
 Pre-match predictions and post-match analysis for Europe's top 5 leagues, with honest,
 reproducible evaluation.
 
-**Status: Week 1 of 6** — data pipeline and baseline models.
+**Status: Week 2 of 6** — data pipeline, baselines, and a Dixon–Coles goals model.
 
 ## Quick start
 
@@ -13,7 +13,8 @@ pip install -r requirements.txt
 export PYTHONPATH=src
 
 python -m fa.data.load_results          # ~22k matches + odds -> data/football.duckdb
-python -m fa.run_baselines              # tune Elo, evaluate, write reports/
+python -m fa.run_baselines              # week 1: tune Elo, evaluate baselines
+python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~2 min)
 python -m pytest -q                     # unit tests
 ```
 
@@ -51,6 +52,19 @@ H/D/A probabilities for scored seasons.
 
 Full results: [`reports/week1_baselines.md`](reports/week1_baselines.md).
 
+## Goals model (week 2)
+
+Dixon–Coles: each team gets attack and defence strengths; expected goals for both
+sides give a full scoreline distribution (and so H/D/A). Recent matches are weighted
+more (tuned half-life), teams with little data are shrunk toward average, promoted
+teams start as weak, and the model is refit weekly so it never sees the future.
+
+Main finding: Dixon–Coles and Elo are statistically tied on the test season; a blend
+of the two is slightly better than either. Both only use results and goals, so closing
+the gap to the market needs new information (shots, xG, lineups), not a new formula.
+
+Full results: [`reports/week2_goals_model.md`](reports/week2_goals_model.md).
+
 ## Layout
 
 ```
@@ -59,15 +73,17 @@ src/fa/
   data/load_results.py   download + validate + load into DuckDB
   models/baselines.py    uniform, base rates, bookmaker
   models/elo.py          Elo ratings + rating-gap -> H/D/A model
+  models/poisson.py      Dixon–Coles goals model + weekly walk-forward
   eval/metrics.py        log loss, RPS, Brier, bootstrap, calibration
   run_baselines.py       week 1 experiment
-tests/test_week1.py
+  run_week2.py           week 2 experiment
+tests/                   unit tests (incl. no-look-ahead checks)
 ```
 
 ## Roadmap
 
 1. ✅ Data + baselines
-2. Goals model (Poisson / Dixon–Coles), then gradient boosting with form features
+2. ✅ Goals model (Dixon–Coles) + Elo blend
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
 4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
 5. Publish predictions before kickoff; score them after (public track record)

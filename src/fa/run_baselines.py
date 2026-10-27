@@ -89,14 +89,18 @@ def evaluate(matches: pd.DataFrame, params: EloParams):
     return pd.DataFrame(rows), preds, rated
 
 
-def plot_calibration(ev, models, has_odds, path):
+# Each model keeps the same color in every chart, whichever others are shown with it.
+MODEL_COLORS = {"Elo": "#2a78d6", "Bookmakers (market)": "#eb6834", "Dixon–Coles": "#1baf7a"}
+
+
+def plot_calibration(ev, models, has_odds, path, include=("Elo", "Bookmakers (market)")):
     surface, ink, ink2, grid_c = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
-    colors = {"Elo": "#2a78d6", "Bookmakers (market)": "#eb6834"}
     fig, ax = plt.subplots(figsize=(6.4, 5.6), dpi=150, facecolor=surface)
     ax.set_facecolor(surface)
     ax.plot([0, 1], [0, 1], color=ink2, lw=1, ls=(0, (4, 4)), zorder=1,
             label="Perfect calibration")
-    for name, color in colors.items():
+    for name in include:
+        color = MODEL_COLORS[name]
         if name not in models:
             continue
         m = has_odds if name.startswith("Bookmakers") else np.ones(len(ev), bool)
@@ -134,7 +138,8 @@ def save_predictions(preds: dict, params: EloParams) -> None:
                                         "p_home": p[:, 0], "p_draw": p[:, 1], "p_away": p[:, 2]}))
     df = pd.concat(frames).dropna()
     con = duckdb.connect(str(DB_PATH))
-    con.execute("CREATE OR REPLACE TABLE predictions AS SELECT * FROM df")
+    con.register("preds_df", df)
+    con.execute("CREATE OR REPLACE TABLE predictions AS SELECT * FROM preds_df")
     con.close()
 
 
