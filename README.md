@@ -39,6 +39,41 @@ python -m fa.score                      # score past forecasts: the live track r
 - Every eligible forecast is scored; nothing is removed afterwards. Backtests can't leak
   in: a forecast saved after kickoff is never eligible.
 
+### Season simulations
+
+```bash
+python -m fa.season_sim                 # title / top-4 / relegation chances, saved weekly
+python -m fa.season_sim --backtest      # check the simulator against past seasons
+```
+
+Remaining fixtures are the home/away pairs not yet played (every top-5 league is a double
+round-robin). Each simulation draws a result from the production model, then a
+consistent scoreline, so goal difference can break ties. Backtest from 1 Jan and 1 Mar
+of 2024-25 and 2025-26: Brier 0.013 (title), 0.047 (top 4), 0.051 (relegation) against
+0.049 / 0.165 / 0.132 without the model; final points within ~4 on average. Teams given
+~28% relegation chances went down 17% of the time (29 teams), a hint of pessimism
+about struggling sides worth rechecking. See `reports/season_sim_backtest.md`.
+
+### Cards and Telegram
+
+```bash
+python -m fa.cards --handle @your_channel     # PNG cards in English and Arabic -> reports/cards/<date>/
+python -m fa.telegram                         # dry run: what would be posted
+python -m fa.telegram --send                  # post to Telegram
+```
+
+Cards: one per big match (probabilities, predicted score, goal markets, expected goals),
+one per competition with every upcoming match, a weekly scorecard that includes the
+misses, a season-simulation table per league (with the biggest movers since last week),
+and a post-match "who deserved it?" card per league built from shots on target. Arabic cards are laid out right to left; club names come from
+`src/fa/data/team_names_ar.csv` (clubs missing there are shown in English and listed).
+Fonts: Noto Sans and Noto Sans Arabic (SIL Open Font License, see `assets/fonts/OFL.txt`).
+
+Telegram setup: create a bot with @BotFather, add it as an admin of your channel, and
+put `TELEGRAM_BOT_TOKEN=...` and `TELEGRAM_CHAT=@your_channel` (or `TELEGRAM_CHAT_EN` /
+`TELEGRAM_CHAT_AR` for one channel per language) in `.env`. Posted cards are logged in
+`records/posted.csv`, so nothing is posted twice.
+
 `reports/track_record.md` shows log loss, accuracy, exact scores, over 2.5 / both teams
 to score, model vs market, and breakdowns by competition and week.
 
@@ -181,6 +216,10 @@ src/fa/
   features/form.py       form features (no look-ahead)
   predict.py             predictions for upcoming fixtures
   score.py               live track record
+  cards.py               PNG cards, English + Arabic
+  cards_season.py        season-table and who-deserved-it cards
+  season_sim.py          season simulations + backtest
+  telegram.py            posts cards to Telegram
   data/fixtures_api.py   football-data.org client
   data/team_names.py     cross-source team-name matching
 tests/                   unit tests (incl. no-look-ahead checks)
