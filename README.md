@@ -91,6 +91,10 @@ one per competition with every upcoming match, a weekly scorecard that includes 
 misses, a season-simulation table per league (with the biggest movers since last week),
 and a post-match "who deserved it?" card per league built from shots on target. Arabic cards are laid out right to left; club names come from
 `src/fa/data/team_names_ar.csv` (clubs missing there are shown in English and listed).
+Premier League match cards also show **team news** (who is out or doubtful), from the
+official Fantasy Premier League API (`python -m fa.data.team_news`, free, no key; saved to
+`records/team_news.csv` and ignored once older than 2 days). The API-Football free plan
+was checked first (`python -m fa.data.injuries_probe`): it has no current-season injuries.
 Fonts: Noto Sans and Noto Sans Arabic (SIL Open Font License, see `assets/fonts/OFL.txt`).
 
 Telegram setup: create a bot with @BotFather, add it as an admin of your channel, and
@@ -248,6 +252,7 @@ src/fa/
   telegram.py            posts cards to Telegram
   data/fixtures_api.py   football-data.org client
   data/team_names.py     cross-source team-name matching
+  data/team_news.py      Premier League injuries and suspensions (Fantasy PL API)
 tests/                   unit tests (incl. no-look-ahead checks)
 ```
 

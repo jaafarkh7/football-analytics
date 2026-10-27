@@ -68,6 +68,7 @@ def main() -> None:
     if not kinds:
         print("\nNothing to post today. Forecasts and scores are saved.")
         return
+    run("data.team_news", optional=True)      # Premier League injuries; cards work without it
     run("cards", "--days", str(FORECAST_DAYS.get(weekday, 8)))
     run("telegram", "--kinds", kinds, *(["--send"] if args.post else []))
 

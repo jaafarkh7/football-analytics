@@ -54,7 +54,9 @@ TEXT = {
            "right": "results right", "matches": "matches scored", "surprise": "Biggest surprise",
            "model_gave": "model gave {}%", "logloss": "lower is better · 1.10 = pure guessing",
            "logloss_label": "Log loss", "no_goals": "Rating-based forecast, no scoreline model",
-           "market": "market", "home_win": "Home win", "away_win": "Away win"},
+           "market": "market", "home_win": "Home win", "away_win": "Away win",
+           "news": "Team news · Fantasy Premier League, {}", "out": "Out", "doubt": "Doubtful",
+           "no_news": "No absences reported"},
     "ar": {"win": "فوز {}", "draw": "تعادل", "score": "النتيجة المتوقعة", "over": "أكثر من 2.5 هدف",
            "btts": "تسجيل الفريقين", "xg": "الأهداف المتوقعة", "vs": "ضد",
            "disclaimer": "تحليل وليس نصيحة للمراهنة", "home": "أرضه", "away": "ضيف",
@@ -64,7 +66,9 @@ TEXT = {
            "right": "نتائج صحيحة", "matches": "مباريات مقيَّمة", "surprise": "أكبر مفاجأة",
            "model_gave": "النموذج أعطى {}%", "logloss": "الأقل أفضل، والتخمين العشوائي يعطي 1.10",
            "logloss_label": "مقياس الخطأ", "no_goals": "توقع مبني على تصنيف الفرق، دون نموذج للنتيجة",
-           "market": "السوق", "home_win": "فوز صاحب الأرض", "away_win": "فوز الضيف"},
+           "market": "السوق", "home_win": "فوز صاحب الأرض", "away_win": "فوز الضيف",
+           "news": "أخبار الفريقين · فانتازي الدوري الإنجليزي، {}", "out": "غياب", "doubt": "مشكوك فيه",
+           "no_news": "لا غيابات معلنة"},
 }
 AR_MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس",
              "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
@@ -267,11 +271,47 @@ def footer(p: Painter, y, t: dict, record: tuple[int, int] | None, handle: str):
 
 # ---------------- cards ----------------
 
-def match_card(row: pd.Series, lang: str, record=None, handle="") -> tuple[Image.Image, set]:
+NEWS_H = 300
+
+
+def news_section(p: Painter, y: float, news: dict, names: "Names", t: dict, lang: str, row) -> None:
+    """Who is out or doubtful, one block per team, from the latest team-news snapshot."""
+    start = 90 if not p.rtl else W - 90
+    p.d.line((70, y, W - 70, y), fill=RULE, width=2)
+    as_of = news["as_of"]
+    stamp = f"{as_of.day} {AR_MONTHS[as_of.month - 1]}" if lang == "ar" else f"{as_of:%-d %b}"
+    p.text(start, y + 50, t["news"].format(stamp), 24, fill=INK2, align="start")
+    yy = y + 105
+    step = 1 if not p.rtl else -1
+    for side, team in (("home", row.home_team), ("away", row.away_team)):
+        n = news.get(side) or {}
+        p.text(start, yy, names.team(team), 26, bold=True, align="start")
+        # Labels and (Latin) player names are drawn as separate pieces in reading order,
+        # so Arabic labels and English names never get mixed up by the bidi layout.
+        pieces = []
+        for k in ("out", "doubt"):
+            if n.get(k):
+                if pieces:
+                    pieces.append(("·", MUTED, False))
+                pieces += [(t[k] + ":", INK2, True), (", ".join(n[k]), INK2, False)]
+        if not pieces:
+            pieces = [(t["no_news"], INK2, False)]
+        size = 24
+        while size > 18 and sum(p.width(s, size, b) + 12 for s, _, b in pieces) > W - 180:
+            size -= 1
+        x = start
+        for s, fill, bold in pieces:
+            p.text(x, yy + 42, s, size, bold=bold, fill=fill, align="start")
+            x += step * (p.width(s, size, bold) + 12)
+        yy += 95
+
+
+def match_card(row: pd.Series, lang: str, record=None, handle="", news: dict | None = None
+               ) -> tuple[Image.Image, set]:
     names = Names(lang)
     t = TEXT[lang]
     has_goals = pd.notna(row.get("p_over25"))
-    H = 1240 if has_goals else 900
+    H = (1240 if has_goals else 900) + (NEWS_H if news else 0)
     img = Image.new("RGB", (W, H), SURFACE)
     p = Painter(img, rtl=(lang == "ar"))
     p.rect((40, 40, W - 40, H - 40), CARD, r=36)
@@ -300,6 +340,8 @@ def match_card(row: pd.Series, lang: str, record=None, handle="") -> tuple[Image
 
     if not has_goals:
         p.text(W / 2, 650, t["no_goals"], 24, fill=MUTED, align="center")
+        if news:
+            news_section(p, 700, news, names, t, lang, row)
         footer(p, H - 190, t, record, handle)
         return img, names.missing
 
@@ -322,7 +364,9 @@ def match_card(row: pd.Series, lang: str, record=None, handle="") -> tuple[Image
         p.text(W / 2, 910, t["xg"], 26, fill=INK2, align="center")
         p.text(W / 2, 975, xg, 44, bold=True, align="center")
 
-    footer(p, 1050, t, record, handle)
+    if news:
+        news_section(p, 1050, news, names, t, lang, row)
+    footer(p, 1050 + (NEWS_H if news else 0), t, record, handle)
     return img, names.missing
 
 
@@ -479,9 +523,16 @@ def main() -> None:
     else:
         league_fc = fc[fc.model == "blend_v1"]
         top = featured(league_fc, matches, args.featured) if len(league_fc) else league_fc
+        from fa.data import team_news
+        snapshot = team_news.load(now=now)
         for lang in ("en", "ar"):
             for _, row in top.iterrows():
-                img, miss = match_card(row, lang, record, handle[lang])
+                news = None
+                if len(snapshot) and row.league in set(snapshot.league):
+                    news = {"as_of": snapshot.fetched_at.max(),
+                            "home": team_news.for_team(snapshot, row.home_team),
+                            "away": team_news.for_team(snapshot, row.away_team)}
+                img, miss = match_card(row, lang, record, handle[lang], news)
                 path = out / f"match_{row.match_id}_{lang}.png"
                 img.save(path)
                 made.append(path)
