@@ -14,6 +14,15 @@ data toward average.
 
 The Poisson part is a weighted Poisson GLM, so we let scikit-learn fit it; ρ is then
 fitted with the λs held fixed (a standard two-step approximation).
+
+Shots: goals are a noisy signal of team quality, shots much less so. With
+goal_weight < 1, the model learns strengths from
+
+    target = goal_weight * goals + (1 - goal_weight) * shot_xg
+    shot_xg = c_on * shots_on_target + c_off * shots_off_target
+
+where c_on, c_off are the league's conversion rates, fitted on the same training
+window. ρ and all predictions are still about real goals.
 """
 from __future__ import annotations
 
@@ -34,6 +43,7 @@ class DCParams:
     alpha: float = 1e-3             # L2 shrinkage toward an average team
     window_days: int = 3 * 365      # ignore anything older than this
     dixon_coles: bool = True        # False -> plain independent Poisson
+    goal_weight: float = 1.0        # 1 = learn from goals only; <1 mixes in shot-based xG
 
 
 def tau(x, y, lam, mu, rho):
@@ -70,7 +80,11 @@ class DixonColes:
         r = np.arange(n)
         X[r, h] = 1;         X[r, t + a] = 1;         X[r, 2 * t] = 1      # home row
         X[n + r, a] = 1;     X[n + r, t + h] = 1                           # away row
-        y = np.concatenate([m.home_goals.to_numpy(), m.away_goals.to_numpy()])
+        goals = np.concatenate([m.home_goals.to_numpy(), m.away_goals.to_numpy()]).astype(float)
+        y = goals
+        self.conversion = None
+        if p.goal_weight < 1:
+            y = self._blend_with_shots(m, goals, p.goal_weight)
         age = (as_of - m.date).dt.days.to_numpy()
         w = 0.5 ** (age / p.half_life_days)
         w2 = np.concatenate([w, w])
@@ -101,6 +115,23 @@ class DixonColes:
 
             self.rho = float(minimize_scalar(nll, bounds=(-0.25, 0.25), method="bounded").x)
         return self
+
+    def _blend_with_shots(self, m: pd.DataFrame, goals: np.ndarray, gw: float) -> np.ndarray:
+        if not {"home_shots", "home_sot"} <= set(m.columns):
+            raise ValueError("goal_weight < 1 needs shots columns; reload data with shots")
+        shots = np.concatenate([m.home_shots.to_numpy(float), m.away_shots.to_numpy(float)])
+        sot = np.concatenate([m.home_sot.to_numpy(float), m.away_sot.to_numpy(float)])
+        off = np.clip(shots - sot, 0, None)
+        ok = ~(np.isnan(shots) | np.isnan(sot))
+        if ok.sum() < 100:
+            raise ValueError("too few matches with shot data in the training window")
+        # Conversion rates by least squares without intercept: goals ≈ c_on*SoT + c_off*off.
+        A = np.column_stack([sot[ok], off[ok]])
+        c = np.clip(np.linalg.lstsq(A, goals[ok], rcond=None)[0], 0, None)
+        self.conversion = {"on_target": float(c[0]), "off_target": float(c[1])}
+        y = goals.copy()                          # matches without shots: goals only
+        y[ok] = gw * goals[ok] + (1 - gw) * (A @ c)
+        return y
 
     # ---------- prediction ----------
 

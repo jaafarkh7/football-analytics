@@ -3,7 +3,7 @@
 Pre-match predictions and post-match analysis for Europe's top 5 leagues, with honest,
 reproducible evaluation.
 
-**Status: Week 2 of 6** — data pipeline, baselines, and a Dixon–Coles goals model.
+**Status: Week 2 of 6** — data pipeline, baselines, a Dixon–Coles goals model, and a shots experiment.
 
 ## Quick start
 
@@ -15,17 +15,19 @@ export PYTHONPATH=src
 python -m fa.data.load_results          # ~22k matches + odds -> data/football.duckdb
 python -m fa.run_baselines              # week 1: tune Elo, evaluate baselines
 python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~30 s)
+python -m fa.run_shots                  # week 2b: does shot data help? (~1 min)
 python -m pytest -q                     # unit tests
 ```
 
-If football-data.co.uk is unreachable, use `--source openfootball` (results only, no
-odds, so the bookmaker baseline is skipped). Downloads are cached in `data/raw/`.
+If football-data.co.uk is unreachable, use `--source github-mirror` (results + shots, no
+odds) or `--source openfootball` (results only). Without odds, the bookmaker baseline is skipped. Downloads are cached in `data/raw/`.
 
 ## Data
 
 | Source | What | Notes |
 |---|---|---|
 | [football-data.co.uk](https://www.football-data.co.uk) | Results + market odds, 2014-15 → now | Default. Check their terms before any commercial use. |
+| [GitHub mirror](https://github.com/datasets/football-datasets) | Results + shots | Fallback copy of football-data.co.uk, no odds. |
 | [openfootball](https://github.com/openfootball/football.json) | Results only | Fallback. 2024-25 La Liga and Serie A each miss ~10 matches. |
 
 Table `matches`: one row per match (`league, season, date, home_team, away_team,
@@ -65,6 +67,19 @@ the gap to the market needs new information (shots, xG, lineups), not a new form
 
 Full results: [`reports/week2_goals_model.md`](reports/week2_goals_model.md).
 
+## Shots experiment (week 2b)
+
+Same goals model, but team strengths are learned from a mix of real goals and
+shot-based expected goals (≈ 0.35 × shots on target, fitted per league). Shots are a
+less noisy signal than goals, so this is "new information" rather than a new formula.
+
+Result: shots improve the goals model and the Elo blend on both validation and test
+seasons, and the tuned half-life halves (365 → 180 days): with a cleaner signal the
+model can track current form. The gains are consistent but, on one season of ~1,750
+matches, not yet statistically conclusive.
+
+Full results: [`reports/week2b_shots.md`](reports/week2b_shots.md).
+
 ## Layout
 
 ```
@@ -77,13 +92,14 @@ src/fa/
   eval/metrics.py        log loss, RPS, Brier, bootstrap, calibration
   run_baselines.py       week 1 experiment
   run_week2.py           week 2 experiment
+  run_shots.py           week 2b experiment
 tests/                   unit tests (incl. no-look-ahead checks)
 ```
 
 ## Roadmap
 
 1. ✅ Data + baselines
-2. ✅ Goals model (Dixon–Coles) + Elo blend
+2. ✅ Goals model (Dixon–Coles) + Elo blend, then shots-informed ratings
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
 4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
 5. Publish predictions before kickoff; score them after (public track record)
