@@ -3,7 +3,7 @@
 Pre-match predictions and post-match analysis for Europe's top 5 leagues, with honest,
 reproducible evaluation.
 
-**Status: Week 2 of 6** — data pipeline, baselines, a Dixon–Coles goals model, and a shots experiment.
+**Status: Week 2 of 6** — data pipeline, baselines, goals + shots model, and weekly predictions for upcoming matches.
 
 ## Quick start
 
@@ -18,6 +18,18 @@ python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~30
 python -m fa.run_shots                  # week 2b: does shot data help? (~1 min)
 python -m pytest -q                     # unit tests
 ```
+
+## Weekly predictions
+
+```bash
+python -m fa.data.load_results          # pull the latest results first
+python -m fa.predict                    # upcoming matches in the next 8 days
+```
+
+Writes `reports/predictions/<date>.md` and appends every forecast, with a timestamp, to
+the `forecasts` table, so forecasts can be scored once the matches are played.
+Fixtures and market odds come from football-data.co.uk's `fixtures.csv`.
+Use `--as-of 2026-05-14 --fixtures file.csv` to backtest on a past date.
 
 If football-data.co.uk is unreachable, use `--source github-mirror` (results + shots, no
 odds) or `--source openfootball` (results only). Without odds, the bookmaker baseline is skipped. Downloads are cached in `data/raw/`.
@@ -93,6 +105,7 @@ src/fa/
   run_baselines.py       week 1 experiment
   run_week2.py           week 2 experiment
   run_shots.py           week 2b experiment
+  predict.py             predictions for upcoming fixtures
 tests/                   unit tests (incl. no-look-ahead checks)
 ```
 
@@ -102,7 +115,7 @@ tests/                   unit tests (incl. no-look-ahead checks)
 2. ✅ Goals model (Dixon–Coles) + Elo blend, then shots-informed ratings
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
 4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
-5. Publish predictions before kickoff; score them after (public track record)
+5. Publish predictions before kickoff; score them after (public track record) — forecasting in place
 6. Write-up
 
 *This project is for analysis and learning, not betting advice.*

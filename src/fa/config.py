@@ -28,3 +28,11 @@ TEST_SEASON = 2025                          # 2025-26: touched once, at the end
 
 def season_label(start_year: int) -> str:
     return f"{start_year}-{(start_year + 1) % 100:02d}"
+
+
+# ---- Production settings (chosen on 2024-25 validation, confirmed on 2025-26 test) ----
+# Elo: week 1 tuning. Goals + shots Dixon–Coles: week 2b tuning. Blend: week 2b.
+ELO_SETTINGS = dict(k=20, home_adv=105, season_regress=0.0, new_team_offset=100)
+DC_SETTINGS = dict(half_life_days=180, alpha=1e-3, goal_weight=0.55)
+BLEND_WEIGHT_DC = 0.55          # final probability = 0.55 * Dixon–Coles + 0.45 * Elo
+FORECASTS_DIR = REPORTS_DIR / "predictions"

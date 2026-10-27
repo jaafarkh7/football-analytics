@@ -85,7 +85,28 @@ def run_elo(matches: pd.DataFrame, params: EloParams = EloParams()) -> pd.DataFr
     df["elo_home"] = out_home
     df["elo_away"] = out_away
     df["elo_diff"] = out_home + params.home_adv - out_away
+    df.attrs["final_ratings"] = dict(ratings)     # ratings after the last match
     return df
+
+
+def ratings_for_fixtures(rated: pd.DataFrame, fixtures: pd.DataFrame,
+                         params: EloParams = EloParams()) -> pd.DataFrame:
+    """Pre-match Elo for upcoming fixtures, from the ratings after the last played match.
+
+    Unseen (promoted) teams get the league mean minus `new_team_offset`, as in run_elo.
+    Fixtures are rated independently: one upcoming match never affects another.
+    """
+    ratings = rated.attrs["final_ratings"]
+    out = fixtures.copy()
+    hs, as_ = [], []
+    for row in fixtures.itertuples(index=False):
+        pool = [v for (lg, _), v in ratings.items() if lg == row.league]
+        default = float(np.mean(pool)) - params.new_team_offset if pool else params.initial
+        hs.append(ratings.get((row.league, row.home_team), default))
+        as_.append(ratings.get((row.league, row.away_team), default))
+    out["elo_home"], out["elo_away"] = hs, as_
+    out["elo_diff"] = out.elo_home + params.home_adv - out.elo_away
+    return out
 
 
 class EloOutcomeModel:
