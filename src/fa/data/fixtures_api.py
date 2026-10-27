@@ -71,7 +71,7 @@ class Client:
 # ---------- team names ----------
 
 def our_current_teams(con, league: str) -> list[str]:
-    season = con.execute("SELECT MAX(season) FROM matches WHERE league = ?", [league]).fetchone()[0]
+    season = con.execute("SELECT MAX(season) FROM matches WHERE league = ?", [league]).fetchall()[0][0]
     rows = con.execute("""SELECT DISTINCT team FROM (
             SELECT home_team AS team FROM matches WHERE league = ? AND season = ?
             UNION SELECT away_team FROM matches WHERE league = ? AND season = ?)""",

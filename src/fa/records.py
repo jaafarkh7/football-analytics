@@ -32,7 +32,7 @@ TABLES = {
 
 def _table_exists(con, name: str) -> bool:
     return con.execute("SELECT COUNT(*) FROM information_schema.tables WHERE table_name = ?",
-                       [name]).fetchone()[0] > 0
+                       [name]).fetchall()[0][0] > 0
 
 
 def _read_csv(name: str) -> pd.DataFrame | None:

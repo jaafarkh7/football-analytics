@@ -59,3 +59,19 @@ def test_sync_in_without_csv_or_table_is_harmless(isolated):
     rec.sync_in()
     rec.sync_out()
     assert not (rec.RECORDS / "forecasts.csv").exists()
+
+
+def test_sync_in_into_fresh_database(tmp_path, monkeypatch):
+    """A new database (as on GitHub Actions) + saved records: duckdb 2.x must not complain
+    about an unfinished query result."""
+    import fa.records as rec
+    monkeypatch.setattr(rec, "RECORDS", tmp_path / "records")
+    (tmp_path / "records").mkdir()
+    pd.DataFrame([dict(created_at="2026-10-27 06:30:00", model="blend_v1", match_id="m1",
+                       league="EPL", date="2026-11-01", home_team="A", away_team="B",
+                       p_home=0.5, p_draw=0.3, p_away=0.2)]).to_csv(
+        tmp_path / "records" / "forecasts.csv", index=False)
+    db = tmp_path / "fresh.duckdb"
+    duckdb.connect(str(db)).execute("CREATE TABLE matches (x INT)").close()
+    rec.sync_in(db)
+    assert duckdb.connect(str(db)).execute("SELECT count(*) FROM forecasts").fetchall()[0][0] == 1

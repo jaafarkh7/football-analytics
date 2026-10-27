@@ -93,7 +93,7 @@ def for_team(news: pd.DataFrame, team: str, limit: int = 4) -> dict:
 
 def main() -> None:
     con = duckdb.connect(str(DB_PATH), read_only=True)
-    season = con.execute("SELECT max(season) FROM matches WHERE league = 'EPL'").fetchone()[0]
+    season = con.execute("SELECT max(season) FROM matches WHERE league = 'EPL'").fetchall()[0][0]
     ours = [r[0] for r in con.execute(
         "SELECT DISTINCT home_team FROM matches WHERE league = 'EPL' AND season = ?", [season]).fetchall()]
     con.close()
