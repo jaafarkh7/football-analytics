@@ -16,6 +16,7 @@ python -m fa.data.load_results          # ~22k matches + odds -> data/football.d
 python -m fa.run_baselines              # week 1: tune Elo, evaluate baselines
 python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~30 s)
 python -m fa.run_shots                  # week 2b: does shot data help? (~1 min)
+python -m fa.run_form                   # week 2c: does form / this-season data help? (~1 min)
 python -m pytest -q                     # unit tests
 ```
 
@@ -109,6 +110,21 @@ matches, not yet statistically conclusive.
 
 Full results: [`reports/week2b_shots.md`](reports/week2b_shots.md).
 
+## Form experiment (week 2c)
+
+Hypothesis: predictions should lean on this season's results and recent form. Tested by
+adding last-5 form (points, goal difference, shots-on-target difference), season-so-far
+points and goal difference, and rest days to a stacked logistic regression over the
+Elo and Dixon–Coles signals.
+
+Result: season-so-far data adds nothing (Elo and the time-decayed goals model already
+contain it), last-5 form helps by a statistically insignificant ~0.001, rest days nothing.
+Notably, once everything else is known, shots-based form carries positive weight but
+points-based form carries *negative* weight: teams winning without creating chances tend
+to regress. The production model stays unchanged.
+
+Full results: [`reports/week2c_form.md`](reports/week2c_form.md).
+
 ## Layout
 
 ```
@@ -122,6 +138,8 @@ src/fa/
   run_baselines.py       week 1 experiment
   run_week2.py           week 2 experiment
   run_shots.py           week 2b experiment
+  run_form.py            week 2c experiment
+  features/form.py       form features (no look-ahead)
   predict.py             predictions for upcoming fixtures
   data/fixtures_api.py   football-data.org client
   data/team_names.py     cross-source team-name matching
@@ -131,7 +149,7 @@ tests/                   unit tests (incl. no-look-ahead checks)
 ## Roadmap
 
 1. ✅ Data + baselines
-2. ✅ Goals model (Dixon–Coles) + Elo blend, then shots-informed ratings
+2. ✅ Goals model (Dixon–Coles) + Elo blend, shots-informed ratings, form experiment
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
 4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
 5. Publish predictions before kickoff; score them after (public track record) — forecasting in place
