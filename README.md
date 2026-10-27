@@ -14,7 +14,7 @@ export PYTHONPATH=src
 
 python -m fa.data.load_results          # ~22k matches + odds -> data/football.duckdb
 python -m fa.run_baselines              # week 1: tune Elo, evaluate baselines
-python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~2 min)
+python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~30 s)
 python -m pytest -q                     # unit tests
 ```
 
