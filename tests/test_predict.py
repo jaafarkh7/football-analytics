@@ -57,3 +57,17 @@ def test_predict_ignores_results_after_as_of():
     pd.testing.assert_frame_equal(base, after)
     np.testing.assert_allclose(base[["p_home", "p_draw", "p_away"]].sum(axis=1), 1)
     assert base.p_home.iloc[0] > 0.6                             # Strong at home to Weak
+
+
+def test_predicted_score_agrees_with_predicted_result():
+    df = _with_shots(_league())
+    df["result"] = np.where(df.home_goals > df.away_goals, "H",
+                            np.where(df.home_goals < df.away_goals, "A", "D"))
+    teams = sorted(set(df.home_team))
+    fx = _fixtures([("L", "2023-08-01", h, a) for h in teams for a in teams if h != a])
+    out = predict(df, fx, pd.Timestamp("2023-07-01"))
+    for r in out.itertuples():
+        h, a = map(int, r.top_score.split("-"))
+        best = ["H", "D", "A"][int(np.argmax([r.p_home, r.p_draw, r.p_away]))]
+        assert (h > a, h == a, h < a)[["H", "D", "A"].index(best)], (r.home_team, r.top_score)
+    assert out.p_over25.between(0, 1).all() and out.p_btts.between(0, 1).all()

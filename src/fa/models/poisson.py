@@ -157,16 +157,34 @@ class DixonColes:
         return mat / mat.sum()
 
     def predict(self, matches: pd.DataFrame) -> pd.DataFrame:
-        """Expected goals, H/D/A probabilities and most likely scoreline per match."""
+        """Expected goals, H/D/A probabilities, scorelines and goal markets per match.
+
+        `top_score` is the single most likely scoreline. On its own it's misleading: a
+        home win's probability is spread over many scorelines while a draw's sits on
+        just 0-0 and 1-1, so 1-1 is often the top scoreline even when a home win is far
+        more likely. `score_H/D/A` give the most likely scoreline *within* each result,
+        so a predicted score can be chosen that agrees with the predicted result.
+        """
         lam, mu = self._lambdas(matches.home_team, matches.away_team)
+        g = np.arange(MAX_GOALS + 1)
+        hx, ax_ = np.meshgrid(g, g, indexing="ij")
+        masks = {"H": hx > ax_, "D": hx == ax_, "A": hx < ax_}
         rows = []
         for l, m in zip(lam, mu):
             mat = self.score_matrix(l, m)
             i, j = np.unravel_index(mat.argmax(), mat.shape)
-            rows.append({"xg_home": l, "xg_away": m,
-                         "p_home": np.tril(mat, -1).sum(), "p_draw": np.trace(mat),
-                         "p_away": np.triu(mat, 1).sum(),
-                         "top_score": f"{i}-{j}", "top_score_p": mat[i, j]})
+            row = {"xg_home": l, "xg_away": m,
+                   "p_home": mat[masks["H"]].sum(), "p_draw": mat[masks["D"]].sum(),
+                   "p_away": mat[masks["A"]].sum(),
+                   "top_score": f"{i}-{j}", "top_score_p": mat[i, j],
+                   "p_over25": mat[hx + ax_ >= 3].sum(),
+                   "p_btts": mat[(hx > 0) & (ax_ > 0)].sum()}
+            for o, mask in masks.items():
+                sub = np.where(mask, mat, -1)
+                si, sj = np.unravel_index(sub.argmax(), sub.shape)
+                row[f"score_{o}"] = f"{si}-{sj}"
+                row[f"score_{o}_p"] = mat[si, sj]
+            rows.append(row)
         return pd.DataFrame(rows, index=matches.index)
 
 

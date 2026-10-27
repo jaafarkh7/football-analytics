@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS forecasts (
     match_id    VARCHAR   NOT NULL,
     league      VARCHAR, date DATE, home_team VARCHAR, away_team VARCHAR,
     p_home DOUBLE, p_draw DOUBLE, p_away DOUBLE,
-    xg_home DOUBLE, xg_away DOUBLE, top_score VARCHAR, top_score_p DOUBLE,
+    xg_home DOUBLE, xg_away DOUBLE,
+    top_score VARCHAR, top_score_p DOUBLE,   -- predicted score: best scoreline within the predicted result
     market_home DOUBLE, market_draw DOUBLE, market_away DOUBLE
 );
 """
@@ -97,8 +98,13 @@ def predict(matches: pd.DataFrame, fixtures: pd.DataFrame, as_of: pd.Timestamp) 
     out[["elo_home_p", "elo_draw_p", "elo_away_p"]] = p_elo
     out[["dc_home_p", "dc_draw_p", "dc_away_p"]] = dc[PCOLS].to_numpy()
     out[PCOLS] = BLEND_WEIGHT_DC * dc[PCOLS].to_numpy() + (1 - BLEND_WEIGHT_DC) * p_elo
-    for c in ["xg_home", "xg_away", "top_score", "top_score_p"]:
+    for c in ["xg_home", "xg_away", "p_over25", "p_btts"]:
         out[c] = dc[c].to_numpy()
+    # Predicted score: the most likely scoreline *within* the most likely result, so it
+    # never contradicts the probabilities (see DixonColes.predict for why that matters).
+    pick = np.array(["H", "D", "A"])[out[PCOLS].to_numpy().argmax(axis=1)]
+    out["top_score"] = [dc[f"score_{o}"].iloc[k] for k, o in enumerate(pick)]
+    out["top_score_p"] = [dc[f"score_{o}_p"].iloc[k] for k, o in enumerate(pick)]
     return out
 
 
@@ -129,17 +135,20 @@ def save(preds: pd.DataFrame, created_at: datetime, model: str = "blend_v1") -> 
 def to_markdown(preds: pd.DataFrame, as_of: pd.Timestamp, unknown: list[str]) -> str:
     lines = [f"# Predictions · generated {as_of:%Y-%m-%d}", "",
              "Model: 55% Dixon–Coles (goals + shots) + 45% Elo. "
-             "Probabilities are home / draw / away. For analysis, not betting advice.", ""]
+             "Probabilities are home / draw / away. For analysis, not betting advice.", "",
+             "*Predicted score* is the most likely scoreline within the most likely result. "
+             "Any single scoreline is unlikely (usually 8–14%), so read the percentages first.", ""]
     has_market = preds.market_home.notna().any()
     for league, g in preds.sort_values(["league", "date"]).groupby("league"):
         lines += [f"## {league}", "",
-                  "| Date | Match | Model H / D / A | Expected goals | Most likely score"
-                  + (" | Market H / D / A |" if has_market else " |"),
-                  "|---|---|---|---|---" + ("|---|" if has_market else "|")]
+                  "| Date | Match | Model H / D / A | Expected goals | Predicted score | "
+                  "Over 2.5 | Both score" + (" | Market H / D / A |" if has_market else " |"),
+                  "|---|---|---|---|---|---|---" + ("|---|" if has_market else "|")]
         for r in g.itertuples():
             row = (f"| {r.date:%a %d %b} | {r.home_team} vs {r.away_team} | "
                    f"{r.p_home:.0%} / {r.p_draw:.0%} / {r.p_away:.0%} | "
-                   f"{r.xg_home:.1f}–{r.xg_away:.1f} | {r.top_score} ({r.top_score_p:.0%}) |")
+                   f"{r.xg_home:.1f}–{r.xg_away:.1f} | {r.top_score} | "
+                   f"{r.p_over25:.0%} | {r.p_btts:.0%} |")
             if has_market:
                 row += (f" {r.market_home:.0%} / {r.market_draw:.0%} / {r.market_away:.0%} |"
                         if not np.isnan(r.market_home) else " — |")
@@ -242,7 +251,9 @@ def main() -> None:
             save(preds, datetime.now(timezone.utc).replace(tzinfo=None))
         report = to_markdown(preds, as_of, unknown)
         show = preds[["league", "date", "home_team", "away_team", "p_home", "p_draw", "p_away",
-                      "top_score"]].copy()
+                      "top_score", "p_over25", "p_btts"]].rename(
+            columns={"top_score": "score", "p_over25": "over2.5", "p_btts": "btts"}).copy()
+        show[["over2.5", "btts"]] = (show[["over2.5", "btts"]] * 100).round().astype(int)
         show[PCOLS] = (show[PCOLS] * 100).round().astype(int)
         print(show.to_string(index=False))
         if unknown:
