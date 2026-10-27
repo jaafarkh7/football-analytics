@@ -1,0 +1,97 @@
+league,id,their_name,our_name,score,status
+EPL,57,Arsenal FC,Arsenal,1.0,auto
+EPL,58,Aston Villa FC,Aston Villa,1.0,auto
+EPL,61,Chelsea FC,Chelsea,1.0,auto
+EPL,62,Everton FC,Everton,1.0,auto
+EPL,63,Fulham FC,Fulham,1.0,auto
+EPL,64,Liverpool FC,Liverpool,1.0,auto
+EPL,65,Manchester City FC,Man City,1.0,auto
+EPL,66,Manchester United FC,Man United,1.0,auto
+EPL,67,Newcastle United FC,Newcastle,1.0,auto
+EPL,71,Sunderland AFC,Sunderland,1.0,auto
+EPL,73,Tottenham Hotspur FC,Tottenham,1.0,auto
+EPL,322,Hull City AFC,Hull,0.95,auto
+EPL,341,Leeds United FC,Leeds,0.95,auto
+EPL,349,Ipswich Town FC,Ipswich,0.95,auto
+EPL,351,Nottingham Forest FC,Nott'm Forest,1.0,auto
+EPL,354,Crystal Palace FC,Crystal Palace,1.0,auto
+EPL,397,Brighton & Hove Albion FC,Brighton,1.0,auto
+EPL,402,Brentford FC,Brentford,1.0,auto
+EPL,1044,AFC Bournemouth,Bournemouth,1.0,auto
+EPL,1076,Coventry City FC,Coventry,0.95,auto
+LALIGA,77,Athletic Club,Ath Bilbao,0.95,auto
+LALIGA,78,Club Atlético de Madrid,Ath Madrid,1.0,auto
+LALIGA,79,CA Osasuna,Osasuna,1.0,auto
+LALIGA,80,RCD Espanyol de Barcelona,Espanol,1.0,auto
+LALIGA,81,FC Barcelona,Barcelona,1.0,auto
+LALIGA,82,Getafe CF,Getafe,1.0,auto
+LALIGA,84,Málaga CF,Malaga,1.0,auto
+LALIGA,86,Real Madrid CF,Real Madrid,1.0,auto
+LALIGA,87,Rayo Vallecano de Madrid,Vallecano,1.0,auto
+LALIGA,88,Levante UD,Levante,1.0,auto
+LALIGA,90,Real Betis Balompié,Betis,1.0,auto
+LALIGA,92,Real Sociedad de Fútbol,Sociedad,1.0,auto
+LALIGA,94,Villarreal CF,Villarreal,1.0,auto
+LALIGA,95,Valencia CF,Valencia,1.0,auto
+LALIGA,263,Deportivo Alavés,Alaves,1.0,auto
+LALIGA,285,Elche CF,Elche,1.0,auto
+LALIGA,558,RC Celta de Vigo,Celta,1.0,auto
+LALIGA,559,Sevilla FC,Sevilla,1.0,auto
+LALIGA,560,RC Deportivo La Coruña,La Coruna,0.95,auto
+LALIGA,5335,Real Racing Club de Santander,Santander,1.0,auto
+SERIEA,98,AC Milan,Milan,1.0,auto
+SERIEA,99,ACF Fiorentina,Fiorentina,1.0,auto
+SERIEA,100,AS Roma,Roma,1.0,auto
+SERIEA,102,Atalanta BC,Atalanta,1.0,auto
+SERIEA,103,Bologna FC 1909,Bologna,1.0,auto
+SERIEA,104,Cagliari Calcio,Cagliari,1.0,auto
+SERIEA,107,Genoa CFC,Genoa,1.0,auto
+SERIEA,108,FC Internazionale Milano,Inter,1.0,auto
+SERIEA,109,Juventus FC,Juventus,1.0,auto
+SERIEA,110,SS Lazio,Lazio,1.0,auto
+SERIEA,112,Parma Calcio 1913,Parma,1.0,auto
+SERIEA,113,SSC Napoli,Napoli,1.0,auto
+SERIEA,115,Udinese Calcio,Udinese,1.0,auto
+SERIEA,454,Venezia FC,Venezia,1.0,auto
+SERIEA,470,Frosinone Calcio,Frosinone,1.0,auto
+SERIEA,471,US Sassuolo Calcio,Sassuolo,1.0,auto
+SERIEA,586,Torino FC,Torino,1.0,auto
+SERIEA,5890,US Lecce,Lecce,1.0,auto
+SERIEA,5911,AC Monza,Monza,1.0,auto
+SERIEA,7397,Como 1907,Como,1.0,auto
+BUNDESLIGA,1,1. FC Köln,FC Koln,1.0,auto
+BUNDESLIGA,2,TSG 1899 Hoffenheim,Hoffenheim,1.0,auto
+BUNDESLIGA,3,Bayer 04 Leverkusen,Leverkusen,1.0,auto
+BUNDESLIGA,4,Borussia Dortmund,Dortmund,1.0,auto
+BUNDESLIGA,5,FC Bayern München,Bayern Munich,0.95,auto
+BUNDESLIGA,6,FC Schalke 04,Schalke 04,1.0,auto
+BUNDESLIGA,7,Hamburger SV,Hamburg,1.0,auto
+BUNDESLIGA,10,VfB Stuttgart,Stuttgart,1.0,auto
+BUNDESLIGA,12,SV Werder Bremen,Werder Bremen,1.0,auto
+BUNDESLIGA,15,1. FSV Mainz 05,Mainz,1.0,auto
+BUNDESLIGA,16,FC Augsburg,Augsburg,1.0,auto
+BUNDESLIGA,17,SC Freiburg,Freiburg,1.0,auto
+BUNDESLIGA,18,Borussia Mönchengladbach,M'gladbach,1.0,auto
+BUNDESLIGA,19,Eintracht Frankfurt,Ein Frankfurt,1.0,auto
+BUNDESLIGA,28,1. FC Union Berlin,Union Berlin,1.0,auto
+BUNDESLIGA,29,SC Paderborn 07,Paderborn,1.0,auto
+BUNDESLIGA,719,SV 07 Elversberg,Elversberg,1.0,auto
+BUNDESLIGA,721,RB Leipzig,RB Leipzig,1.0,auto
+LIGUE1,511,Toulouse FC,Toulouse,1.0,auto
+LIGUE1,512,Stade Brestois 29,Brest,1.0,auto
+LIGUE1,516,Olympique de Marseille,Marseille,1.0,auto
+LIGUE1,519,AJ Auxerre,Auxerre,1.0,auto
+LIGUE1,521,Lille OSC,Lille,1.0,auto
+LIGUE1,522,OGC Nice,Nice,1.0,auto
+LIGUE1,523,Olympique Lyonnais,Lyon,0.95,auto
+LIGUE1,524,Paris Saint-Germain FC,Paris SG,1.0,auto
+LIGUE1,525,FC Lorient,Lorient,1.0,auto
+LIGUE1,529,Stade Rennais FC 1901,Rennes,0.667,auto
+LIGUE1,531,ES Troyes AC,Troyes,1.0,auto
+LIGUE1,532,Angers SCO,Angers,0.95,auto
+LIGUE1,533,Le Havre AC,Le Havre,1.0,auto
+LIGUE1,535,Le Mans FC,Le Mans,1.0,auto
+LIGUE1,546,Racing Club de Lens,Lens,1.0,auto
+LIGUE1,548,AS Monaco FC,Monaco,1.0,auto
+LIGUE1,576,RC Strasbourg Alsace,Strasbourg,1.0,auto
+LIGUE1,1045,Paris FC,Paris FC,1.0,auto

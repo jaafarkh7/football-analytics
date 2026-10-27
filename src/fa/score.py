@@ -166,6 +166,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-api", action="store_true", help="skip fetching Champions League results")
     args = ap.parse_args()
+    from fa.records import sync_in
+    sync_in()
 
     con = duckdb.connect(str(DB_PATH), read_only=True)
     try:

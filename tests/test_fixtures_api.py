@@ -60,6 +60,7 @@ def isolated(tmp_path, monkeypatch):
     con.close()
     monkeypatch.setattr(fa_api, "DB_PATH", db)
     monkeypatch.setattr(fa_api, "TEAM_MAP_PATH", tmp_path / "team_map.csv")
+    monkeypatch.setattr(fa_api, "OLD_TEAM_MAP_PATH", tmp_path / "old_team_map.csv")
     monkeypatch.setattr(fa_api, "assign", lambda t, o, lg: assign(t, o, lg, aliases={}))
 
 

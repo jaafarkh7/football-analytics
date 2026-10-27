@@ -247,6 +247,8 @@ def main() -> None:
         return
 
     as_of = pd.Timestamp(args.as_of) if args.as_of else pd.Timestamp.now().normalize()
+    from fa.records import sync_in, sync_out
+    sync_in()
     lines = [f"# Season simulations · {as_of:%Y-%m-%d}", "",
              f"{N_SIMS:,} simulations of the rest of each season with the production model.", ""]
     for league in sorted(matches.league.unique()):
@@ -272,6 +274,8 @@ def main() -> None:
               f"{len(sim)} teams, {int(sim.played.sum() / 2)} matches played")
     path = REPORTS_DIR / "season_sims.md"
     path.write_text("\n".join(lines))
+    if not args.no_save:
+        sync_out()
     print(f"Report: {path}")
 
 

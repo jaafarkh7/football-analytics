@@ -1,0 +1,79 @@
+# Runs the whole pipeline every day on GitHub's servers and posts to Telegram.
+# Setup (once): add the secrets and variables listed in the README ("Automation").
+name: Daily pipeline
+
+on:
+  schedule:
+    - cron: "23 6 * * *"          # 06:23 UTC every day (08:23 / 09:23 in Beirut)
+  workflow_dispatch:              # "Run workflow" button on the Actions tab
+    inputs:
+      post:
+        description: "Post to Telegram (untick for a dry run)"
+        type: boolean
+        default: true
+      kinds:
+        description: "Card kinds to post, e.g. match,round (empty = today's schedule)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write                 # to commit records/ back to the repo
+
+concurrency:                      # never two runs at once
+  group: daily-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Libraries for Arabic text shaping
+        run: sudo apt-get update -q && sudo apt-get install -y -q libfribidi0 libraqm0 || true
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Cache downloaded data
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: raw-${{ github.run_id }}
+          restore-keys: raw-
+
+      - name: Run pipeline
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_EN: ${{ vars.TELEGRAM_CHAT_EN }}
+          TELEGRAM_CHAT_AR: ${{ vars.TELEGRAM_CHAT_AR }}
+          PYTHONPATH: src
+          EVENT: ${{ github.event_name }}
+          INPUT_POST: ${{ inputs.post }}
+          INPUT_KINDS: ${{ inputs.kinds }}
+        run: |
+          args=()
+          if [ "$EVENT" = "schedule" ] || [ "$INPUT_POST" = "true" ]; then args+=(--post); fi
+          if [ -n "$INPUT_KINDS" ]; then args+=(--kinds "$INPUT_KINDS"); fi
+          python -m fa.daily "${args[@]}"
+
+      - name: Commit records and reports
+        if: always()              # keep saved forecasts even if a later step failed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add records reports/*.md reports/predictions 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git commit -m "Daily run $(date -u +%Y-%m-%d)"
+            git pull --rebase
+            git push
+          fi

@@ -244,6 +244,8 @@ def main() -> None:
     args = p.parse_args()
 
     as_of = pd.Timestamp(args.as_of) if args.as_of else pd.Timestamp.now().normalize()
+    from fa.records import sync_in, sync_out
+    sync_in()                                   # forecasts saved by other runs (records/*.csv)
     con = duckdb.connect(str(DB_PATH), read_only=True)
     matches = con.execute("SELECT * FROM matches ORDER BY date, match_id").df()
     con.close()
@@ -295,6 +297,8 @@ def main() -> None:
             print("\nChampions League:\n" + show.to_string(index=False))
             print(f"{len(cl_preds)} Champions League predictions{'' if args.no_save else ' saved'}")
     path.write_text(report or f"# No fixtures · {as_of:%Y-%m-%d}\n")
+    if not args.no_save:
+        sync_out()                              # so the forecasts get committed with the repo
     print(f"Report: {path}")
 
 

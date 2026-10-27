@@ -441,14 +441,26 @@ def track_record(con) -> tuple[int, int] | None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--featured", type=int, default=6)
-    ap.add_argument("--handle", default="", help="channel name printed on cards, e.g. @mychannel")
+    ap.add_argument("--handle", default="", help="channel name printed on all cards, e.g. @mychannel")
+    ap.add_argument("--handle-en", default="", help="channel name on English cards")
+    ap.add_argument("--handle-ar", default="", help="channel name on Arabic cards")
     ap.add_argument("--now", help="pretend it's this time (UTC), for testing")
+    ap.add_argument("--days", type=float, default=8, help="only matches kicking off in the next N days")
     args = ap.parse_args()
-    now = pd.Timestamp(args.now) if args.now else pd.Timestamp.utcnow().tz_localize(None)
+    now = pd.Timestamp(args.now) if args.now else pd.Timestamp.now("UTC").tz_localize(None)
+    from fa.records import sync_in
+    sync_in()
+    from fa.telegram import chats
+    channels = chats()          # TELEGRAM_CHAT / TELEGRAM_CHAT_EN / TELEGRAM_CHAT_AR from .env
+    handle = {lang: (getattr(args, f"handle_{lang}") or args.handle
+                     or (channels.get(lang, "") if channels.get(lang, "").startswith("@") else ""))
+              for lang in ("en", "ar")}
 
     con = duckdb.connect(str(DB_PATH), read_only=True)
     try:
         fc = latest_upcoming(con, now)
+        until = now + pd.Timedelta(days=args.days)
+        fc = fc[(fc.kickoff_utc < until) | (fc.kickoff_utc.isna() & (fc.date < until.normalize()))]
     except duckdb.CatalogException:
         raise SystemExit("No forecasts yet: run `python -m fa.predict` first.")
     matches = con.execute("SELECT * FROM matches ORDER BY date").df()
@@ -467,13 +479,13 @@ def main() -> None:
         top = featured(league_fc, matches, args.featured) if len(league_fc) else league_fc
         for lang in ("en", "ar"):
             for _, row in top.iterrows():
-                img, miss = match_card(row, lang, record, args.handle)
+                img, miss = match_card(row, lang, record, handle[lang])
                 path = out / f"match_{row.match_id}_{lang}.png"
                 img.save(path)
                 made.append(path)
                 missing |= miss
             for league, rows in fc.groupby("league", sort=False):
-                img, miss = round_card(rows.head(12), league, lang, record, args.handle)
+                img, miss = round_card(rows.head(12), league, lang, record, handle[lang])
                 path = out / f"round_{league}_{lang}.png"
                 img.save(path)
                 made.append(path)
@@ -485,7 +497,7 @@ def main() -> None:
     week = scored[scored.result_date > now - pd.Timedelta(days=7)] if len(scored) else scored
     if len(week) >= 5:
         for lang in ("en", "ar"):
-            img, miss = scorecard(week, lang, record, args.handle)
+            img, miss = scorecard(week, lang, record, handle[lang])
             path = out / f"scorecard_{lang}.png"
             img.save(path)
             made.append(path)
@@ -508,7 +520,7 @@ def main() -> None:
             latest = latest.sort_values(["exp_points", "points"], ascending=False)
             prev = previous_snapshot(league, int(latest.season.iloc[0]), latest.as_of.iloc[0])
             for lang in ("en", "ar"):
-                img, miss = table_card(latest, league, lang, prev, args.handle)
+                img, miss = table_card(latest, league, lang, prev, handle[lang])
                 path = out / f"table_{league}_{lang}.png"
                 img.save(path)
                 made.append(path)
@@ -519,7 +531,7 @@ def main() -> None:
     for league, g in (recent.groupby("league") if len(recent) else []):
         g = g.sort_values("date").tail(12)
         for lang in ("en", "ar"):
-            img, miss = deserved_card(g, league, lang, args.handle)
+            img, miss = deserved_card(g, league, lang, handle[lang])
             path = out / f"deserved_{league}_{lang}.png"
             img.save(path)
             made.append(path)

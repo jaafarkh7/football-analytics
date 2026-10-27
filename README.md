@@ -3,7 +3,7 @@
 Pre-match predictions and post-match analysis for Europe's top 5 leagues, with honest,
 reproducible evaluation.
 
-**Status: Week 2 of 6** — data pipeline, baselines, goals + shots model, and weekly predictions for the top-5 leagues and the Champions League.
+**Status:** live — daily forecasts, scoring and Telegram posts run automatically on GitHub Actions.
 
 ## Quick start
 
@@ -29,6 +29,30 @@ python -m fa.data.load_results          # pull the latest results first
 python -m fa.predict                    # upcoming matches in the next 8 days
 python -m fa.score                      # score past forecasts: the live track record
 ```
+
+## Automation (GitHub Actions)
+
+`.github/workflows/daily.yml` runs `python -m fa.daily --post` every day at 06:23 UTC on
+GitHub's servers: download results, refresh forecasts, score finished matches, and post
+to Telegram by day (Monday: scorecard, who-deserved-it, season tables; Tuesday: midweek
+forecasts; Friday: weekend forecasts). It then commits `records/` and the reports, so
+every forecast gets a public, timestamped commit before kickoff.
+
+Setup, once, in the repo on github.com → **Settings → Secrets and variables → Actions**:
+
+| Kind | Name | Value |
+|---|---|---|
+| Secret | `FOOTBALL_DATA_API_KEY` | your football-data.org key |
+| Secret | `TELEGRAM_BOT_TOKEN` | your bot token from @BotFather |
+| Variable | `TELEGRAM_CHAT_EN` | `@your_english_channel` |
+| Variable | `TELEGRAM_CHAT_AR` | `@your_arabic_channel` (optional) |
+
+Test with **Actions → Daily pipeline → Run workflow** (untick "Post" for a dry run).
+Run the same thing locally with `python -m fa.daily` (dry run) or `--post`.
+
+What must survive between runs lives in `records/` (forecasts, season simulations, the
+team-name map, the posted log). Local runs merge with it, so nothing is lost; run
+`git pull` before working locally, since the workflow commits every day.
 
 ### Track record rules (fixed before any result was seen)
 
@@ -216,6 +240,8 @@ src/fa/
   features/form.py       form features (no look-ahead)
   predict.py             predictions for upcoming fixtures
   score.py               live track record
+  daily.py               the whole pipeline for scheduled runs
+  records.py             forecasts and simulations mirrored in records/*.csv
   cards.py               PNG cards, English + Arabic
   cards_season.py        season-table and who-deserved-it cards
   season_sim.py          season simulations + backtest

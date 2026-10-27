@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import csv
 import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -60,11 +61,25 @@ def env(name: str) -> str | None:
     return value or None
 
 
+VALID_CHAT = re.compile(r"^(@[A-Za-z][A-Za-z0-9_]{3,31}|-?\d{5,20})$")
+
+
 def chats() -> dict[str, str]:
-    """Language -> chat. One shared chat, or one per language."""
+    """Language -> chat. One shared chat, or one per language.
+
+    A chat must look like @channel_name or a numeric id. Anything else (for example two
+    .env lines that ran together) is refused, and the bad value is never printed, because
+    it may contain a secret."""
     shared = env("TELEGRAM_CHAT")
     out = {lang: env(f"TELEGRAM_CHAT_{lang.upper()}") or shared for lang in ("en", "ar")}
-    return {lang: chat for lang, chat in out.items() if chat}
+    out = {lang: chat for lang, chat in out.items() if chat}
+    for lang, chat in out.items():
+        if not VALID_CHAT.match(chat):
+            name = f"TELEGRAM_CHAT_{lang.upper()}" if env(f"TELEGRAM_CHAT_{lang.upper()}") else "TELEGRAM_CHAT"
+            raise SystemExit(f"{name} in .env isn't a valid channel name. It should look like "
+                             "@channel_name on its own line. Check that each setting in .env is "
+                             "on a separate line.")
+    return out
 
 
 # ---------------- what to post ----------------
@@ -117,7 +132,22 @@ def record(key: str, path: Path = POSTED_LOG) -> None:
 # ---------------- sending ----------------
 
 class TelegramError(RuntimeError):
-    pass
+    """Error with a message that is safe to show: never the URL, which contains the token."""
+
+
+def _force_ipv4() -> None:
+    """Some networks advertise IPv6 but can't route it ("Network is unreachable").
+    Make every following connection use IPv4 only."""
+    import socket
+    import urllib3.util.connection as uc
+    uc.allowed_gai_family = lambda: socket.AF_INET
+
+
+def _rewind(files: dict) -> None:
+    for value in files.values():
+        handle = value[1] if isinstance(value, tuple) else value
+        if hasattr(handle, "seek"):
+            handle.seek(0)
 
 
 class Bot:
@@ -127,7 +157,18 @@ class Bot:
 
     def _call(self, method: str, data: dict, files: dict) -> dict:
         for attempt in range(3):
-            r = self.s.post(f"{self.base}/{method}", data=data, files=files, timeout=60)
+            _rewind(files)                               # a retry must re-send whole files
+            try:
+                r = self.s.post(f"{self.base}/{method}", data=data, files=files, timeout=60)
+            except requests.RequestException as e:
+                # Never re-raise the original: its message contains the URL, i.e. the token.
+                if attempt == 0:
+                    _force_ipv4()
+                if attempt < 2:
+                    time.sleep(3 * (attempt + 1))
+                    continue
+                raise TelegramError(f"couldn't reach Telegram ({type(e).__name__}). "
+                                    "Check your internet connection and try again.") from None
             body = r.json() if r.headers.get("content-type", "").startswith("application/json") else {}
             if r.status_code == 429:                     # flood control: wait as told
                 time.sleep(int(body.get("parameters", {}).get("retry_after", 5)) + 1)
@@ -159,6 +200,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--send", action="store_true", help="really post (default: dry run)")
     ap.add_argument("--folder", help="cards folder (default: the newest in reports/cards)")
+    ap.add_argument("--kinds", default="match,round,deserved,table,scorecard",
+                    help="comma-separated card kinds to post")
     args = ap.parse_args()
 
     root = REPORTS_DIR / "cards"
@@ -178,7 +221,10 @@ def main() -> None:
     done = already_posted()
     bot = Bot(token) if args.send else None
     sent = skipped = 0
+    kinds = {k.strip() for k in args.kinds.split(",") if k.strip()}
     for post in plan(folder):
+        if post["kind"] not in kinds:
+            continue
         chat = targets.get(post["lang"])
         if not chat:
             continue
@@ -190,7 +236,11 @@ def main() -> None:
         if not args.send:
             print(f"[dry run] {chat} ({post['lang']}, {post['kind']}): {names}")
             continue
-        bot.send(chat, post["files"], post["caption"])
+        try:
+            bot.send(chat, post["files"], post["caption"])
+        except TelegramError as e:
+            raise SystemExit(f"Posting stopped after {sent} posts: {e}\n"
+                             "Posts already sent are recorded and won't be repeated.") from None
         record(key)
         sent += 1
         print(f"posted to {chat}: {names}")

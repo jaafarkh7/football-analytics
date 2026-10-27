@@ -132,3 +132,51 @@ def test_chat_routing(monkeypatch, tmp_path):
     assert tg.chats() == {"en": "@both", "ar": "@both"}
     monkeypatch.setenv("TELEGRAM_CHAT_AR", "@arabic")
     assert tg.chats() == {"en": "@both", "ar": "@arabic"}
+
+
+def test_merged_env_lines_are_refused_without_printing_the_value(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(tg, "ROOT", tmp_path)
+    for k in ("TELEGRAM_CHAT", "TELEGRAM_CHAT_EN", "TELEGRAM_CHAT_AR"):
+        monkeypatch.delenv(k, raising=False)
+    monkeypatch.setenv("TELEGRAM_CHAT_EN", "@mychannel FOOTBALL_DATA_API_KEY=secret123")
+    with pytest.raises(SystemExit) as e:
+        tg.chats()
+    assert "secret123" not in str(e.value)
+    monkeypatch.setenv("TELEGRAM_CHAT_EN", "@mychannel")
+    assert tg.chats() == {"en": "@mychannel"}
+
+
+def test_network_errors_never_show_the_token(cards, monkeypatch):
+    import requests
+    monkeypatch.setattr(tg.time, "sleep", lambda s: None)
+    monkeypatch.setattr(tg, "_force_ipv4", lambda: None)
+
+    class DownSession:
+        calls = 0
+
+        def post(self, url, **kw):
+            DownSession.calls += 1
+            raise requests.ConnectionError(f"Max retries exceeded with url: {url} (unreachable)")
+
+    bot = tg.Bot("123456:SECRET-TOKEN", session=DownSession())
+    with pytest.raises(tg.TelegramError) as e:
+        bot.send("@c", [next(cards.glob("round_EPL_en.png"))], "x")
+    assert "SECRET-TOKEN" not in str(e.value) and e.value.__cause__ is None
+    assert DownSession.calls == 3
+
+
+def test_retry_resends_the_whole_file(cards, monkeypatch):
+    import requests
+    monkeypatch.setattr(tg.time, "sleep", lambda s: None)
+    monkeypatch.setattr(tg, "_force_ipv4", lambda: None)
+    sizes = []
+
+    class FlakySession:
+        def post(self, url, data=None, files=None, timeout=None):
+            sizes.append(len(files["photo"][1].read()))
+            if len(sizes) == 1:
+                raise requests.ConnectionError("blip")
+            return FakeResponse()
+
+    tg.Bot("T", session=FlakySession()).send("@c", [next(cards.glob("round_EPL_en.png"))], "x")
+    assert sizes[0] == sizes[1] > 0
