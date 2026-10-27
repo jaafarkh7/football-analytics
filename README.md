@@ -28,7 +28,24 @@ python -m fa.predict                    # upcoming matches in the next 8 days
 
 Writes `reports/predictions/<date>.md` and appends every forecast, with a timestamp, to
 the `forecasts` table, so forecasts can be scored once the matches are played.
-Fixtures and market odds come from football-data.co.uk's `fixtures.csv`.
+Fixtures come from the football-data.org API (free key, see below), which lists the
+whole season ahead plus the Champions League; market odds are merged in from
+football-data.co.uk's `fixtures.csv` when it already lists the match. Without a key,
+`fixtures.csv` alone is used (it only covers the next weekend, updated a few days before).
+
+**API key (free):** register at football-data.org, then create `.env` in the project root:
+
+```
+FOOTBALL_DATA_API_KEY=your-key-here
+```
+
+`.env` is git-ignored: never commit a key.
+
+**Team names** differ between sources ("Manchester City FC" vs "Man City"). For each
+league the ~20 names are matched as a one-to-one assignment on name similarity, so
+look-alikes can't collide; Champions League clubs are then matched by API team id.
+The result is cached in `data/team_map.csv`; fix any mistake in
+`src/fa/data/team_aliases.csv` and rerun with `--refresh-teams`.
 Use `--as-of 2026-05-14 --fixtures file.csv` to backtest on a past date.
 
 If football-data.co.uk is unreachable, use `--source github-mirror` (results + shots, no
@@ -106,6 +123,8 @@ src/fa/
   run_week2.py           week 2 experiment
   run_shots.py           week 2b experiment
   predict.py             predictions for upcoming fixtures
+  data/fixtures_api.py   football-data.org client
+  data/team_names.py     cross-source team-name matching
 tests/                   unit tests (incl. no-look-ahead checks)
 ```
 

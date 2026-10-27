@@ -159,10 +159,56 @@ def to_markdown(preds: pd.DataFrame, as_of: pd.Timestamp, unknown: list[str]) ->
     return "\n".join(lines)
 
 
+def get_fixtures(args, as_of: pd.Timestamp) -> tuple[pd.DataFrame, list[str]]:
+    """Fixtures in [as_of, as_of + days). Returns (fixtures, notes for the user)."""
+    end = as_of + pd.Timedelta(days=args.days)
+    source = args.source
+    if source == "auto":
+        from fa.data.fixtures_api import api_key
+        try:
+            api_key()
+            source = "api"
+        except SystemExit:
+            source = "csv"
+    notes = []
+
+    csv_fx = pd.DataFrame()
+    if source == "csv" or args.fixtures != FIXTURES_URL:
+        csv_fx = read_fixtures(args.fixtures)
+        fx = csv_fx[(csv_fx.date >= as_of) & (csv_fx.date < end)].reset_index(drop=True)
+        if fx.empty:
+            span = (f"{csv_fx.date.min():%Y-%m-%d} → {csv_fx.date.max():%Y-%m-%d}"
+                    if len(csv_fx) else "nothing for our leagues")
+            raise SystemExit(f"No fixtures in the next {args.days} days. The fixtures file "
+                             f"covers {span}; football-data.co.uk updates it closer to each "
+                             "weekend. Try again later, or use the API (--source api).")
+        return fx, ["Fixtures: football-data.co.uk fixtures.csv"]
+
+    from fa.data.fixtures_api import fetch_fixtures
+    fx = fetch_fixtures(as_of, end - pd.Timedelta(days=1), refresh_teams=args.refresh_teams)
+    if fx.empty:
+        raise SystemExit(f"football-data.org lists no upcoming matches in the next {args.days} days.")
+    fx = fx[(fx.date >= as_of) & (fx.date < end)].reset_index(drop=True)
+    notes.append("Fixtures: football-data.org API")
+    # Market odds, where football-data.co.uk already lists the same match.
+    try:
+        odds = read_fixtures(FIXTURES_URL).set_index("match_id")
+        mcols = ["market_home", "market_draw", "market_away"]
+        hit = fx.match_id.isin(odds.index)
+        fx.loc[hit, mcols] = odds.loc[fx.match_id[hit], mcols].to_numpy()
+        notes.append(f"Market odds found for {int(hit.sum())} of {len(fx)} matches")
+    except (SystemExit, Exception) as e:                     # odds are optional
+        notes.append(f"No market odds ({type(e).__name__})")
+    return fx, notes
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--days", type=int, default=8, help="predict matches in the next N days")
-    p.add_argument("--fixtures", default=FIXTURES_URL, help="URL or local CSV")
+    p.add_argument("--source", choices=["auto", "api", "csv"], default="auto",
+                   help="fixtures from football-data.org (needs a key) or the CSV file")
+    p.add_argument("--fixtures", default=FIXTURES_URL, help="URL or local CSV (csv source)")
+    p.add_argument("--refresh-teams", action="store_true", help="re-match API team names")
     p.add_argument("--as-of", help="pretend today is this date (YYYY-MM-DD), for backtests")
     p.add_argument("--no-save", action="store_true", help="don't record in the forecasts table")
     args = p.parse_args()
@@ -172,32 +218,50 @@ def main() -> None:
     matches = con.execute("SELECT * FROM matches ORDER BY date, match_id").df()
     con.close()
 
-    fixtures = read_fixtures(args.fixtures)
-    fixtures = fixtures[(fixtures.date >= as_of) &
-                        (fixtures.date < as_of + pd.Timedelta(days=args.days))].reset_index(drop=True)
-    if fixtures.empty:
-        raise SystemExit(f"No fixtures for our leagues in the next {args.days} days.")
+    fixtures, notes = get_fixtures(args, as_of)
+    cups = fixtures[~fixtures.league.isin(LEAGUES)]          # e.g. Champions League
+    fixtures = fixtures[fixtures.league.isin(LEAGUES)].reset_index(drop=True)
+    for n in notes:
+        print(n)
+
     latest = matches[matches.date < as_of].date.max()
     if (as_of - latest).days > 10:
         print(f"Warning: latest result in the database is {latest:%Y-%m-%d}. "
               "Run `python -m fa.data.load_results` first?")
 
-    unknown = check_team_names(matches[matches.date < as_of], fixtures)
-    preds = predict(matches, fixtures, as_of)
-    if not args.no_save:
-        save(preds, datetime.now(timezone.utc).replace(tzinfo=None))
-
     FORECASTS_DIR.mkdir(parents=True, exist_ok=True)
     path = FORECASTS_DIR / f"{as_of:%Y-%m-%d}.md"
-    path.write_text(to_markdown(preds, as_of, unknown))
+    report = ""
+    if len(fixtures):
+        unknown = check_team_names(matches[matches.date < as_of], fixtures)
+        preds = predict(matches, fixtures, as_of)
+        if not args.no_save:
+            save(preds, datetime.now(timezone.utc).replace(tzinfo=None))
+        report = to_markdown(preds, as_of, unknown)
+        show = preds[["league", "date", "home_team", "away_team", "p_home", "p_draw", "p_away",
+                      "top_score"]].copy()
+        show[PCOLS] = (show[PCOLS] * 100).round().astype(int)
+        print(show.to_string(index=False))
+        if unknown:
+            print("\nNo recent matches for:", ", ".join(unknown))
+        print(f"\n{len(preds)} league predictions{'' if args.no_save else ' saved'}")
+    if len(cups):
+        report += cups_markdown(cups)
+        print(f"{len(cups)} Champions League fixtures listed (not predicted yet: "
+              "needs the cross-league strength model)")
+    path.write_text(report or f"# No fixtures · {as_of:%Y-%m-%d}\n")
+    print(f"Report: {path}")
 
-    show = preds[["league", "date", "home_team", "away_team", "p_home", "p_draw", "p_away",
-                  "top_score"]].copy()
-    show[PCOLS] = (show[PCOLS] * 100).round().astype(int)
-    print(show.to_string(index=False))
-    if unknown:
-        print("\nNo recent matches for:", ", ".join(unknown))
-    print(f"\n{len(preds)} predictions{'' if args.no_save else ' saved'} · report: {path}")
+
+def cups_markdown(cups: pd.DataFrame) -> str:
+    lines = ["## Champions League (fixtures only)", "",
+             "Not predicted yet: our ratings are per league, so comparing clubs across "
+             "leagues needs a league-strength model (next step).", "",
+             "| Date | Match | Stage |", "|---|---|---|"]
+    for r in cups.sort_values(["date", "time"]).itertuples():
+        lines.append(f"| {r.date:%a %d %b} {r.time} | {r.home_team} vs {r.away_team} | "
+                     f"{str(r.stage).replace('_', ' ').title()} |")
+    return "\n".join(lines) + "\n"
 
 
 if __name__ == "__main__":
