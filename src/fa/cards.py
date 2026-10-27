@@ -459,8 +459,8 @@ def main() -> None:
     con = duckdb.connect(str(DB_PATH), read_only=True)
     try:
         fc = latest_upcoming(con, now)
-        until = now + pd.Timedelta(days=args.days)
-        fc = fc[(fc.kickoff_utc < until) | (fc.kickoff_utc.isna() & (fc.date < until.normalize()))]
+        # Whole match days, like fa.predict: --days 4 on a Tuesday means Tuesday to Friday.
+        fc = fc[fc.date < now.normalize() + pd.Timedelta(days=int(args.days))]
     except duckdb.CatalogException:
         raise SystemExit("No forecasts yet: run `python -m fa.predict` first.")
     matches = con.execute("SELECT * FROM matches ORDER BY date").df()
