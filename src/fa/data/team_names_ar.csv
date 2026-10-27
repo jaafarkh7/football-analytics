@@ -1,0 +1,166 @@
+# Arabic display names. Left column: the name used in our data (football-data.co.uk for
+# league clubs, the football-data.org short name for other Champions League clubs).
+# Edit freely; clubs missing here are shown in English and listed as warnings.
+name,arabic
+Arsenal,أرسنال
+Aston Villa,أستون فيلا
+Bournemouth,بورنموث
+Brentford,برينتفورد
+Brighton,برايتون
+Burnley,بيرنلي
+Chelsea,تشيلسي
+Crystal Palace,كريستال بالاس
+Everton,إيفرتون
+Fulham,فولهام
+Leeds,ليدز يونايتد
+Liverpool,ليفربول
+Man City,مانشستر سيتي
+Man United,مانشستر يونايتد
+Newcastle,نيوكاسل
+Nott'm Forest,نوتنغهام فورست
+Sunderland,سندرلاند
+Tottenham,توتنهام
+West Ham,وست هام
+Wolves,وولفرهامبتون
+Coventry,كوفنتري سيتي
+Hull,هال سيتي
+Ipswich,إيبسويتش تاون
+Leicester,ليستر سيتي
+Southampton,ساوثهامبتون
+Sheffield United,شيفيلد يونايتد
+Luton,لوتون تاون
+Norwich,نوريتش سيتي
+Watford,واتفورد
+West Brom,وست بروميتش
+Middlesbrough,ميدلسبره
+Barcelona,برشلونة
+Real Madrid,ريال مدريد
+Ath Madrid,أتلتيكو مدريد
+Ath Bilbao,أتلتيك بلباو
+Sociedad,ريال سوسيداد
+Betis,ريال بيتيس
+Sevilla,إشبيلية
+Valencia,فالنسيا
+Villarreal,فياريال
+Celta,سيلتا فيغو
+Getafe,خيتافي
+Osasuna,أوساسونا
+Mallorca,مايوركا
+Alaves,ألافيس
+Vallecano,رايو فاييكانو
+Girona,جيرونا
+Espanol,إسبانيول
+Levante,ليفانتي
+Elche,إلتشي
+Oviedo,ريال أوفييدو
+Malaga,مالقا
+Santander,راسينغ سانتاندير
+La Coruna,ديبورتيفو لاكورونيا
+Las Palmas,لاس بالماس
+Leganes,ليغانيس
+Valladolid,بلد الوليد
+Cadiz,قادش
+Granada,غرناطة
+Almeria,ألميريا
+Inter,إنتر ميلان
+Milan,ميلان
+Juventus,يوفنتوس
+Napoli,نابولي
+Roma,روما
+Lazio,لاتسيو
+Atalanta,أتالانتا
+Fiorentina,فيورنتينا
+Bologna,بولونيا
+Torino,تورينو
+Genoa,جنوى
+Udinese,أودينيزي
+Verona,هيلاس فيرونا
+Lecce,ليتشي
+Cagliari,كالياري
+Parma,بارما
+Como,كومو
+Sassuolo,ساسولو
+Cremonese,كريمونيزي
+Pisa,بيزا
+Venezia,فينيسيا
+Monza,مونزا
+Frosinone,فروزينوني
+Empoli,إمبولي
+Salernitana,ساليرنيتانا
+Sampdoria,سامبدوريا
+Spezia,سبيزيا
+Bayern Munich,بايرن ميونخ
+Dortmund,بوروسيا دورتموند
+Leverkusen,باير ليفركوزن
+RB Leipzig,لايبزيغ
+Ein Frankfurt,آينتراخت فرانكفورت
+Stuttgart,شتوتغارت
+Freiburg,فرايبورغ
+Wolfsburg,فولفسبورغ
+M'gladbach,بوروسيا مونشنغلادباخ
+Hoffenheim,هوفنهايم
+Werder Bremen,فيردر بريمن
+Mainz,ماينتس
+Augsburg,أوغسبورغ
+Union Berlin,أونيون برلين
+Heidenheim,هايدنهايم
+St Pauli,سانت باولي
+FC Koln,كولن
+Hamburg,هامبورغ
+Schalke 04,شالكه
+Paderborn,بادربورن
+Elversberg,إلفرسبرغ
+Bochum,بوخوم
+Holstein Kiel,هولشتاين كيل
+Darmstadt,دارمشتات
+Hertha,هيرتا برلين
+Paris SG,باريس سان جيرمان
+Marseille,مارسيليا
+Lyon,ليون
+Monaco,موناكو
+Lille,ليل
+Lens,لانس
+Rennes,رين
+Nice,نيس
+Nantes,نانت
+Strasbourg,ستراسبورغ
+Brest,بريست
+Toulouse,تولوز
+Auxerre,أوكسير
+Angers,أنجيه
+Le Havre,لوهافر
+Lorient,لوريان
+Metz,ميتز
+Paris FC,باريس إف سي
+Troyes,تروا
+Le Mans,لومان
+Montpellier,مونبلييه
+Reims,ريمس
+St Etienne,سانت إتيان
+Sporting CP,سبورتينغ لشبونة
+Benfica,بنفيكا
+Porto,بورتو
+PSV,آيندهوفن
+Feyenoord,فينورد
+Ajax,أياكس
+Club Brugge,كلوب بروج
+Celtic,سلتيك
+Galatasaray,غلطة سراي
+Fenerbahçe,فنربخشة
+Shaktar,شاختار دونيتسك
+Shakhtar Donetsk,شاختار دونيتسك
+Slavia Praha,سلافيا براغ
+Sparta Praha,سبارتا براغ
+Bodø/Glimt,بودو غليمت
+Olympiacos,أولمبياكوس
+PAE AEK,أيك أثينا
+LASK,لاسك لينز
+Sl. Bratislava,سلوفان براتيسلافا
+Viking,فايكنغ
+Sabah FK,صباح
+Salzburg,سالزبورغ
+Young Boys,يونغ بويز
+Crvena Zvezda,النجم الأحمر
+Dinamo Zagreb,دينامو زغرب
+Copenhagen,كوبنهاغن
+Qarabağ,قره باغ

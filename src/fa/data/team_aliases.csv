@@ -1,0 +1,4 @@
+# Manual team-name fixes. These always win over automatic matching.
+# league,name in the other source (football-data.org),our name (football-data.co.uk)
+# Example:
+# EPL,Brighton & Hove Albion FC,Brighton
