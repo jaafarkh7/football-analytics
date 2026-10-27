@@ -3,7 +3,7 @@
 Pre-match predictions and post-match analysis for Europe's top 5 leagues, with honest,
 reproducible evaluation.
 
-**Status: Week 2 of 6** — data pipeline, baselines, goals + shots model, and weekly predictions for upcoming matches.
+**Status: Week 2 of 6** — data pipeline, baselines, goals + shots model, and weekly predictions for the top-5 leagues and the Champions League.
 
 ## Quick start
 
@@ -17,6 +17,8 @@ python -m fa.run_baselines              # week 1: tune Elo, evaluate baselines
 python -m fa.run_week2                  # week 2: Dixon–Coles goals model (~30 s)
 python -m fa.run_shots                  # week 2b: does shot data help? (~1 min)
 python -m fa.run_form                   # week 2c: does form / this-season data help? (~1 min)
+python -m fa.data.load_european         # Champions League history (once)
+python -m fa.run_cl                     # week 2d: comparing clubs across leagues
 python -m pytest -q                     # unit tests
 ```
 
@@ -125,6 +127,26 @@ to regress. The production model stays unchanged.
 
 Full results: [`reports/week2c_form.md`](reports/week2c_form.md).
 
+## Champions League: comparing leagues (week 2d)
+
+All clubs share one rating pool. Domestic matches move points only within a league, so
+only European matches can change a league's average: Champions League results set the
+relative strength of the leagues. Clubs outside the top 5 learn only from Europe.
+
+Data: openfootball Champions League results 2014-15..2019-20 and 2024-25 (932 matches),
+plus this season's from the football-data.org API. The source spells some clubs
+differently across seasons ("SL Benfica" / "Sport Lisboa e Benfica"); spellings are
+merged within a country when one name's distinctive words contain the other's.
+
+Result vs the same model with all leagues held equal: better on validation (0.940 vs
+0.944) and clearly better on matches between two different top-5 leagues, tied overall
+on the 2024-25 test season. Never worse, not statistically proven (~190 matches a season).
+The Premier League comes out strongest and Ligue 1 weakest, by modest margins.
+
+![League strength](reports/league_strength.png)
+
+Full results: [`reports/week2d_champions_league.md`](reports/week2d_champions_league.md).
+
 ## Layout
 
 ```
@@ -139,6 +161,10 @@ src/fa/
   run_week2.py           week 2 experiment
   run_shots.py           week 2b experiment
   run_form.py            week 2c experiment
+  run_cl.py              week 2d experiment
+  data/load_european.py  Champions League history
+  models/cross_elo.py    one rating pool across leagues
+  models/cl_predict.py   Champions League predictions
   features/form.py       form features (no look-ahead)
   predict.py             predictions for upcoming fixtures
   data/fixtures_api.py   football-data.org client

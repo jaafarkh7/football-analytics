@@ -36,3 +36,5 @@ ELO_SETTINGS = dict(k=20, home_adv=105, season_regress=0.0, new_team_offset=100)
 DC_SETTINGS = dict(half_life_days=180, alpha=1e-3, goal_weight=0.55)
 BLEND_WEIGHT_DC = 0.55          # final probability = 0.55 * Dixon–Coles + 0.45 * Elo
 FORECASTS_DIR = REPORTS_DIR / "predictions"
+# Champions League: cross-league Elo (week 2d tuning on 2016-17..2019-20).
+CL_SETTINGS = dict(k_cl=30, home_adv_cl=130, external_offset=100)

@@ -111,8 +111,11 @@ def check_team_names(matches: pd.DataFrame, fixtures: pd.DataFrame) -> list[str]
     return sorted(f"{t} ({lg})" for lg, t in unknown)
 
 
-def save(preds: pd.DataFrame, created_at: datetime) -> None:
-    rows = preds.assign(created_at=created_at, model="blend_v1")
+def save(preds: pd.DataFrame, created_at: datetime, model: str = "blend_v1") -> None:
+    rows = preds.assign(created_at=created_at, model=model)
+    for c in ("market_home", "market_draw", "market_away"):
+        if c not in rows:
+            rows[c] = np.nan
     cols = ["created_at", "model", "match_id", "league", "date", "home_team", "away_team",
             "p_home", "p_draw", "p_away", "xg_home", "xg_away", "top_score", "top_score_p",
             "market_home", "market_draw", "market_away"]
@@ -246,17 +249,83 @@ def main() -> None:
             print("\nNo recent matches for:", ", ".join(unknown))
         print(f"\n{len(preds)} league predictions{'' if args.no_save else ' saved'}")
     if len(cups):
-        report += cups_markdown(cups)
-        print(f"{len(cups)} Champions League fixtures listed (not predicted yet: "
-              "needs the cross-league strength model)")
+        cl_preds = predict_champions_league(matches, cups, as_of)
+        if cl_preds is None:
+            report += cups_markdown(cups)
+            print(f"{len(cups)} Champions League fixtures listed without predictions "
+                  "(run `python -m fa.data.load_european` to enable them)")
+        else:
+            if not args.no_save:
+                save(cl_preds.assign(xg_home=np.nan, xg_away=np.nan, top_score=None,
+                                     top_score_p=np.nan), datetime.now(timezone.utc).replace(tzinfo=None),
+                     model="cl_elo_v1")
+            report += cl_markdown(cl_preds)
+            show = cl_preds[["date", "home_team", "away_team"] + PCOLS].copy()
+            show[PCOLS] = (show[PCOLS] * 100).round().astype(int)
+            print("\nChampions League:\n" + show.to_string(index=False))
+            print(f"{len(cl_preds)} Champions League predictions{'' if args.no_save else ' saved'}")
     path.write_text(report or f"# No fixtures · {as_of:%Y-%m-%d}\n")
     print(f"Report: {path}")
 
 
+def predict_champions_league(matches: pd.DataFrame, cups: pd.DataFrame, as_of: pd.Timestamp,
+                             use_api: bool = True) -> pd.DataFrame | None:
+    """Cross-league Elo predictions, or None if the Champions League history isn't loaded."""
+    from fa.models.cl_predict import predict_cl
+    con = duckdb.connect(str(DB_PATH), read_only=True)
+    try:
+        cl_hist = con.execute("SELECT * FROM cl_matches ORDER BY date").df()
+    except duckdb.CatalogException:
+        return None
+    finally:
+        con.close()
+    recent = pd.DataFrame()
+    if use_api:
+        from fa.data.fixtures_api import fetch_cl_results
+        try:
+            recent = fetch_cl_results()
+            print(f"Champions League results from the API: {len(recent)} matches")
+        except Exception as e:                                # predictions still work without
+            print(f"Couldn't fetch recent Champions League results ({type(e).__name__}); "
+                  "ratings use older seasons only")
+    cups = cups[cups.league == "UCL"].reset_index(drop=True)
+    out = predict_cl(matches, cl_hist, recent, cups, as_of)
+    unknown = sorted({n for n, ok in zip(out.home_team, out.known_home) if not ok} |
+                     {n for n, ok in zip(out.away_team, out.known_away) if not ok})
+    if unknown:
+        print("New to our Champions League data (rated as an average outside club): "
+              + ", ".join(unknown))
+    out.attrs["unknown"] = unknown
+    return out
+
+
+def cl_markdown(cl: pd.DataFrame) -> str:
+    league_names = {"EPL": "ENG", "LALIGA": "ESP", "SERIEA": "ITA", "BUNDESLIGA": "GER",
+                    "LIGUE1": "FRA"}
+
+    def tag(league):
+        return f" ({league_names[league]})" if isinstance(league, str) and league in league_names else ""
+
+    lines = ["## Champions League", "",
+             "Cross-league Elo: one rating pool for all clubs, with league strength learned "
+             "from European results. Elo only (no shots data for European matches), so "
+             "treat these as rougher than the league predictions.", "",
+             "| Date | Match | Model H / D / A |", "|---|---|---|"]
+    for r in cl.sort_values(["date", "time"]).itertuples():
+        lines.append(f"| {r.date:%a %d %b} {r.time} | {r.home_team}{tag(r.home_league)} vs "
+                     f"{r.away_team}{tag(r.away_league)} | "
+                     f"{r.p_home:.0%} / {r.p_draw:.0%} / {r.p_away:.0%} |")
+    unknown = cl.attrs.get("unknown", [])
+    if unknown:
+        lines += ["", "No European history in our data for: " + ", ".join(unknown)
+                  + " (rated as an average outside club)."]
+    return "\n".join(lines) + "\n"
+
+
 def cups_markdown(cups: pd.DataFrame) -> str:
     lines = ["## Champions League (fixtures only)", "",
-             "Not predicted yet: our ratings are per league, so comparing clubs across "
-             "leagues needs a league-strength model (next step).", "",
+             "Load the Champions League history (`python -m fa.data.load_european`) to get "
+             "predictions here.", "",
              "| Date | Match | Stage |", "|---|---|---|"]
     for r in cups.sort_values(["date", "time"]).itertuples():
         lines.append(f"| {r.date:%a %d %b} {r.time} | {r.home_team} vs {r.away_team} | "
