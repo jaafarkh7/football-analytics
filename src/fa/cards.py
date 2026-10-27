@@ -471,6 +471,8 @@ def main() -> None:
 
     out = REPORTS_DIR / "cards" / f"{now:%Y-%m-%d}"
     out.mkdir(parents=True, exist_ok=True)
+    for old in out.glob("*.png"):   # an earlier run today (other --days) must not leak in
+        old.unlink()
     made, missing = [], set()
     if fc.empty:
         print("No upcoming forecasts to draw.")
