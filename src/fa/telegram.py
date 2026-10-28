@@ -98,10 +98,12 @@ def plan(folder: Path) -> list[dict]:
         for i in range(0, len(matches), ALBUM_MAX):
             posts.append({"lang": lang, "kind": "match", "files": matches[i:i + ALBUM_MAX],
                           "caption": cap["match"] + cap["tail"]})
+        posts += notes_posts(folder, lang, "match")
         reviews = sorted(folder.glob(f"review_*_{lang}.png"))
         for i in range(0, len(reviews), ALBUM_MAX):
             posts.append({"lang": lang, "kind": "review", "files": reviews[i:i + ALBUM_MAX],
                           "caption": cap["review"] + cap["tail"]})
+        posts += notes_posts(folder, lang, "review")
         for kind in ("round", "deserved", "table"):
             for f in sorted(folder.glob(f"{kind}_*_{lang}.png")):
                 league = f.stem[len(kind) + 1:-len(f"_{lang}")]
@@ -115,7 +117,37 @@ def plan(folder: Path) -> list[dict]:
     return posts
 
 
-def post_key(post: dict, chat: str) -> str:
+NOTES_TITLE = {"match": "Match previews", "review": "Match reviews"}
+NOTES_TAIL = ("<i>Written by an AI model from our numbers only; every figure is checked "
+              "against our data before posting.</i>")
+TEXT_MAX = 3500                    # Telegram allows 4096 characters per message
+
+
+def notes_posts(folder: Path, lang: str, kind: str) -> list[dict]:
+    """The written analysis (fa.writer) as text messages, posted after the card album."""
+    import html
+    import json
+    path = folder / f"notes_{kind}_{lang}.json"
+    if not path.exists():
+        return []
+    notes = json.loads(path.read_text(encoding="utf-8"))
+    blocks = [f"<b>{html.escape(n['title'])}</b>\n{html.escape(n['text'])}" for n in notes]
+    chunks, cur = [], ""
+    for b in blocks:
+        if cur and len(cur) + len(b) + 2 > TEXT_MAX:
+            chunks.append(cur)
+            cur = ""
+        cur = f"{cur}\n\n{b}" if cur else b
+    if cur:
+        chunks.append(cur)
+    return [{"lang": lang, "kind": kind, "files": [], "key_name": f"{path.name}#{i}",
+             "text": f"<b>{NOTES_TITLE[kind]}</b>\n\n{c}\n\n{NOTES_TAIL}"}
+            for i, c in enumerate(chunks)]
+
+
+def post_key(post: dict, chat: str, folder: Path | None = None) -> str:
+    if post.get("key_name"):
+        return f"{chat}|{(folder.name + '/') if folder else ''}{post['key_name']}"
     return chat + "|" + "|".join(f"{f.parent.name}/{f.name}" for f in post["files"])
 
 
@@ -187,6 +219,11 @@ class Bot:
             return body
         raise TelegramError(f"{method}: still rate limited after retries")
 
+    def send_text(self, chat: str, text: str) -> None:
+        import json
+        self._call("sendMessage", {"chat_id": chat, "text": text, "parse_mode": "HTML",
+                                   "link_preview_options": json.dumps({"is_disabled": True})}, {})
+
     def send(self, chat: str, files: list[Path], caption: str) -> None:
         handles = [f.open("rb") for f in files]
         try:
@@ -236,16 +273,20 @@ def main() -> None:
         chat = targets.get(post["lang"])
         if not chat:
             continue
-        key = post_key(post, chat)
+        key = post_key(post, chat, folder)
         if key in done:
             skipped += 1
             continue
-        names = ", ".join(f.name for f in post["files"])
+        names = (", ".join(f.name for f in post["files"]) if post["files"]
+                 else f"{post['key_name']} (text, {len(post['text'])} characters)")
         if not args.send:
             print(f"[dry run] {chat} ({post['lang']}, {post['kind']}): {names}")
             continue
         try:
-            bot.send(chat, post["files"], post["caption"])
+            if post.get("text"):
+                bot.send_text(chat, post["text"])
+            else:
+                bot.send(chat, post["files"], post["caption"])
         except TelegramError as e:
             raise SystemExit(f"Posting stopped after {sent} posts: {e}\n"
                              "Posts already sent are recorded and won't be repeated.") from None

@@ -72,6 +72,8 @@ def main() -> None:
         return
     run("data.team_news", optional=True)      # Premier League injuries; cards work without it
     run("cards", "--days", str(FORECAST_DAYS.get(weekday, 8)))
+    if "match" in kinds or "review" in kinds:
+        run("writer", optional=True)          # written analysis; skipped without GEMINI_API_KEY
     run("telegram", "--kinds", kinds, *(["--send"] if args.post else []))
 
 

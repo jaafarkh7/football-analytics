@@ -45,6 +45,7 @@ Setup, once, in the repo on github.com → **Settings → Secrets and variables 
 |---|---|---|
 | Secret | `FOOTBALL_DATA_API_KEY` | your football-data.org key |
 | Secret | `TELEGRAM_BOT_TOKEN` | your bot token from @BotFather |
+| Secret | `GEMINI_API_KEY` | free key from Google AI Studio (optional: written analysis) |
 | Variable | `TELEGRAM_CHAT_EN` | `@your_english_channel` |
 | Variable | `TELEGRAM_CHAT_AR` | `@your_arabic_channel` (optional) |
 
@@ -237,6 +238,34 @@ The Premier League comes out strongest and Ligue 1 weakest, by modest margins.
 
 Full results: [`reports/week2d_champions_league.md`](reports/week2d_champions_league.md).
 
+## Written analysis (Gemini, checked)
+
+```bash
+python -m fa.writer                     # paragraphs for the newest cards folder (needs GEMINI_API_KEY)
+```
+
+Each match card and review card gets a paragraph posted after the album: form, chances
+created and conceded, finishing against chances, home/away record and our forecast
+before the match; chances, the deserved result, the match against season averages,
+scorers and cards (Premier League) and the season-outlook change after it.
+
+The model only writes; `src/fa/facts.py` computes every number and hands it over
+already formatted. `src/fa/writer.py` then checks each paragraph before it can be
+posted, and sends rejected ones back with the problems listed (3 tries, then no
+paragraph):
+
+- every number must be in the fact sheet, by kind: a percentage must match a percentage
+  and a decimal a decimal (so "55%" can't pass because a team scored 55 goals);
+- every name (capitalised word mid-sentence) must be in the fact sheet;
+- no claims our data can't support: tactics, flanks, possession, corners, minutes,
+  betting language;
+- one paragraph of 50 to 140 words.
+
+Known gap: a made-up whole number can still pass if the same value appears elsewhere in
+the facts ("won 7 of the last 8" when a team is 7th). The model picks the newest stable
+Gemini Flash model available to the key (`GEMINI_MODEL` overrides). On the free tier,
+Google may use prompts to improve its products; ours contain only public football data.
+
 ## Half-time win chances
 
 ```bash
@@ -279,6 +308,8 @@ src/fa/
   run_cl.py              week 2d experiment
   run_halftime.py        half-time model backtest
   live.py                half-time updates (scheduled every 15 min)
+  facts.py               fact sheets for the written analysis
+  writer.py              Gemini paragraphs + fact checker
   models/live.py         in-match win probabilities
   data/load_european.py  Champions League history
   models/cross_elo.py    one rating pool across leagues
@@ -305,7 +336,7 @@ tests/                   unit tests (incl. no-look-ahead checks)
 1. ✅ Data + baselines
 2. ✅ Goals model (Dixon–Coles) + Elo blend, shots-informed ratings, form experiment
 3. Post-match analysis from StatsBomb event data (xG timeline, shot maps, pass networks)
-4. LLM-written previews and reports, grounded in computed numbers, checked for invented stats
+4. ✅ LLM-written previews and reviews, grounded in computed numbers, checked for invented stats
 5. ✅ Publish predictions before kickoff; score them after (public track record)
 6. Write-up
 
