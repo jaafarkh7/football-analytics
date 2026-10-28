@@ -33,6 +33,7 @@ from fa.config import DB_PATH, REPORTS_DIR
 API = "https://generativelanguage.googleapis.com/v1beta"
 MIN_GAP_S = 5                     # free tier: about 15 requests per minute
 MIN_WORDS, MAX_WORDS = 50, 140
+TIME_BUDGET_S = 15 * 60           # the whole writing step; later matches get no paragraph
 
 SYSTEM = """You are the analyst of a football statistics channel. Write ONE paragraph of 70 to 110 words in plain English about the match described by the JSON fact sheet.
 
@@ -138,6 +139,7 @@ class Gemini:
         self.models = [model] if model else self.list_models()
         self.model = self.models[0]
         self.thinking = {"thinkingLevel": "low"}         # dropped if a model doesn't accept it
+        self.deadline: float | None = None               # stop trying after this time.time()
 
     def _wait(self):
         gap = MIN_GAP_S - (time.time() - self._last)
@@ -177,8 +179,10 @@ class Gemini:
         return False
 
     def generate(self, prompt: str, system: str = SYSTEM) -> str:
-        timeouts = 0
-        for attempt in range(6):
+        failures = 0                  # timeouts and "busy" replies from the current model
+        for attempt in range(8):
+            if self.deadline is not None and time.time() > self.deadline:
+                raise GeminiError("time budget used up")
             config = {"temperature": 0.4, "maxOutputTokens": 2048}
             if self.thinking:
                 config["thinkingConfig"] = self.thinking
@@ -190,15 +194,21 @@ class Gemini:
                 r = self.s.post(f"{API}/models/{self.model}:generateContent", json=body,
                                 timeout=self.TIMEOUT_S)
             except requests.RequestException as e:
-                timeouts += 1
-                if timeouts >= 2 and not self._next_model():   # this model keeps timing out
-                    raise GeminiError(f"couldn't reach Gemini ({type(e).__name__})") from None
+                failures += 1
+                if failures >= 2:                             # this model keeps timing out
+                    if not self._next_model():
+                        raise GeminiError(f"couldn't reach Gemini ({type(e).__name__})") from None
+                    failures = 0
                 continue
             if r.status_code == 400 and self.thinking and "think" in r.text.lower():
                 self.thinking = None                          # this model has no such setting
                 continue
-            if r.status_code in (429, 500, 503):
-                time.sleep(20 * (attempt + 1))                # quota or overload: back off
+            if r.status_code in (429, 500, 503):              # quota or overload
+                failures += 1
+                if failures >= 2 and self._next_model():
+                    failures = 0
+                else:
+                    time.sleep(15)
                 continue
             if r.status_code == 404 and self._next_model():
                 continue
@@ -223,6 +233,14 @@ def write(llm, facts: dict, tries: int = 3) -> tuple[str | None, list[str]]:
                   + "\n\nProblems:\n- " + "\n- ".join(problems)
                   + "\n\nWrite the paragraph again, fixing every problem.")
     return None, problems
+
+
+def safe_write(llm, facts: dict) -> tuple[str | None, list[str]]:
+    """write(), but a Gemini failure only costs this match its paragraph."""
+    try:
+        return write(llm, facts)
+    except GeminiError as e:
+        return None, [str(e)]
 
 
 # ---------------- building notes for a cards folder ----------------
@@ -256,7 +274,7 @@ def notes_for_folder(folder, llm, now: pd.Timestamp) -> dict[str, list[dict]]:
                 news = {"home": team_news.for_team(snapshot, row.home_team),
                         "away": team_news.for_team(snapshot, row.away_team)}
             facts = preview_facts(row, matches, news)
-            text, problems = write(llm, facts)
+            text, problems = safe_write(llm, facts)
             title = f"{row.home_team} vs {row.away_team}"
             print(f"{'✓' if text else '✗'} preview {title}" + ("" if text else f": {problems[:3]}"))
             if text:
@@ -276,7 +294,7 @@ def notes_for_folder(folder, llm, now: pd.Timestamp) -> dict[str, list[dict]]:
             changes = [(t, *c) for t in (r.home_team, r.away_team)
                        for c in [biggest_change(t, *sims) if sims else None] if c]
             facts = review_facts(r, matches, ev, changes)
-            text, problems = write(llm, facts)
+            text, problems = safe_write(llm, facts)
             title = f"{r.home_team} {int(r.home_goals)}-{int(r.away_goals)} {r.away_team}"
             print(f"{'✓' if text else '✗'} review {title}" + ("" if text else f": {problems[:3]}"))
             if text:
@@ -314,6 +332,7 @@ def main() -> None:
     now = pd.Timestamp(args.now) if args.now else pd.Timestamp.now("UTC").tz_localize(None)
     try:
         llm = Gemini(key, env("GEMINI_MODEL"))
+        llm.deadline = time.time() + TIME_BUDGET_S
         print(f"Writing with {llm.model}")
         notes = notes_for_folder(folder, llm, now)
     except GeminiError as e:

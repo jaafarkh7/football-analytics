@@ -148,3 +148,20 @@ def test_slow_model_falls_back_to_the_next_one(monkeypatch):
     assert g.models[:2] == ["gemini-3.6-flash", "gemini-3.5-flash"]
     assert g.generate("facts") == GOOD and g.model == "gemini-3.5-flash" and g.thinking is None
     assert s.calls[:2] == [("gemini-3.6-flash", True)] * 2         # two timeouts, then switch
+
+
+def test_busy_model_switches_and_time_budget_keeps_earlier_notes(monkeypatch):
+    import fa.writer as w
+    monkeypatch.setattr(w, "MIN_GAP_S", 0)
+    monkeypatch.setattr(w.time, "sleep", lambda s: None)
+
+    class Busy(FakeSession):
+        def post(self, url, json=None, timeout=None):
+            if "3.6-flash" in url:
+                return FakeResponse({"error": "overloaded"}, status=503)
+            return super().post(url, json, timeout)
+    g = Gemini("KEY", session=Busy())
+    assert g.generate("facts") == GOOD and g.model == "gemini-3.5-flash"
+    g.deadline = 0                                     # budget used up
+    text, problems = w.safe_write(g, FACTS)
+    assert text is None and problems == ["time budget used up"]
