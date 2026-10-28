@@ -182,5 +182,17 @@ def test_fact_sheet_jargon_is_rejected():
 def test_finishing_is_given_in_words():
     from fa.facts import finishing
     assert finishing(-1.94, "scored") == "scored 1.9 fewer goals than their shots on target are usually worth"
-    assert finishing(4.2, "conceded").startswith("conceded 4.2 more goals")
+    assert finishing(4.2, "conceded") == "conceded 4.2 more goals than the shots on target they faced are usually worth"
     assert finishing(0.3, "scored").startswith("scored about as many")
+
+
+def test_warm_up_starts_with_the_first_model_that_answers(monkeypatch):
+    import requests
+
+    class FirstSlow(FakeSession):
+        def post(self, url, json=None, timeout=None):
+            if "3.6-flash" in url:
+                raise requests.ReadTimeout("slow")
+            return super().post(url, json, timeout)
+    g = Gemini("KEY", session=FirstSlow())
+    assert g.warm_up() == "gemini-3.5-flash" and g.model == "gemini-3.5-flash"

@@ -33,7 +33,7 @@ from fa.config import DB_PATH, REPORTS_DIR
 API = "https://generativelanguage.googleapis.com/v1beta"
 MIN_GAP_S = 5                     # free tier: about 15 requests per minute
 MIN_WORDS, MAX_WORDS = 50, 140
-TIME_BUDGET_S = 15 * 60           # the whole writing step; later matches get no paragraph
+TIME_BUDGET_S = 20 * 60           # the whole writing step; later matches get no paragraph
 
 SYSTEM = """You are the analyst of a football statistics channel, writing for fans. Write ONE paragraph of 70 to 110 words in plain, lively English about the match in the JSON fact sheet.
 
@@ -139,7 +139,7 @@ class GeminiError(RuntimeError):
 
 
 class Gemini:
-    TIMEOUT_S = 180               # thinking models can take a while on long prompts
+    TIMEOUT_S = 90                # a paragraph normally takes well under a minute
 
     def __init__(self, key: str, model: str | None = None, session: requests.Session | None = None):
         self.s = session or requests.Session()
@@ -179,6 +179,22 @@ class Gemini:
     def pick_model(self) -> str:
         return self.list_models()[0]
 
+    def warm_up(self, timeout: float = 30, tries: int = 4) -> str:
+        """Start with the first of the newest models that answers a tiny request quickly:
+        the newest ones are often busy on the free tier."""
+        for name in self.models[:tries]:
+            try:
+                r = self.s.post(f"{API}/models/{name}:generateContent", timeout=timeout, json={
+                    "contents": [{"role": "user", "parts": [{"text": "Reply with: ok"}]}]})
+            except requests.RequestException:
+                print(f"  {name}: no answer in {timeout:.0f} s")
+                continue
+            if r.status_code == 200:
+                self.model = name
+                return name
+            print(f"  {name}: busy or refused ({r.status_code})")
+        return self.model
+
     def _next_model(self) -> bool:
         i = self.models.index(self.model)
         if i + 1 < len(self.models):
@@ -212,11 +228,8 @@ class Gemini:
             if r.status_code == 400 and self.thinking and "think" in r.text.lower():
                 self.thinking = None                          # this model has no such setting
                 continue
-            if r.status_code in (429, 500, 503):              # quota or overload
-                failures += 1
-                if failures >= 2 and self._next_model():
-                    failures = 0
-                else:
+            if r.status_code in (429, 500, 503):              # quota or overload: move on
+                if not self._next_model():
                     time.sleep(15)
                 continue
             if r.status_code == 404 and self._next_model():
@@ -346,6 +359,7 @@ def main() -> None:
     try:
         llm = Gemini(key, env("GEMINI_MODEL"))
         llm.deadline = time.time() + TIME_BUDGET_S
+        llm.warm_up()
         print(f"Writing with {llm.model}")
         notes = notes_for_folder(folder, llm, now)
     except GeminiError as e:

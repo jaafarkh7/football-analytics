@@ -33,10 +33,12 @@ def ordinal(n: int) -> str:
 def finishing(diff: float, verb: str) -> str:
     """Goals against what the chances were worth, in words: the writer copies this phrase
     instead of a signed number it might misread."""
+    shots = ("their shots on target are usually worth" if verb == "scored"
+             else "the shots on target they faced are usually worth")
     if abs(diff) < 0.5:
-        return f"{verb} about as many goals as their shots on target are usually worth"
+        return f"{verb} about as many goals as {shots}"
     more = "more" if diff > 0 else "fewer"
-    return f"{verb} {abs(diff):.1f} {more} goals than their shots on target are usually worth"
+    return f"{verb} {abs(diff):.1f} {more} goals than {shots}"
 
 
 def team_games(matches: pd.DataFrame, league: str, season: int, team: str, before) -> pd.DataFrame:
