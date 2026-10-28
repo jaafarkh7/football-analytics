@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont, features
 
-from fa.config import DB_PATH, ELO_SETTINGS, REPORTS_DIR, ROOT
+from fa.config import CARD_LANGUAGES, DB_PATH, ELO_SETTINGS, REPORTS_DIR, ROOT
 
 FONTS = ROOT / "assets" / "fonts"
 W = 1080
@@ -525,7 +525,7 @@ def main() -> None:
         top = featured(league_fc, matches, args.featured) if len(league_fc) else league_fc
         from fa.data import team_news
         snapshot = team_news.load(now=now)
-        for lang in ("en", "ar"):
+        for lang in CARD_LANGUAGES:
             for _, row in top.iterrows():
                 news = None
                 if len(snapshot) and row.league in set(snapshot.league):
@@ -549,7 +549,7 @@ def main() -> None:
     scored = attach_results(eligible_forecasts(all_fc), res)
     week = scored[scored.result_date > now - pd.Timedelta(days=7)] if len(scored) else scored
     if len(week) >= 5:
-        for lang in ("en", "ar"):
+        for lang in CARD_LANGUAGES:
             img, miss = scorecard(week, lang, record, handle[lang])
             path = out / f"scorecard_{lang}.png"
             img.save(path)
@@ -572,7 +572,7 @@ def main() -> None:
             latest = latest[latest.created_at == latest.created_at.max()]
             latest = latest.sort_values(["exp_points", "points"], ascending=False)
             prev = previous_snapshot(league, int(latest.season.iloc[0]), latest.as_of.iloc[0])
-            for lang in ("en", "ar"):
+            for lang in CARD_LANGUAGES:
                 img, miss = table_card(latest, league, lang, prev, handle[lang])
                 path = out / f"table_{league}_{lang}.png"
                 img.save(path)
@@ -583,7 +583,7 @@ def main() -> None:
     recent = deserved(res, now.normalize() - pd.Timedelta(days=4), now)
     for league, g in (recent.groupby("league") if len(recent) else []):
         g = g.sort_values("date").tail(12)
-        for lang in ("en", "ar"):
+        for lang in CARD_LANGUAGES:
             img, miss = deserved_card(g, league, lang, handle[lang])
             path = out / f"deserved_{league}_{lang}.png"
             img.save(path)

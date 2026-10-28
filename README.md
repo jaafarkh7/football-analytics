@@ -87,6 +87,8 @@ python -m fa.telegram                         # dry run: what would be posted
 python -m fa.telegram --send                  # post to Telegram
 ```
 
+Cards are drawn in English for now (`CARD_LANGUAGES` in `src/fa/config.py`; Arabic is
+built in and switched back on with `("en", "ar")`).
 Cards: one per big match (probabilities, predicted score, goal markets, expected goals),
 one per competition with every upcoming match, a weekly scorecard that includes the
 misses, a season-simulation table per league (with the biggest movers since last week),
@@ -94,7 +96,10 @@ a post-match "who deserved it?" card per league built from shots on target, and 
 **full-time review** per big match: the result next to the forecast saved before kickoff
 (right or wrong), the result the chances deserved, and how the matchday moved the team's
 title / top-4 / relegation chances (season simulated from just before and just after it).
-Each match is reviewed once, as soon as its shot data is published (usually the next day). Arabic cards are laid out right to left; club names come from
+Each match is reviewed once, as soon as its shot data is published (usually the next day). Premier League
+reviews also list scorers, assists and yellow / red cards (Fantasy Premier League API, no
+minutes; shown only when its score agrees with ours). Other leagues have no free source
+for these: football-data.org keeps them for its paid plan. Arabic cards are laid out right to left; club names come from
 `src/fa/data/team_names_ar.csv` (clubs missing there are shown in English and listed).
 Premier League match cards also show **team news** (who is out or doubtful), from the
 official Fantasy Premier League API (`python -m fa.data.team_news`, free, no key; saved to
@@ -259,6 +264,7 @@ src/fa/
   data/fixtures_api.py   football-data.org client
   data/team_names.py     cross-source team-name matching
   data/team_news.py      Premier League injuries and suspensions (Fantasy PL API)
+  data/match_events.py   Premier League scorers, assists and cards (Fantasy PL API)
 tests/                   unit tests (incl. no-look-ahead checks)
 ```
 

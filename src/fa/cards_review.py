@@ -15,23 +15,28 @@ from PIL import Image
 from fa.cards import (CARD, HOME, AWAY, INK, INK2, MUTED, RULE, SURFACE, TEXT, W, Names,
                       Painter, featured, footer, outcome_bar, pct, when)
 from fa.cards_season import T2, deserved
+from fa.config import CARD_LANGUAGES
 
 T3 = {
     "en": {"ft": "Full time", "shots": "Shots", "sot": "on target", "forecast": "Our forecast before kickoff",
            "right": "Forecast right", "wrong": "Forecast wrong",
            "deserved": "What the chances deserved",
            "xg": "Expected goals from shots on target: {}",
-           "season": "Season outlook, before and after the matchday"},
+           "season": "Season outlook, before and after the matchday",
+           "goals": "Goals", "assists": "Assists"},
     "ar": {"ft": "نهاية المباراة", "shots": "التسديدات", "sot": "على المرمى",
            "forecast": "توقعنا قبل المباراة", "right": "التوقع صحيح", "wrong": "التوقع خاطئ",
            "deserved": "ما استحقته الفرص",
            "xg": "الأهداف المتوقعة من التسديدات على المرمى: {}",
-           "season": "توقعات الموسم، قبل الجولة وبعدها"},
+           "season": "توقعات الموسم، قبل الجولة وبعدها",
+           "goals": "الأهداف", "assists": "صناعة"},
 }
 EVENTS = ("p_title", "p_top4", "p_relegation")
 EVENT_LABEL = {"p_title": "ev_title", "p_top4": "ev_top4", "p_relegation": "ev_releg"}
 RIGHT, WRONG = "#1D6B3A", "#A3361F"
 ARROW = "<arrow>"
+YELLOW_CARD, RED_CARD = "<yellow>", "<red>"
+CARD_COLORS = {YELLOW_CARD: "#F2C230", RED_CARD: "#D23B2E"}
 
 
 # ---------------- data ----------------
@@ -108,10 +113,28 @@ def biggest_change(team: str, before: pd.DataFrame, after: pd.DataFrame, min_cha
 
 # ---------------- drawing ----------------
 
+def _piece_width(p: Painter, s: str, size: int, bold: bool) -> float:
+    if s == ARROW:
+        return size * 1.3
+    if s in CARD_COLORS:
+        return size * 0.7
+    return p.width(s, size, bold)
+
+
+def _pieces_width(p: Painter, pieces, size: int) -> float:
+    return sum(_piece_width(p, s, size, b) + 12 for s, _, b in pieces) - 12
+
+
 def _pieces(p: Painter, x: float, y: float, pieces, size: int):
     """Draw text pieces in reading order (keeps Arabic labels and numbers apart)."""
     step = 1 if not p.rtl else -1
     for s, fill, bold in pieces:
+        if s in CARD_COLORS:                # a little booking card
+            w, h = size * 0.7, size * 0.95
+            x0 = x if not p.rtl else x - w
+            p.rect((x0, y - h, x0 + w, y), CARD_COLORS[s], r=3)
+            x += step * (w + 12)
+            continue
         if s == ARROW:                      # drawn, not typed: the fonts have no arrow glyph
             w = size * 1.3
             x0, x1 = (x, x + w) if not p.rtl else (x - w, x)
@@ -130,12 +153,47 @@ def _pair(p: Painter, home, away) -> str:
     return f"{int(left)} – {int(right)}"
 
 
-def review_card(r, lang: str, record=None, handle: str = "", changes: list | None = None
-                ) -> tuple[Image.Image, set]:
+EVENT_KINDS = ("goals", "assists", "yellow", "red")
+
+
+def event_lines(ev: dict, t3: dict) -> dict[str, list]:
+    """Pieces per kind for one team: goals, assists, yellow cards, red cards."""
+    lines = {}
+    if ev.get("goals"):
+        lines["goals"] = [(t3["goals"] + ":", INK2, False), (", ".join(ev["goals"]), INK, True)]
+    if ev.get("assists"):
+        lines["assists"] = [(t3["assists"] + ":", INK2, False), (", ".join(ev["assists"]), INK2, False)]
+    for kind, token in (("yellow", YELLOW_CARD), ("red", RED_CARD)):
+        if ev.get(kind):
+            lines[kind] = [(token, None, False), (", ".join(ev[kind]), INK2, False)]
+    return lines
+
+
+def _fit_line(p: Painter, pieces, max_w: float, size: int = 24, min_size: int = 18):
+    """Shrink, then drop names from the end ("+2"), until the line fits its column."""
+    while size > min_size and _pieces_width(p, pieces, size) > max_w:
+        size -= 1
+    names = pieces[-1][0].split(", ")
+    dropped = 0
+    while _pieces_width(p, pieces, size) > max_w and len(names) > 1:
+        names, dropped = names[:-1], dropped + 1
+        pieces = pieces[:-1] + [(", ".join(names) + f" +{dropped}", pieces[-1][1], pieces[-1][2])]
+    return pieces, size
+
+
+EVENT_ROW = 42
+
+
+def review_card(r, lang: str, record=None, handle: str = "", changes: list | None = None,
+                events: dict | None = None) -> tuple[Image.Image, set]:
     names = Names(lang)
     t, t2, t3 = TEXT[lang], T2[lang], T3[lang]
     changes = [c for c in (changes or []) if c]
-    H = 1180 + (100 + 60 * len(changes) if changes else 0)
+    ev_lines = {side: event_lines((events or {}).get(side) or {}, t3) for side in ("home", "away")}
+    kinds = [k for k in EVENT_KINDS if k in ev_lines["home"] or k in ev_lines["away"]]
+    n_ev = len(kinds)                    # one row per kind, lined up across both teams
+    dy = 30 + EVENT_ROW * n_ev if n_ev else 0
+    H = 1180 + dy + (100 + 60 * len(changes) if changes else 0)
     img = Image.new("RGB", (W, H), SURFACE)
     p = Painter(img, rtl=(lang == "ar"))
     p.rect((40, 40, W - 40, H - 40), CARD, r=36)
@@ -163,30 +221,41 @@ def review_card(r, lang: str, record=None, handle: str = "", changes: list | Non
     else:
         p.text(W / 2, 380, shots, 26, fill=INK2, align="center")
 
+    # Scorers, assists and cards, in a column under each team's name.
+    if n_ev:
+        col_w = (W - 180 - 40) / 2
+        left_side, right_side = ("home", "away") if not p.rtl else ("away", "home")
+        for side, x0 in ((left_side, 90), (right_side, 90 + col_w + 40)):
+            x = x0 if not p.rtl else x0 + col_w
+            for i, kind in enumerate(kinds):
+                if kind in ev_lines[side]:
+                    pieces, size = _fit_line(p, ev_lines[side][kind], col_w)
+                    _pieces(p, x, 440 + i * EVENT_ROW, pieces, size)
+
     # Forecast vs result.
     probs = [r.p_home, r.p_draw, r.p_away]
     called = "HDA"[int(np.argmax(probs))] == r.result
-    p.text(start, 480, t3["forecast"], 26, bold=True, align="start")
-    p.text(end, 480, t3["right"] if called else t3["wrong"], 26, bold=True,
+    p.text(start, 480 + dy, t3["forecast"], 26, bold=True, align="start")
+    p.text(end, 480 + dy, t3["right"] if called else t3["wrong"], 26, bold=True,
            fill=RIGHT if called else WRONG, align="end")
     labels = [t["win"].format(home), t["draw"], t["win"].format(away)]
     labels = [lb if p.width(lb, 24) < 300 else (t["draw"] if i == 1 else lb.split(" ")[0])
               for i, lb in enumerate(labels)]
-    outcome_bar(p, 90, 510, W - 180, 90, probs, labels, size=30)
+    outcome_bar(p, 90, 510 + dy, W - 180, 90, probs, labels, size=30)
 
     # Deserved result.
-    p.text(start, 740, t3["deserved"], 26, bold=True, align="start")
-    outcome_bar(p, 90, 770, W - 180, 90, [r.d_home, r.d_draw, r.d_away], None, size=30)
+    p.text(start, 740 + dy, t3["deserved"], 26, bold=True, align="start")
+    outcome_bar(p, 90, 770 + dy, W - 180, 90, [r.d_home, r.d_draw, r.d_away], None, size=30)
     lx, rx = (r.sxg_home, r.sxg_away) if not p.rtl else (r.sxg_away, r.sxg_home)
     xg = f"{lx:.1f} – {rx:.1f}"
     if p.rtl:
-        _pieces(p, start, 910, [(t3["xg"].format("").rstrip(": ") + ":", INK2, False),
+        _pieces(p, start, 910 + dy, [(t3["xg"].format("").rstrip(": ") + ":", INK2, False),
                                 (xg, INK, True)], 24)
     else:
-        p.text(start, 910, t3["xg"].format(xg), 24, fill=INK2, align="start")
-    p.text(start, 950, t2["basis"], 20, fill=MUTED, align="start")
+        p.text(start, 910 + dy, t3["xg"].format(xg), 24, fill=INK2, align="start")
+    p.text(start, 950 + dy, t2["basis"], 20, fill=MUTED, align="start")
 
-    y = 1000
+    y = 1000 + dy
     if changes:
         p.d.line((70, y, W - 70, y), fill=RULE, width=2)
         p.text(start, y + 50, t3["season"], 26, bold=True, align="start")
@@ -224,6 +293,8 @@ def make_reviews(matches: pd.DataFrame, forecasts: pd.DataFrame, now: pd.Timesta
     if rows.empty:
         return made, missing
     rows = pick(rows, matches, k)
+    from fa.data import match_events
+    events = match_events.load()
     cache = {}
     for _, r in rows.iterrows():
         changes = []
@@ -234,8 +305,10 @@ def make_reviews(matches: pd.DataFrame, forecasts: pd.DataFrame, now: pd.Timesta
                     c = biggest_change(team, *sims)
                     if c:
                         changes.append((team, *c))
-        for lang in ("en", "ar"):
-            img, miss = review_card(r, lang, record, handle[lang], changes)
+        ev = match_events.for_match(events, r.league, r.home_team, r.away_team, r.result_date,
+                                    r.home_goals, r.away_goals)
+        for lang in CARD_LANGUAGES:
+            img, miss = review_card(r, lang, record, handle[lang], changes, ev)
             path = out / f"review_{r.match_id}_{lang}.png"
             img.save(path)
             made.append(path)

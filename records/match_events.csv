@@ -1,0 +1,721 @@
+league,date,home_team,away_team,home_goals,away_goals,side,kind,player,count
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,goal,Saka,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,goal,Ødegaard,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,goal,Havertz,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,assist,Calafiori,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,assist,White,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,assist,Tzolis,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,home,yellow,Gabriel,1
+EPL,2026-08-21,Arsenal,Coventry,3,0,away,yellow,Yirenkyi,1
+EPL,2026-08-22,Hull,Man United,2,0,home,goal,Ajayi,1
+EPL,2026-08-22,Hull,Man United,2,0,home,goal,Mendy,1
+EPL,2026-08-22,Hull,Man United,2,0,home,assist,Slater,1
+EPL,2026-08-22,Hull,Man United,2,0,home,assist,McBurnie,1
+EPL,2026-08-22,Hull,Man United,2,0,home,yellow,Millar,1
+EPL,2026-08-22,Hull,Man United,2,0,home,yellow,Crooks,1
+EPL,2026-08-22,Hull,Man United,2,0,away,yellow,Dorgu,1
+EPL,2026-08-22,Everton,Crystal Palace,2,0,home,goal,Dewsbury-Hall,1
+EPL,2026-08-22,Everton,Crystal Palace,2,0,home,goal,Barry,1
+EPL,2026-08-22,Everton,Crystal Palace,2,0,home,assist,Ndiaye,1
+EPL,2026-08-22,Everton,Crystal Palace,2,0,home,assist,Armstrong,1
+EPL,2026-08-22,Everton,Crystal Palace,2,0,away,yellow,Kamada,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,home,goal,Clarke,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,home,goal,Emersonn,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,away,goal,N.Angulo,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,home,assist,Lukić,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,home,assist,Enciso,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,away,assist,Xhaka,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,away,yellow,Ballard,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,away,yellow,O'Nien,1
+EPL,2026-08-22,Ipswich,Sunderland,2,1,away,yellow,N.Angulo,1
+EPL,2026-08-22,Nott'm Forest,Leeds,0,1,away,goal,Stach,1
+EPL,2026-08-22,Nott'm Forest,Leeds,0,1,home,yellow,Aina,1
+EPL,2026-08-22,Nott'm Forest,Leeds,0,1,home,yellow,Jair Cunha,1
+EPL,2026-08-22,Nott'm Forest,Leeds,0,1,away,yellow,Calvert-Lewin,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,goal,Lewis-Potter,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,goal,Kayode,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,goal,Janelt,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,assist,M.Sangaré,2
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,assist,Jensen,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,home,yellow,Janelt,1
+EPL,2026-08-22,Brentford,Tottenham,3,0,away,yellow,Gallagher,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,goal,Hinshelwood,2
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,goal,De Cuyper,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,assist,De Cuyper,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,assist,Georginio,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,assist,Gomez,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,own_goal,Lindelöf,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,yellow,Groß,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,home,yellow,Ayari,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,away,yellow,Cash,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,away,yellow,McGinn,1
+EPL,2026-08-23,Brighton,Aston Villa,4,0,away,red,Gomes,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,home,goal,Guéhi,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,home,goal,Gvardiol,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,away,goal,Tavernier,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,home,assist,Cherki,2
+EPL,2026-08-23,Man City,Bournemouth,2,1,away,assist,Evanilson,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,home,yellow,Foden,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,away,yellow,Evanilson,1
+EPL,2026-08-23,Man City,Bournemouth,2,1,away,yellow,Silva,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,goal,Elanga,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,goal,Willock,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,goal,Gakpo,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,goal,Szoboszlai,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,assist,Wissa,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,assist,Osula,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,assist,Gravenberch,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,assist,Munoz,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,yellow,J.Ramsey,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,yellow,J.Murphy,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,yellow,L.Miley,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,yellow,Wissa,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,home,yellow,Horníček,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,yellow,Virgil,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,yellow,Frimpong,1
+EPL,2026-08-23,Newcastle,Liverpool,2,2,away,yellow,Kerkez,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,home,goal,King,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,home,goal,Gonzalo,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,goal,Rogers,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,goal,Palmer,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,goal,João Pedro,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,home,assist,Castagne,2
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,assist,Palmer,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,assist,João Pedro,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,assist,Lacroix,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,home,yellow,Bassey,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,home,yellow,Castagne,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,yellow,James,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,yellow,Colwill,1
+EPL,2026-08-24,Fulham,Chelsea,2,3,away,yellow,Lavia,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,goal,Cherki,2
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,goal,Haaland,2
+EPL,2026-08-28,Crystal Palace,Man City,1,4,home,assist,Yeremy,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,assist,Foden,2
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,assist,Gvardiol,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,assist,Semenyo,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,home,own_goal,Donnarumma,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,home,yellow,Khalaili,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,yellow,Cherki,1
+EPL,2026-08-28,Crystal Palace,Man City,1,4,away,yellow,Anderson,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,goal,Munoz,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,goal,Isak,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,goal,Gibbs-White,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,goal,Ndoye,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,assist,Wirtz,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,assist,Gakpo,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,assist,N.Williams,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,assist,Gibbs-White,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,yellow,A.Becker,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,yellow,Wirtz,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,yellow,Munoz,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,home,yellow,Araujo,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,yellow,Aina,1
+EPL,2026-08-29,Liverpool,Nott'm Forest,2,2,away,yellow,Igor Jesus,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,home,goal,Scott,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,away,goal,Tarkowski,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,home,assist,Evanilson,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,home,yellow,Smith,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,home,yellow,Tavernier,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,home,yellow,Scott,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,away,yellow,Garner,1
+EPL,2026-08-29,Bournemouth,Everton,1,1,away,yellow,Alcaraz,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,goal,Millar,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,assist,Belloumi,1
+EPL,2026-08-29,Coventry,Hull,0,1,home,yellow,Amenda,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,yellow,Coyle,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,yellow,Slater,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,yellow,McBurnie,1
+EPL,2026-08-29,Coventry,Hull,0,1,away,yellow,Stroud,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,goal,Elanga,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,goal,Wissa,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,assist,Woltemade,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,assist,Dedić,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,home,yellow,Van de Ven,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,yellow,N.Gonzalez,1
+EPL,2026-08-29,Tottenham,Newcastle,0,2,away,yellow,Botman,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,goal,Palmer,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,goal,Neto,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,goal,Lavia,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,goal,João Pedro,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,goal,Groß,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,goal,Yalcouyé,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,assist,Rogers,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,assist,Hato,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,assist,João Pedro,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,assist,Groß,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,assist,Gomez,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,assist,Kostoulas,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,own_goal,João Pedro,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,home,yellow,Fofana,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,yellow,Boscagli,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,yellow,Dunk,1
+EPL,2026-08-30,Chelsea,Brighton,4,3,away,yellow,Costinha,1
+EPL,2026-08-30,Leeds,Brentford,1,1,home,goal,Calvert-Lewin,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,goal,Schade,1
+EPL,2026-08-30,Leeds,Brentford,1,1,home,assist,Nmecha,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,assist,Lewis-Potter,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,yellow,Collins,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,yellow,Ajer,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,yellow,Janelt,1
+EPL,2026-08-30,Leeds,Brentford,1,1,away,yellow,Anthony,1
+EPL,2026-08-30,Sunderland,Fulham,1,0,home,goal,Isidor,1
+EPL,2026-08-30,Sunderland,Fulham,1,0,home,assist,Diarra,1
+EPL,2026-08-30,Sunderland,Fulham,1,0,away,yellow,Andersen,1
+EPL,2026-08-30,Sunderland,Fulham,1,0,away,yellow,Palacios,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,goal,B.Fernandes,3
+EPL,2026-08-30,Man United,Ipswich,5,2,home,goal,Mbeumo,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,goal,Davis,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,goal,Akpom,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,assist,Cunha,2
+EPL,2026-08-30,Man United,Ipswich,5,2,home,assist,Maguire,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,assist,B.Fernandes,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,assist,Mbeumo,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,assist,Fatawu,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,assist,Enciso,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,own_goal,Greaves,1
+EPL,2026-08-30,Man United,Ipswich,5,2,home,yellow,Mbeumo,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,yellow,Lukić,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,yellow,Greaves,1
+EPL,2026-08-30,Man United,Ipswich,5,2,away,yellow,Fatawu,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,away,goal,Saka,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,away,assist,Calafiori,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,home,yellow,Maatsen,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,home,yellow,McGinn,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,home,yellow,Alysson,1
+EPL,2026-08-31,Aston Villa,Arsenal,0,1,away,yellow,Tzolis,1
+EPL,2026-09-04,Ipswich,Liverpool,0,2,away,goal,Isak,2
+EPL,2026-09-04,Ipswich,Liverpool,0,2,away,assist,Gakpo,2
+EPL,2026-09-04,Ipswich,Liverpool,0,2,home,yellow,Enciso,1
+EPL,2026-09-04,Ipswich,Liverpool,0,2,away,yellow,Kerkez,1
+EPL,2026-09-04,Ipswich,Liverpool,0,2,away,yellow,Jacquet,1
+EPL,2026-09-04,Ipswich,Liverpool,0,2,away,yellow,Mac Allister,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,goal,Barnes,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,goal,J.Ramsey,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,goal,Tavernier,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,assist,Hall,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,assist,Barnes,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,assist,Scott,2
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,own_goal,Thiaw,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,yellow,Elanga,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,home,yellow,Wissa,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,yellow,Truffert,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,yellow,Smith,1
+EPL,2026-09-05,Newcastle,Bournemouth,2,2,away,yellow,Kluivert,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,home,goal,Janelt,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,away,goal,E.Le Fée,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,home,assist,Damsgaard,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,away,assist,Isidor,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,home,yellow,Janelt,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,home,yellow,Yarmoliuk,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,home,yellow,M.Sangaré,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,away,yellow,Xhaka,1
+EPL,2026-09-05,Brentford,Sunderland,1,1,away,yellow,Sadiki,1
+EPL,2026-09-05,Brighton,Leeds,1,1,home,goal,Vuskovic,1
+EPL,2026-09-05,Brighton,Leeds,1,1,away,goal,Bogle,1
+EPL,2026-09-05,Brighton,Leeds,1,1,home,assist,De Cuyper,1
+EPL,2026-09-05,Brighton,Leeds,1,1,away,assist,Tanaka,1
+EPL,2026-09-05,Brighton,Leeds,1,1,home,yellow,De Cuyper,1
+EPL,2026-09-05,Brighton,Leeds,1,1,home,yellow,Groß,1
+EPL,2026-09-05,Brighton,Leeds,1,1,home,yellow,David,1
+EPL,2026-09-05,Brighton,Leeds,1,1,away,yellow,Wilson,1
+EPL,2026-09-05,Brighton,Leeds,1,1,away,yellow,Bogle,1
+EPL,2026-09-05,Brighton,Leeds,1,1,away,yellow,Calvert-Lewin,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,home,goal,King,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,home,goal,Palacios,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,away,goal,Mitchell,2
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,away,goal,Chilwell,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,away,assist,Yeremy,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,away,assist,Kamada,1
+EPL,2026-09-05,Fulham,Crystal Palace,2,3,away,assist,Nketiah,1
+EPL,2026-09-05,Man City,Coventry,1,0,home,goal,Haaland,1
+EPL,2026-09-05,Man City,Coventry,1,0,home,assist,Semenyo,1
+EPL,2026-09-05,Man City,Coventry,1,0,home,yellow,Khusanov,1
+EPL,2026-09-05,Man City,Coventry,1,0,away,yellow,Pinnock,1
+EPL,2026-09-05,Man City,Coventry,1,0,away,yellow,van Ewijk,1
+EPL,2026-09-05,Nott'm Forest,Tottenham,0,0,home,yellow,Milenković,1
+EPL,2026-09-05,Nott'm Forest,Tottenham,0,0,home,yellow,McAtee,1
+EPL,2026-09-05,Nott'm Forest,Tottenham,0,0,away,yellow,Udogie,1
+EPL,2026-09-05,Nott'm Forest,Tottenham,0,0,away,yellow,Fernandes,1
+EPL,2026-09-05,Hull,Aston Villa,0,0,home,yellow,Ajayi,1
+EPL,2026-09-05,Hull,Aston Villa,0,0,home,yellow,Gourna-Douath,1
+EPL,2026-09-06,Everton,Man United,2,2,home,goal,George,1
+EPL,2026-09-06,Everton,Man United,2,2,home,goal,Maitland-Niles,1
+EPL,2026-09-06,Everton,Man United,2,2,away,goal,Mbeumo,1
+EPL,2026-09-06,Everton,Man United,2,2,away,goal,Šeško,1
+EPL,2026-09-06,Everton,Man United,2,2,home,assist,Hackney,1
+EPL,2026-09-06,Everton,Man United,2,2,away,assist,Shaw,1
+EPL,2026-09-06,Everton,Man United,2,2,away,assist,Mainoo,1
+EPL,2026-09-06,Everton,Man United,2,2,home,yellow,Johnson,1
+EPL,2026-09-06,Everton,Man United,2,2,home,yellow,Armstrong,1
+EPL,2026-09-06,Everton,Man United,2,2,home,yellow,Röhl,1
+EPL,2026-09-06,Everton,Man United,2,2,away,yellow,Dalot,1
+EPL,2026-09-06,Everton,Man United,2,2,away,yellow,Maguire,1
+EPL,2026-09-06,Everton,Man United,2,2,away,yellow,Shaw,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,goal,Ødegaard,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,goal,Havertz,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,goal,Rogers,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,assist,Rice,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,assist,Tzolis,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,assist,Hato,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,yellow,Merino,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,home,yellow,Tzolis,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,yellow,Rogers,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,yellow,Palmer,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,yellow,João Pedro,1
+EPL,2026-09-06,Arsenal,Chelsea,2,1,away,yellow,Lacroix,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,home,goal,Alysson,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,goal,Delap,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,goal,Igor Jesus,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,home,assist,McGinn,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,assist,Murillo,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,assist,Gibbs-White,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,home,yellow,Mings,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,home,yellow,N.Jackson,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,yellow,Delap,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,yellow,Murillo,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,yellow,Ndoye,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,yellow,McAtee,1
+EPL,2026-09-12,Aston Villa,Nott'm Forest,1,2,away,yellow,Schlager,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,goal,Tavernier,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,goal,Kluivert,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,away,goal,Schade,2
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,assist,Evanilson,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,away,assist,Yarmoliuk,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,yellow,Hill,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,yellow,Smith,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,yellow,Tavernier,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,yellow,Cook,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,home,yellow,Brooks,1
+EPL,2026-09-12,Bournemouth,Brentford,2,2,away,yellow,Thiago,1
+EPL,2026-09-12,Chelsea,Hull,2,2,home,goal,Rogers,1
+EPL,2026-09-12,Chelsea,Hull,2,2,home,goal,João Pedro,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,goal,Belloumi,2
+EPL,2026-09-12,Chelsea,Hull,2,2,home,assist,Palmer,1
+EPL,2026-09-12,Chelsea,Hull,2,2,home,assist,João Pedro,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,assist,Giles,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,assist,McBurnie,1
+EPL,2026-09-12,Chelsea,Hull,2,2,home,yellow,Barco,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,yellow,Iroegbunam,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,yellow,Egan,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,yellow,Crooks,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,yellow,McBurnie,1
+EPL,2026-09-12,Chelsea,Hull,2,2,away,yellow,Norton-Cuffy,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,home,goal,Strand Larsen,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,home,goal,Khalaili,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,goal,Davis,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,goal,Emersonn,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,goal,Flemming,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,home,assist,Kamada,2
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,assist,Davis,2
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,assist,Emersonn,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,home,yellow,Richards,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,yellow,Lukić,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,yellow,Clarke,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,away,yellow,Fatawu,1
+EPL,2026-09-12,Crystal Palace,Ipswich,2,3,home,red,Disasi,1
+EPL,2026-09-12,Liverpool,Fulham,0,0,away,yellow,Tete,1
+EPL,2026-09-12,Tottenham,Everton,0,0,away,yellow,Dewsbury-Hall,1
+EPL,2026-09-12,Tottenham,Everton,0,0,away,yellow,Garner,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,away,goal,Saka,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,away,goal,Bruno G.,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,away,assist,Rice,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,home,yellow,Ballard,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,home,yellow,Mukiele,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,home,yellow,Xhaka,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,home,yellow,Brobbey,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,away,yellow,Gabriel,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,away,yellow,Havertz,1
+EPL,2026-09-12,Sunderland,Arsenal,0,2,home,red,Reinildo,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,goal,Dunk,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,goal,Groß,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,goal,Ayari,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,goal,Kostoulas,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,goal,Yalcouyé,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,assist,Groß,2
+EPL,2026-09-13,Coventry,Brighton,0,5,away,assist,De Cuyper,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,assist,Kostoulas,1
+EPL,2026-09-13,Coventry,Brighton,0,5,away,assist,Andrés,1
+EPL,2026-09-13,Coventry,Brighton,0,5,home,red,Awoniyi,1
+EPL,2026-09-13,Man United,Man City,0,1,away,goal,Haaland,1
+EPL,2026-09-13,Man United,Man City,0,1,away,assist,Gvardiol,1
+EPL,2026-09-13,Man United,Man City,0,1,home,yellow,Maguire,1
+EPL,2026-09-13,Man United,Man City,0,1,away,yellow,Enzo,1
+EPL,2026-09-13,Man United,Man City,0,1,away,yellow,Gvardiol,1
+EPL,2026-09-13,Man United,Man City,0,1,away,red,Foden,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,goal,Bogle,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,goal,Okafor,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,goal,Calvert-Lewin,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,away,goal,Touré,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,assist,Muharemović,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,assist,Ampadu,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,assist,Tanaka,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,assist,Calvert-Lewin,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,away,assist,Livramento,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,own_goal,L.Miley,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,home,yellow,Calvert-Lewin,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,away,yellow,Livramento,1
+EPL,2026-09-14,Leeds,Newcastle,4,1,away,yellow,J.Murphy,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,goal,Carvalho,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,goal,Anthony,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,goal,Thiago,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,assist,Schade,2
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,assist,Schuster,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,yellow,Thiago,1
+EPL,2026-09-18,Brentford,Chelsea,3,0,home,yellow,M.Sangaré,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,home,goal,Van Hecke,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,home,goal,Gallagher,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,goal,Buendía,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,goal,Manzambi,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,goal,N.Jackson,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,home,assist,Robertson,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,home,assist,Kudus,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,assist,McGinn,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,assist,Kamara,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,assist,Manzambi,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,home,yellow,Van Hecke,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,yellow,Cash,1
+EPL,2026-09-19,Tottenham,Aston Villa,2,3,away,yellow,N.Jackson,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,goal,Groß,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,goal,Kostoulas,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,goal,Andrés,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,assist,Groß,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,assist,Gomez,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,assist,Kostoulas,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,yellow,F.Kadıoğlu,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,yellow,De Cuyper,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,yellow,Kostoulas,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,home,yellow,Struijk,1
+EPL,2026-09-19,Brighton,Arsenal,3,0,away,yellow,Rice,1
+EPL,2026-09-19,Everton,Ipswich,1,0,home,goal,Barry,1
+EPL,2026-09-19,Everton,Ipswich,1,0,home,assist,Tarkowski,1
+EPL,2026-09-19,Everton,Ipswich,1,0,home,yellow,Mykolenko,1
+EPL,2026-09-19,Everton,Ipswich,1,0,home,yellow,Armstrong,1
+EPL,2026-09-19,Everton,Ipswich,1,0,away,yellow,Flemming,1
+EPL,2026-09-19,Everton,Ipswich,1,0,away,red,Fatawu,1
+EPL,2026-09-19,Newcastle,Hull,2,1,home,goal,Hall,1
+EPL,2026-09-19,Newcastle,Hull,2,1,home,goal,Willock,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,goal,Cho,1
+EPL,2026-09-19,Newcastle,Hull,2,1,home,assist,Barnes,2
+EPL,2026-09-19,Newcastle,Hull,2,1,away,assist,Belloumi,1
+EPL,2026-09-19,Newcastle,Hull,2,1,home,yellow,J.Murphy,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,yellow,Giles,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,yellow,Belloumi,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,yellow,Crooks,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,yellow,McBurnie,1
+EPL,2026-09-19,Newcastle,Hull,2,1,away,yellow,Tzolakis,1
+EPL,2026-09-19,Nott'm Forest,Coventry,0,1,away,goal,Dasilva,1
+EPL,2026-09-19,Nott'm Forest,Coventry,0,1,away,assist,Rushworth,1
+EPL,2026-09-19,Nott'm Forest,Coventry,0,1,home,yellow,Delap,1
+EPL,2026-09-19,Nott'm Forest,Coventry,0,1,home,yellow,Jair Cunha,1
+EPL,2026-09-20,Bournemouth,Liverpool,0,1,away,goal,Isak,1
+EPL,2026-09-20,Bournemouth,Liverpool,0,1,away,assist,Wirtz,1
+EPL,2026-09-20,Bournemouth,Liverpool,0,1,home,yellow,Silva,1
+EPL,2026-09-20,Bournemouth,Liverpool,0,1,away,yellow,Szoboszlai,1
+EPL,2026-09-20,Bournemouth,Liverpool,0,1,away,yellow,Isak,1
+EPL,2026-09-20,Leeds,Crystal Palace,0,0,home,yellow,Bogle,1
+EPL,2026-09-20,Leeds,Crystal Palace,0,0,home,yellow,Tanaka,1
+EPL,2026-09-20,Leeds,Crystal Palace,0,0,away,yellow,Wharton,1
+EPL,2026-09-20,Leeds,Crystal Palace,0,0,away,yellow,Yeremy,1
+EPL,2026-09-20,Leeds,Crystal Palace,0,0,away,yellow,Lerma,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,goal,Semenyo,2
+EPL,2026-09-20,Man City,Sunderland,5,3,home,goal,Enzo,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,goal,Cherki,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,goal,Haaland,1
+EPL,2026-09-20,Man City,Sunderland,5,3,away,goal,Brobbey,3
+EPL,2026-09-20,Man City,Sunderland,5,3,home,assist,Ndiaye,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,assist,Guéhi,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,assist,Gvardiol,1
+EPL,2026-09-20,Man City,Sunderland,5,3,home,assist,Semenyo,1
+EPL,2026-09-20,Man City,Sunderland,5,3,away,assist,Meunier,1
+EPL,2026-09-20,Man City,Sunderland,5,3,away,assist,E.Le Fée,1
+EPL,2026-09-20,Man City,Sunderland,5,3,away,assist,N.Angulo,1
+EPL,2026-09-20,Man City,Sunderland,5,3,away,yellow,Methalie,1
+EPL,2026-09-20,Fulham,Man United,1,1,away,goal,Cunha,1
+EPL,2026-09-20,Fulham,Man United,1,1,home,assist,Bassey,1
+EPL,2026-09-20,Fulham,Man United,1,1,away,assist,Dorgu,1
+EPL,2026-09-20,Fulham,Man United,1,1,home,own_goal,Martinez,1
+EPL,2026-09-20,Fulham,Man United,1,1,home,yellow,Castagne,1
+EPL,2026-09-20,Fulham,Man United,1,1,home,yellow,King,1
+EPL,2026-09-20,Fulham,Man United,1,1,home,yellow,Muniz,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,home,goal,Calafiori,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,home,goal,Bruno G.,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,goal,Justin,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,home,assist,White,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,home,assist,Rice,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,assist,Gudmundsson,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,home,yellow,Ødegaard,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,yellow,Justin,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,yellow,Muharemović,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,yellow,Ampadu,1
+EPL,2026-10-10,Arsenal,Leeds,2,1,away,yellow,Tanaka,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,goal,McGinn,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,goal,N.Jackson,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,goal,Ajer,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,goal,Yarmoliuk,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,assist,Buendía,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,assist,Manzambi,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,assist,Anthony,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,assist,Thiago,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,yellow,Cash,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,home,yellow,Buendía,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,yellow,Ajer,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,yellow,Kayode,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,yellow,Janelt,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,yellow,Thiago,1
+EPL,2026-10-10,Aston Villa,Brentford,2,2,away,yellow,Wilson,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,goal,Henderson,2
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,goal,João Pedro,2
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,goal,Rogers,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,away,goal,Evanilson,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,assist,Palmer,2
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,assist,Henderson,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,assist,Neto,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,home,assist,Chavarria,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,away,yellow,Truffert,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,away,yellow,Tavernier,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,away,yellow,Adams,1
+EPL,2026-10-10,Chelsea,Bournemouth,5,1,away,yellow,Christie,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,home,goal,O'Shea,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,home,goal,Ouattara,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,away,goal,Sessegnon,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,home,assist,Clarke,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,home,yellow,Walton,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,home,yellow,Davis,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,away,yellow,Bassey,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,away,yellow,Smith Rowe,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,away,yellow,King,1
+EPL,2026-10-10,Ipswich,Fulham,2,1,away,yellow,Ángel,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,goal,De Cuyper,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,goal,Hadjam,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,assist,Groß,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,assist,Georginio,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,yellow,Boscagli,1
+EPL,2026-10-10,Sunderland,Brighton,0,2,away,red,Struijk,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,goal,Mbeumo,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,goal,Solanke,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,assist,Cunha,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,assist,Tonali,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,yellow,Dalot,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,yellow,Martinez,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,yellow,Shaw,1
+EPL,2026-10-10,Man United,Tottenham,1,1,home,yellow,B.Fernandes,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,yellow,Van Hecke,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,yellow,Gallagher,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,yellow,Gray,1
+EPL,2026-10-10,Man United,Tottenham,1,1,away,red,Bentancur,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,goal,Yeremy,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,goal,Lerma,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,goal,Kamada,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,away,goal,Ndoye,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,assist,Wharton,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,assist,Strand Larsen,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,assist,Timber,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,yellow,Yeremy,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,home,yellow,Lerma,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,away,yellow,Murillo,1
+EPL,2026-10-11,Crystal Palace,Nott'm Forest,3,1,away,yellow,Aina,1
+EPL,2026-10-11,Hull,Everton,2,2,home,goal,Belloumi,1
+EPL,2026-10-11,Hull,Everton,2,2,home,goal,Gelhardt,1
+EPL,2026-10-11,Hull,Everton,2,2,away,goal,Dewsbury-Hall,1
+EPL,2026-10-11,Hull,Everton,2,2,away,goal,Barry,1
+EPL,2026-10-11,Hull,Everton,2,2,home,assist,Stroud,1
+EPL,2026-10-11,Hull,Everton,2,2,home,assist,Thomas,1
+EPL,2026-10-11,Hull,Everton,2,2,away,assist,Dewsbury-Hall,1
+EPL,2026-10-11,Hull,Everton,2,2,away,assist,Maitland-Niles,1
+EPL,2026-10-11,Hull,Everton,2,2,home,yellow,Crooks,1
+EPL,2026-10-11,Hull,Everton,2,2,home,yellow,McBurnie,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,goal,Cherki,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,goal,Doku,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,goal,Haaland,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,assist,Gvardiol,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,assist,Doku,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,assist,Anderson,1
+EPL,2026-10-11,Liverpool,Man City,0,3,home,yellow,Virgil,1
+EPL,2026-10-11,Liverpool,Man City,0,3,home,yellow,Araujo,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,yellow,O'Reilly,1
+EPL,2026-10-11,Liverpool,Man City,0,3,away,yellow,Bouaddi,1
+EPL,2026-10-11,Liverpool,Man City,0,3,home,red,Gravenberch,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,goal,Rudoni,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,goal,Simms,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,goal,Cherif,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,goal,Mfuni,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,away,goal,Botman,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,assist,van Ewijk,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,assist,Dasilva,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,assist,Thomas-Asante,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,assist,Cherif,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,away,assist,N.Gonzalez,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,home,yellow,van Ewijk,1
+EPL,2026-10-12,Coventry,Newcastle,4,1,away,yellow,Joelinton,1
+EPL,2026-10-17,Everton,Chelsea,0,2,away,goal,Neto,2
+EPL,2026-10-17,Everton,Chelsea,0,2,away,assist,Hato,1
+EPL,2026-10-17,Everton,Chelsea,0,2,home,yellow,Nørgaard,1
+EPL,2026-10-17,Everton,Chelsea,0,2,home,yellow,Tarkowski,1
+EPL,2026-10-17,Everton,Chelsea,0,2,home,yellow,Armstrong,1
+EPL,2026-10-17,Everton,Chelsea,0,2,away,yellow,Rogers,1
+EPL,2026-10-17,Everton,Chelsea,0,2,away,yellow,Acheampong,1
+EPL,2026-10-17,Everton,Chelsea,0,2,away,yellow,Palmer,1
+EPL,2026-10-17,Everton,Chelsea,0,2,away,yellow,Neto,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,goal,Lewis-Potter,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,goal,Munoz,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,goal,Isak,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,assist,Thiago,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,assist,Wirtz,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,assist,Barcola,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,yellow,Schade,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,yellow,Thiago,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,yellow,Jacquet,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,yellow,Mac Allister,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,away,yellow,Barcola,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,red,Janelt,1
+EPL,2026-10-17,Brentford,Liverpool,1,2,home,red,Yarmoliuk,1
+EPL,2026-10-17,Fulham,Hull,1,0,home,goal,Iwobi,1
+EPL,2026-10-17,Fulham,Hull,1,0,home,assist,Berge,1
+EPL,2026-10-17,Fulham,Hull,1,0,home,yellow,Berge,1
+EPL,2026-10-17,Fulham,Hull,1,0,home,yellow,King,1
+EPL,2026-10-17,Fulham,Hull,1,0,away,yellow,Slater,1
+EPL,2026-10-17,Fulham,Hull,1,0,away,yellow,Herrington,1
+EPL,2026-10-17,Fulham,Hull,1,0,home,red,Sessegnon,1
+EPL,2026-10-17,Man City,Ipswich,3,2,home,goal,Haaland,2
+EPL,2026-10-17,Man City,Ipswich,3,2,home,goal,Foden,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,goal,Maeda,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,goal,Flemming,1
+EPL,2026-10-17,Man City,Ipswich,3,2,home,assist,Ndiaye,1
+EPL,2026-10-17,Man City,Ipswich,3,2,home,assist,Doku,1
+EPL,2026-10-17,Man City,Ipswich,3,2,home,assist,Kovačić,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,assist,Fatawu,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,assist,Ouattara,1
+EPL,2026-10-17,Man City,Ipswich,3,2,home,yellow,Gvardiol,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,yellow,Davis,1
+EPL,2026-10-17,Man City,Ipswich,3,2,away,yellow,Ouattara,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,away,goal,Manzambi,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,away,assist,Gomes,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,N.Gonzalez,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,Thiaw,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,Botman,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,Joelinton,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,Wissa,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,home,yellow,Osula,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,away,yellow,Alysson,1
+EPL,2026-10-17,Newcastle,Aston Villa,0,1,away,yellow,Gomes,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,goal,Tavernier,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,goal,Evanilson,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,assist,Evanilson,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,yellow,Cook,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,yellow,Christie,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,home,yellow,Silva,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,away,yellow,Alderete,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,away,yellow,Rigg,1
+EPL,2026-10-18,Bournemouth,Sunderland,2,0,away,red,Danso,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,goal,Hinshelwood,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,goal,Gomez,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,goal,Ayari,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,goal,Kostoulas,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,assist,Boscagli,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,assist,Groß,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,assist,Ayari,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,assist,Kostoulas,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,assist,Vuskovic,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,own_goal,Canvot,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,yellow,Groß,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,home,yellow,Andrés,1
+EPL,2026-10-18,Brighton,Crystal Palace,5,0,away,yellow,Kamada,1
+EPL,2026-10-18,Leeds,Man United,1,1,home,goal,Calvert-Lewin,1
+EPL,2026-10-18,Leeds,Man United,1,1,away,goal,Mbeumo,1
+EPL,2026-10-18,Leeds,Man United,1,1,home,assist,Muharemović,1
+EPL,2026-10-18,Leeds,Man United,1,1,away,assist,Tielemans,1
+EPL,2026-10-18,Leeds,Man United,1,1,home,yellow,Gudmundsson,1
+EPL,2026-10-18,Leeds,Man United,1,1,home,yellow,Ampadu,1
+EPL,2026-10-18,Leeds,Man United,1,1,away,yellow,Andrey Santos,1
+EPL,2026-10-18,Leeds,Man United,1,1,away,yellow,B.Fernandes,1
+EPL,2026-10-18,Nott'm Forest,Arsenal,0,1,away,goal,Madueke,1
+EPL,2026-10-18,Nott'm Forest,Arsenal,0,1,away,assist,Rice,1
+EPL,2026-10-18,Nott'm Forest,Arsenal,0,1,home,yellow,N.Williams,1
+EPL,2026-10-18,Nott'm Forest,Arsenal,0,1,away,yellow,Madueke,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,goal,Marmoush,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,goal,Davies,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,goal,Maddison,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,away,goal,Rudoni,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,assist,Robertson,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,assist,Kudus,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,assist,Solanke,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,away,assist,Thomas-Asante,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,home,yellow,Solanke,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,away,yellow,Dasilva,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,away,yellow,Rudoni,1
+EPL,2026-10-19,Tottenham,Coventry,3,1,away,yellow,Yirenkyi,1
+EPL,2026-10-23,Ipswich,Nott'm Forest,1,1,home,goal,Enciso,1
+EPL,2026-10-23,Ipswich,Nott'm Forest,1,1,away,goal,N.Williams,1
+EPL,2026-10-23,Ipswich,Nott'm Forest,1,1,away,assist,Muñoz,1
+EPL,2026-10-23,Ipswich,Nott'm Forest,1,1,home,yellow,Diop,1
+EPL,2026-10-23,Ipswich,Nott'm Forest,1,1,away,yellow,Murillo,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,goal,N.Jackson,2
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,goal,Haaland,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,assist,McGinn,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,assist,Mbaye,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,assist,Ndiaye,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,yellow,Cash,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,yellow,Buendía,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,yellow,Manzambi,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,home,yellow,Madjo,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,yellow,Guéhi,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,yellow,Cherki,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,yellow,Anderson,1
+EPL,2026-10-24,Aston Villa,Man City,2,1,away,yellow,McAidoo,1
+EPL,2026-10-24,Arsenal,Everton,2,0,home,goal,Gabriel,1
+EPL,2026-10-24,Arsenal,Everton,2,0,home,goal,Konsa,1
+EPL,2026-10-24,Arsenal,Everton,2,0,home,assist,White,1
+EPL,2026-10-24,Arsenal,Everton,2,0,home,assist,Gyökeres,1
+EPL,2026-10-24,Arsenal,Everton,2,0,home,yellow,Lewis-Skelly,1
+EPL,2026-10-24,Arsenal,Everton,2,0,away,yellow,Tarkowski,1
+EPL,2026-10-24,Arsenal,Everton,2,0,away,yellow,Mykolenko,1
+EPL,2026-10-24,Arsenal,Everton,2,0,away,yellow,Garner,1
+EPL,2026-10-24,Coventry,Fulham,0,1,away,goal,Bobb,1
+EPL,2026-10-24,Coventry,Fulham,0,1,away,assist,King,1
+EPL,2026-10-24,Coventry,Fulham,0,1,away,yellow,Robinson,1
+EPL,2026-10-24,Coventry,Fulham,0,1,away,yellow,Charles,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,goal,Tel,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,assist,Fernandes,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,own_goal,Penders,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,home,yellow,Rogers,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,home,yellow,Neto,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,yellow,Van de Ven,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,yellow,Gallagher,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,away,yellow,Fernandes,1
+EPL,2026-10-24,Chelsea,Tottenham,0,2,home,red,Palmer,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,goal,Barnes,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,goal,Osula,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,assist,J.Murphy,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,assist,Dedić,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,home,yellow,Canvot,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,home,yellow,Yeremy,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,home,yellow,Khalaili,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,yellow,N.Gonzalez,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,yellow,Schär,1
+EPL,2026-10-25,Crystal Palace,Newcastle,0,2,away,yellow,Hall,1
+EPL,2026-10-25,Hull,Brentford,1,1,home,goal,McBurnie,1
+EPL,2026-10-25,Hull,Brentford,1,1,away,goal,O.Dango,1
+EPL,2026-10-25,Hull,Brentford,1,1,home,assist,Iroegbunam,1
+EPL,2026-10-25,Hull,Brentford,1,1,away,assist,Thiago,1
+EPL,2026-10-25,Hull,Brentford,1,1,away,yellow,Hickey,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,home,goal,Isak,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,home,assist,Wirtz,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,home,assist,Barcola,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,home,own_goal,Groß,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,away,yellow,Boscagli,1
+EPL,2026-10-25,Liverpool,Brighton,2,0,away,yellow,Costinha,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,goal,Rayan,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,goal,Tavernier,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,goal,Evanilson,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,assist,Truffert,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,assist,Kluivert,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,assist,Cook,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,home,yellow,Tielemans,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,home,yellow,Andrey Santos,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,home,yellow,Maguire,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,home,yellow,Heaven,1
+EPL,2026-10-25,Man United,Bournemouth,0,3,away,yellow,Adams,1
+EPL,2026-10-25,Sunderland,Leeds,0,0,home,yellow,Reinildo,1
+EPL,2026-10-25,Sunderland,Leeds,0,0,away,yellow,Bogle,1
+EPL,2026-10-25,Sunderland,Leeds,0,0,away,yellow,Ampadu,1

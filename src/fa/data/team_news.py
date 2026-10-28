@@ -32,8 +32,8 @@ def fetch_fpl() -> dict:
     return r.json()
 
 
-def parse(payload: dict, our_teams: list[str], fetched_at: pd.Timestamp) -> tuple[pd.DataFrame, list[str]]:
-    """FPL payload -> one row per unavailable or doubtful player, with our team names."""
+def team_mapping(payload: dict, our_teams: list[str]) -> tuple[dict[int, str], list[str]]:
+    """FPL team id -> our team name (confident matches only), plus what couldn't be matched."""
     theirs = [{"id": t["id"], "name": t["name"], "shortName": t.get("short_name"),
                "tla": t.get("short_name")} for t in payload.get("teams", [])]
     mapping, problems = {}, []
@@ -42,6 +42,12 @@ def parse(payload: dict, our_teams: list[str], fetched_at: pd.Timestamp) -> tupl
             mapping[m["id"]] = m["our_name"]
         else:
             problems.append(f"{m['their_name']} -> {m['our_name']} ({m['status']})")
+    return mapping, problems
+
+
+def parse(payload: dict, our_teams: list[str], fetched_at: pd.Timestamp) -> tuple[pd.DataFrame, list[str]]:
+    """FPL payload -> one row per unavailable or doubtful player, with our team names."""
+    mapping, problems = team_mapping(payload, our_teams)
 
     rows = []
     for e in payload.get("elements", []):
@@ -111,6 +117,17 @@ def main() -> None:
     for team, g in df.groupby("team"):
         n = for_team(df, team)
         print(f"  {team:<15} out: {', '.join(n['out']) or '-'} · doubt: {', '.join(n['doubt']) or '-'}")
+
+    # Scorers, assists and cards of finished matches (same source, one more request).
+    from fa.data import match_events
+    try:
+        events = match_events.parse(payload, match_events.fetch_fixtures(), ours)
+    except requests.RequestException as e:
+        print(f"Match events unavailable ({type(e).__name__}); review cards will show none.")
+        return
+    match_events.save(events)
+    print(f"Match events: {len(events)} rows for {events[['home_team', 'away_team']].drop_duplicates().shape[0]} "
+          f"finished matches -> {match_events.EVENTS_PATH.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

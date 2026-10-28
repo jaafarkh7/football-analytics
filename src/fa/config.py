@@ -38,3 +38,6 @@ BLEND_WEIGHT_DC = 0.55          # final probability = 0.55 * Dixon–Coles + 0.4
 FORECASTS_DIR = REPORTS_DIR / "predictions"
 # Champions League: cross-league Elo (week 2d tuning on 2016-17..2019-20).
 CL_SETTINGS = dict(k_cl=30, home_adv_cl=130, external_offset=100)
+
+# Languages the cards are drawn in. Arabic is built in; add it back with ("en", "ar").
+CARD_LANGUAGES = ("en",)

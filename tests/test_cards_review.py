@@ -88,7 +88,8 @@ def test_review_card_renders(lang, changes):
 def test_make_reviews_and_telegram_album(tmp_path):
     made, _ = make_reviews(_matches(), _forecasts(), NOW, tmp_path, None,
                            {"en": "", "ar": ""}, tmp_path / "none.csv", with_season=False)
-    assert sorted(f.name for f in made) == ["review_EPL_20261101_Liverpool_Arsenal_ar.png",
-                                            "review_EPL_20261101_Liverpool_Arsenal_en.png"]
+    from fa.config import CARD_LANGUAGES
+    assert sorted(f.name for f in made) == sorted(f"review_EPL_20261101_Liverpool_Arsenal_{lang}.png"
+                                                  for lang in CARD_LANGUAGES)
     posts = [p for p in tg.plan(tmp_path) if p["kind"] == "review"]
-    assert {p["lang"] for p in posts} == {"en", "ar"} and all(len(p["files"]) == 1 for p in posts)
+    assert {p["lang"] for p in posts} == set(CARD_LANGUAGES) and all(len(p["files"]) == 1 for p in posts)
