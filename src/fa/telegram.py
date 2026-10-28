@@ -40,6 +40,8 @@ CAPTIONS = {
            "scorecard": "How last week's forecasts did, misses included.",
            "table": "{league}: title, top-4 and relegation chances from 10,000 simulations of the rest of the season.",
            "deserved": "{league}: who deserved to win? Chances estimated from shots on target.",
+           "review": "Full time: each result next to our forecast from before kickoff, "
+                     "the result the chances deserved, and what it changed in the season.",
            "tail": "\nAnalysis, not betting advice."},
     "ar": {"match": "أبرز مباريات الأسبوع: توقعات النموذج.\n"
                     "كل توقع يُحفظ قبل انطلاق المباراة ويُقيَّم بعدها.",
@@ -47,6 +49,8 @@ CAPTIONS = {
            "scorecard": "أداء توقعات الأسبوع الماضي، بما فيها الأخطاء.",
            "table": "{league}: فرص اللقب والمراكز الأربعة الأولى والهبوط من 10,000 محاكاة لبقية الموسم.",
            "deserved": "{league}: من استحق الفوز؟ الفرص محسوبة من التسديدات على المرمى.",
+           "review": "نهاية المباريات: كل نتيجة مقارنة بتوقعنا قبل المباراة، "
+                     "والنتيجة التي استحقتها الفرص، وما غيّرته في الموسم.",
            "tail": "\nتحليل وليس نصيحة للمراهنة."},
 }
 
@@ -94,6 +98,10 @@ def plan(folder: Path) -> list[dict]:
         for i in range(0, len(matches), ALBUM_MAX):
             posts.append({"lang": lang, "kind": "match", "files": matches[i:i + ALBUM_MAX],
                           "caption": cap["match"] + cap["tail"]})
+        reviews = sorted(folder.glob(f"review_*_{lang}.png"))
+        for i in range(0, len(reviews), ALBUM_MAX):
+            posts.append({"lang": lang, "kind": "review", "files": reviews[i:i + ALBUM_MAX],
+                          "caption": cap["review"] + cap["tail"]})
         for kind in ("round", "deserved", "table"):
             for f in sorted(folder.glob(f"{kind}_*_{lang}.png")):
                 league = f.stem[len(kind) + 1:-len(f"_{lang}")]
@@ -200,7 +208,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--send", action="store_true", help="really post (default: dry run)")
     ap.add_argument("--folder", help="cards folder (default: the newest in reports/cards)")
-    ap.add_argument("--kinds", default="match,round,deserved,table,scorecard",
+    ap.add_argument("--kinds", default="match,round,deserved,table,scorecard,review",
                     help="comma-separated card kinds to post")
     args = ap.parse_args()
 

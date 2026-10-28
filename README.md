@@ -34,8 +34,9 @@ python -m fa.score                      # score past forecasts: the live track r
 
 `.github/workflows/daily.yml` runs `python -m fa.daily --post` every day at 06:23 UTC on
 GitHub's servers: download results, refresh forecasts, score finished matches, and post
-to Telegram by day (Monday: scorecard, who-deserved-it, season tables; Tuesday: midweek
-forecasts; Friday: weekend forecasts). It then commits `records/` and the reports, so
+to Telegram by day (every day: full-time reviews of the matches just played; Monday:
+scorecard, who-deserved-it, season tables; Tuesday: midweek forecasts; Friday: weekend
+forecasts). It then commits `records/` and the reports, so
 every forecast gets a public, timestamped commit before kickoff.
 
 Setup, once, in the repo on github.com → **Settings → Secrets and variables → Actions**:
@@ -89,7 +90,11 @@ python -m fa.telegram --send                  # post to Telegram
 Cards: one per big match (probabilities, predicted score, goal markets, expected goals),
 one per competition with every upcoming match, a weekly scorecard that includes the
 misses, a season-simulation table per league (with the biggest movers since last week),
-and a post-match "who deserved it?" card per league built from shots on target. Arabic cards are laid out right to left; club names come from
+a post-match "who deserved it?" card per league built from shots on target, and a
+**full-time review** per big match: the result next to the forecast saved before kickoff
+(right or wrong), the result the chances deserved, and how the matchday moved the team's
+title / top-4 / relegation chances (season simulated from just before and just after it).
+Each match is reviewed once, as soon as its shot data is published (usually the next day). Arabic cards are laid out right to left; club names come from
 `src/fa/data/team_names_ar.csv` (clubs missing there are shown in English and listed).
 Premier League match cards also show **team news** (who is out or doubtful), from the
 official Fantasy Premier League API (`python -m fa.data.team_news`, free, no key; saved to
@@ -248,6 +253,7 @@ src/fa/
   records.py             forecasts and simulations mirrored in records/*.csv
   cards.py               PNG cards, English + Arabic
   cards_season.py        season-table and who-deserved-it cards
+  cards_review.py        full-time review cards
   season_sim.py          season simulations + backtest
   telegram.py            posts cards to Telegram
   data/fixtures_api.py   football-data.org client

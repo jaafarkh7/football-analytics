@@ -590,6 +590,13 @@ def main() -> None:
             made.append(path)
             missing |= miss
 
+    # Post-match reviews: matches of the last 3 days we forecast, each reviewed once.
+    from fa.cards_review import make_reviews
+    from fa.telegram import POSTED_LOG
+    reviews, miss = make_reviews(res, all_fc, now, out, record, handle, POSTED_LOG)
+    made += reviews
+    missing |= miss
+
     print(f"{len(made)} cards in {out}")
     if missing:
         print("No Arabic name yet (shown in English) for: " + ", ".join(sorted(missing))

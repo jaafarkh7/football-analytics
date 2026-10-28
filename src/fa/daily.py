@@ -27,7 +27,9 @@ import pandas as pd
 
 from fa.config import ROOT
 
-POST_PLAN = {0: "scorecard,deserved,table", 1: "match,round", 4: "match,round"}  # Mon, Tue, Fri
+# Every day: reviews of matches played since the last run. Plus Mon / Tue / Fri specials.
+POST_PLAN = {d: "review" for d in range(7)}
+POST_PLAN.update({0: "review,scorecard,deserved,table", 1: "review,match,round", 4: "review,match,round"})
 FORECAST_DAYS = {1: 4, 4: 4}        # Tuesday covers Tue-Fri, Friday covers Fri-Mon
 
 
