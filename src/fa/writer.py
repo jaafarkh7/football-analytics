@@ -35,16 +35,20 @@ MIN_GAP_S = 5                     # free tier: about 15 requests per minute
 MIN_WORDS, MAX_WORDS = 50, 140
 TIME_BUDGET_S = 15 * 60           # the whole writing step; later matches get no paragraph
 
-SYSTEM = """You are the analyst of a football statistics channel. Write ONE paragraph of 70 to 110 words in plain English about the match described by the JSON fact sheet.
+SYSTEM = """You are the analyst of a football statistics channel, writing for fans. Write ONE paragraph of 70 to 110 words in plain, lively English about the match in the JSON fact sheet.
+
+How to write:
+- Tell the story of the match-up in 4 to 6 well-chosen facts. Do not list every number; pick the ones that matter most (form, chances created and conceded, finishing, what our forecast says).
+- Write like a pundit, not a report. Never copy the fact sheet's field names, underscores or technical phrases such as "goals minus expected"; say things in normal words (for example "they have scored 4.2 more goals than their chances are usually worth").
+- Finish every sentence. End the paragraph with a full stop.
 
 Rules:
-- Use only the facts given. Copy numbers exactly as written in the facts; never calculate, round or estimate new numbers.
+- Use only the facts given. Copy numbers exactly as written; never calculate, round or estimate new numbers.
 - Mention only the teams and players named in the facts.
 - Our data has no tactics, formations, possession, passing, crosses, corners, pressing, attacking sides or flanks, and no minutes of goals or cards: do not mention any of these.
 - No betting language (odds, bets, tips, value, locks).
-- "shots on target" are our measure of chances; "expected goals from shots on target" estimates how many goals those chances were worth. A positive "goals_minus_expected" means a team has scored more than its chances suggest (clinical or lucky); a negative "goals_conceded_minus_expected..." means it conceded fewer than the chances it faced suggest (good goalkeeping or luck).
-- Previews: compare the two teams' form, chances created and conceded, and finishing, then give our forecast. Reviews: say who created more, whether the result was deserved, how it compares with the teams' season averages, whether our forecast was right, and any season-outlook change.
-- No headline, no bullet points, no emojis, no hashtags. Write it as a knowledgeable, neutral analyst."""
+- Previews: compare the two teams, then give our forecast. Reviews: who created more, whether the result was deserved, how it compares with the teams' season averages, whether our forecast was right, and any season-outlook change.
+- No headline, no bullet points, no emojis, no hashtags."""
 
 BANNED = re.compile(
     r"\b(bets?|betting|odds|tips?|banker|value bet|locks?|guarantee\w*|formations?|flanks?|"
@@ -68,6 +72,7 @@ def _strings(obj) -> list[str]:
     return [str(obj)]
 
 
+JARGON = re.compile(r"\w*_\w*|minus expected|goals_|per_game|\brank for\b|league_position", re.I)
 NUMBER_IN_CONTEXT = re.compile(r"(?<![\w.])[+-]?(\d+(?:\.\d+)?)(\s*%)?")
 
 
@@ -120,6 +125,10 @@ def check(text: str, facts: dict) -> list[str]:
             problems.append(f"'{t}' is not in the facts")
     for m in BANNED.finditer(text):
         problems.append(f"'{m.group(0)}' is not something our data covers")
+    for m in JARGON.finditer(text):
+        problems.append(f"'{m.group(0)}' is fact-sheet jargon; say it in plain words")
+    if not text.rstrip().endswith((".", "!", "?")):
+        problems.append("the paragraph is cut off; finish every sentence and end with a full stop")
     return sorted(set(problems))
 
 
@@ -183,7 +192,7 @@ class Gemini:
         for attempt in range(8):
             if self.deadline is not None and time.time() > self.deadline:
                 raise GeminiError("time budget used up")
-            config = {"temperature": 0.4, "maxOutputTokens": 2048}
+            config = {"temperature": 0.5, "maxOutputTokens": 8192}
             if self.thinking:
                 config["thinkingConfig"] = self.thinking
             body = {"systemInstruction": {"parts": [{"text": system}]},
@@ -214,8 +223,12 @@ class Gemini:
                 continue
             if r.status_code != 200:
                 raise GeminiError(f"Gemini refused ({r.status_code}): {r.text[:300]}")
-            parts = (r.json().get("candidates") or [{}])[0].get("content", {}).get("parts", [])
-            return " ".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+            cand = (r.json().get("candidates") or [{}])[0]
+            parts = cand.get("content", {}).get("parts", [])
+            text = " ".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+            if cand.get("finishReason") == "MAX_TOKENS":
+                text += " [cut off]"          # the checker rejects it and asks again
+            return text
         raise GeminiError("Gemini is rate-limiting, overloaded or too slow; try later")
 
 

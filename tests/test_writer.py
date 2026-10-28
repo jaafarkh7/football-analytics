@@ -165,3 +165,22 @@ def test_busy_model_switches_and_time_budget_keeps_earlier_notes(monkeypatch):
     g.deadline = 0                                     # budget used up
     text, problems = w.safe_write(g, FACTS)
     assert text is None and problems == ["time budget used up"]
+
+
+def test_cut_off_paragraphs_are_rejected():
+    cut = GOOD.rsplit(" ", 6)[0]                               # ends mid-sentence, like the real run
+    assert any("cut off" in p for p in check(cut, FACTS))
+
+
+def test_fact_sheet_jargon_is_rejected():
+    robotic = GOOD.replace("so their finishing has been sharp",
+                           "posting a goals minus expected of 4.2")
+    assert any("jargon" in p for p in check(robotic, FACTS))
+    assert any("jargon" in p for p in check(GOOD.replace("4th", "league_position 4th"), FACTS))
+
+
+def test_finishing_is_given_in_words():
+    from fa.facts import finishing
+    assert finishing(-1.94, "scored") == "scored 1.9 fewer goals than their shots on target are usually worth"
+    assert finishing(4.2, "conceded").startswith("conceded 4.2 more goals")
+    assert finishing(0.3, "scored").startswith("scored about as many")

@@ -30,6 +30,15 @@ def ordinal(n: int) -> str:
     return f"{n}{'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
 
 
+def finishing(diff: float, verb: str) -> str:
+    """Goals against what the chances were worth, in words: the writer copies this phrase
+    instead of a signed number it might misread."""
+    if abs(diff) < 0.5:
+        return f"{verb} about as many goals as their shots on target are usually worth"
+    more = "more" if diff > 0 else "fewer"
+    return f"{verb} {abs(diff):.1f} {more} goals than their shots on target are usually worth"
+
+
 def team_games(matches: pd.DataFrame, league: str, season: int, team: str, before) -> pd.DataFrame:
     """This season's league games of `team` before `before`, from the team's point of view."""
     m = matches[(matches.league == league) & (matches.season == season) & (matches.date < before)]
@@ -95,10 +104,10 @@ def team_profile(matches: pd.DataFrame, league: str, season: int, team: str, ven
             "shots_on_target_per_game": f1(g.sot_for.mean()),
             "shots_on_target_conceded_per_game": f1(g.sot_against.mean()),
             "shots_per_game": f1(g.shots_for.mean()),
-            "shots_on_target_rank_in_league": ordinal(int(ranks.loc[team, "sot_for_rank"])),
-            "fewest_shots_on_target_conceded_rank": ordinal(int(ranks.loc[team, "sot_against_rank"])),
-            "goals_minus_expected_from_shots_on_target": f"{g.gf.sum() - sxg_for:+.1f}",
-            "goals_conceded_minus_expected_from_shots_on_target_faced": f"{g.ga.sum() - sxg_against:+.1f}",
+            "rank for shots on target created": ordinal(int(ranks.loc[team, "sot_for_rank"])),
+            "rank for fewest shots on target conceded": ordinal(int(ranks.loc[team, "sot_against_rank"])),
+            "finishing": finishing(g.gf.sum() - sxg_for, "scored"),
+            "defending and goalkeeping": finishing(g.ga.sum() - sxg_against, "conceded"),
         })
     return {k: v for k, v in p.items() if v is not None}
 
