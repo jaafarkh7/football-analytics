@@ -51,6 +51,10 @@ Setup, once, in the repo on github.com → **Settings → Secrets and variables 
 Test with **Actions → Daily pipeline → Run workflow** (untick "Post" for a dry run).
 Run the same thing locally with `python -m fa.daily` (dry run) or `--post`.
 
+A second workflow, `.github/workflows/live.yml`, runs `python -m fa.live --send` every 15
+minutes from 11:00 to 22:59 UTC (it exits in seconds on days with no forecast match): when
+a forecast match reaches half-time, it posts the score and updated win chances, once.
+
 What must survive between runs lives in `records/` (forecasts, season simulations, the
 team-name map, the posted log). Local runs merge with it, so nothing is lost; run
 `git pull` before working locally, since the workflow commits every day.
@@ -233,6 +237,31 @@ The Premier League comes out strongest and Ligue 1 weakest, by modest margins.
 
 Full results: [`reports/week2d_champions_league.md`](reports/week2d_champions_league.md).
 
+## Half-time win chances
+
+```bash
+python -m fa.run_halftime               # backtest (~1 min)
+python -m fa.live                       # dry run: any forecast match at half-time right now?
+```
+
+The pre-match forecast becomes two Poisson scoring rates that reproduce its win
+probabilities; the second half is then simulated from the half-time score. Two settings,
+tuned on 2024-25: 60% of a match's goals come after the break, and the trailing side
+scores 20% more (the leader 20% less). On the 2025-26 test season (1,752 matches):
+
+| Forecast | Log loss |
+|---|---:|
+| Pre-match only | 0.992 |
+| Half-time score only (historical frequencies) | 0.847 |
+| **Pre-match forecast + half-time score** | **0.813** |
+
+A separate pace for games with a leader, and rates from the goals model's xG instead of
+the blended forecast, both fit 2024-25 slightly better and 2025-26 worse, so they were
+dropped. Known bias: half-time leaders win a bit more often than predicted (home leaders
+80% vs 74%). Full results: [`reports/halftime_model.md`](reports/halftime_model.md).
+Half-time scores come from the same football-data.co.uk files (`ht_home_goals`,
+`ht_away_goals`).
+
 ## Layout
 
 ```
@@ -248,6 +277,9 @@ src/fa/
   run_shots.py           week 2b experiment
   run_form.py            week 2c experiment
   run_cl.py              week 2d experiment
+  run_halftime.py        half-time model backtest
+  live.py                half-time updates (scheduled every 15 min)
+  models/live.py         in-match win probabilities
   data/load_european.py  Champions League history
   models/cross_elo.py    one rating pool across leagues
   models/cl_predict.py   Champions League predictions

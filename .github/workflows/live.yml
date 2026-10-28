@@ -1,0 +1,76 @@
+# Half-time updates: every 15 minutes during match hours, post the score and updated win
+# chances of any forecast match that has reached half-time. Uses the same secrets and
+# variables as the daily pipeline.
+name: Half-time updates
+
+on:
+  schedule:
+    - cron: "*/15 11-22 * * *"    # UTC; European kickoffs run from about 11:30 to 20:45
+  workflow_dispatch:
+    inputs:
+      post:
+        description: "Post to Telegram (untick for a dry run)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write                 # to commit records/posted.csv
+
+concurrency:                      # never at the same time as the daily pipeline
+  group: records-writer
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Any forecast match today?
+        id: check
+        run: |
+          today=$(date -u +%Y-%m-%d)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || grep -q ",$today," records/forecasts.csv; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No forecast match on $today: nothing to do."
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.check.outputs.go == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        if: steps.check.outputs.go == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Half-time check
+        if: steps.check.outputs.go == 'true'
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_EN: ${{ vars.TELEGRAM_CHAT_EN }}
+          PYTHONPATH: src
+          EVENT: ${{ github.event_name }}
+          INPUT_POST: ${{ inputs.post }}
+        run: |
+          args=()
+          if [ "$EVENT" = "schedule" ] || [ "$INPUT_POST" = "true" ]; then args+=(--send); fi
+          python -m fa.live "${args[@]}"
+
+      - name: Commit the posting log
+        if: always() && steps.check.outputs.go == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add records/posted.csv 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git commit -m "Half-time posts $(date -u +%Y-%m-%d)"
+            git pull --rebase
+            git push
+          fi

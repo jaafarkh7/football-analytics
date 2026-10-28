@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS matches (
     away_shots  INTEGER,
     home_sot    INTEGER,
     away_sot    INTEGER,
+    ht_home_goals INTEGER,            -- half-time score (NULL if unknown)
+    ht_away_goals INTEGER,
     source      VARCHAR NOT NULL
 );
 """
@@ -85,7 +87,9 @@ def _result(hg: int, ag: int) -> str:
     return "H" if hg > ag else ("A" if hg < ag else "D")
 
 
-SHOT_COLUMNS = {"HS": "home_shots", "AS": "away_shots", "HST": "home_sot", "AST": "away_sot"}
+# Shots, shots on target and the half-time score (NULL when a source doesn't have them).
+SHOT_COLUMNS = {"HS": "home_shots", "AS": "away_shots", "HST": "home_sot", "AST": "away_sot",
+                "HTHG": "ht_home_goals", "HTAG": "ht_away_goals"}
 
 
 def _ongoing(season: int) -> bool:
@@ -237,7 +241,8 @@ def main() -> None:
     con.execute(SCHEMA)
     cols = ["match_id", "league", "season", "date", "home_team", "away_team", "home_goals",
             "away_goals", "result", "odds_home", "odds_draw", "odds_away",
-            "home_shots", "away_shots", "home_sot", "away_sot", "source"]
+            "home_shots", "away_shots", "home_sot", "away_sot", "ht_home_goals", "ht_away_goals",
+            "source"]
     con.register("df", df[cols])
     con.execute(f"INSERT INTO matches SELECT {', '.join(cols)} FROM df")
     summary = con.execute("""

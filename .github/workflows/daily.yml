@@ -20,7 +20,7 @@ permissions:
   contents: write                 # to commit records/ back to the repo
 
 concurrency:                      # never two runs at once
-  group: daily-pipeline
+  group: records-writer          # shared with the half-time job
   cancel-in-progress: false
 
 jobs:
