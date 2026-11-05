@@ -50,6 +50,21 @@ Setup, once, in the repo on github.com → **Settings → Secrets and variables 
 | Variable | `TELEGRAM_CHAT_AR` | `@your_arabic_channel` (optional) |
 
 Test with **Actions → Daily pipeline → Run workflow** (untick "Post" for a dry run).
+
+**Reliable timing.** GitHub's own schedule (`on: schedule`) often starts runs hours late
+or skips them on free accounts, which broke the 15-minute half-time checks. So a free
+external timer, [cron-job.org](https://cron-job.org), starts both workflows through
+GitHub's API, and GitHub's schedule stays only as a backup. The daily run is safe to
+start twice: `--once-per-day` records finished days in `records/daily_done.csv`.
+
+| cron-job.org job | Schedule (UTC) | POST to |
+|---|---|---|
+| Daily | 06:23 every day | `https://api.github.com/repos/<you>/football-analytics/actions/workflows/daily.yml/dispatches` |
+| Half-time | every 15 min, 11:00–22:59 | `…/actions/workflows/live.yml/dispatches` |
+
+Each with headers `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`
+and body `{"ref":"main"}`. The token is a fine-grained GitHub token for this repository
+only, with the single permission **Actions: Read and write**.
 Run the same thing locally with `python -m fa.daily` (dry run) or `--post`.
 
 A second workflow, `.github/workflows/live.yml`, runs `python -m fa.live --send` every 15

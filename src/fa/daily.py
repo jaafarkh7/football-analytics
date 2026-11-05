@@ -47,15 +47,38 @@ def run(step: str, *args: str, optional: bool = False) -> bool:
     return ok
 
 
+DONE_LOG = ROOT / "records" / "daily_done.csv"
+
+
+def already_done(today: pd.Timestamp, path=None) -> bool:
+    path = path or DONE_LOG
+    return path.exists() and f"{today:%Y-%m-%d}," in path.read_text()
+
+
+def mark_done(today: pd.Timestamp, path=None) -> None:
+    path = path or DONE_LOG
+    path.parent.mkdir(parents=True, exist_ok=True)
+    new = not path.exists()
+    with path.open("a") as f:
+        if new:
+            f.write("date,finished_at_utc\n")
+        f.write(f"{today:%Y-%m-%d},{pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}\n")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--post", action="store_true", help="really post to Telegram")
     ap.add_argument("--kinds", help="post these card kinds instead of today's schedule")
     ap.add_argument("--weekday", type=int, help="pretend today is this weekday (0 = Monday)")
     ap.add_argument("--skip-download", action="store_true", help="use the data already downloaded")
+    ap.add_argument("--once-per-day", action="store_true",
+                    help="do nothing if today's scheduled posts already went out (safe to start twice)")
     args = ap.parse_args()
 
     today = pd.Timestamp.now(tz="Asia/Beirut")
+    if args.once_per_day and already_done(today):
+        print(f"{today:%Y-%m-%d}: today's scheduled run already finished; nothing to do.")
+        return
     weekday = today.weekday() if args.weekday is None else args.weekday
     kinds = args.kinds if args.kinds is not None else POST_PLAN.get(weekday, "")
     print(f"{today:%A %Y-%m-%d %H:%M} Beirut · posting today: {kinds or 'nothing'}")
@@ -75,6 +98,8 @@ def main() -> None:
     if "match" in kinds or "review" in kinds:
         run("writer", optional=True)          # written analysis; skipped without GEMINI_API_KEY
     run("telegram", "--kinds", kinds, *(["--send"] if args.post else []))
+    if args.once_per_day and args.post:
+        mark_done(today)
 
 
 if __name__ == "__main__":
