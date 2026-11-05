@@ -86,6 +86,8 @@ def main() -> None:
     if not args.skip_download:
         run("data.load_results")
         run("data.load_european", optional=True)
+    if weekday == 0:
+        run("learn", optional=True)           # weekly: learn from results before forecasting
     run("predict", "--days", str(FORECAST_DAYS.get(weekday, 8)), optional=True)  # no fixtures is fine
     run("score", optional=True)
     if weekday == 0 or "table" in kinds:

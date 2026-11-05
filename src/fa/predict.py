@@ -112,7 +112,8 @@ def predict(matches: pd.DataFrame, fixtures: pd.DataFrame, as_of: pd.Timestamp) 
     out = fixtures.copy()
     out[["elo_home_p", "elo_draw_p", "elo_away_p"]] = p_elo
     out[["dc_home_p", "dc_draw_p", "dc_away_p"]] = dc[PCOLS].to_numpy()
-    out[PCOLS] = BLEND_WEIGHT_DC * dc[PCOLS].to_numpy() + (1 - BLEND_WEIGHT_DC) * p_elo
+    from fa.learn import combine, load_settings          # settings learned from results
+    out[PCOLS] = combine(dc[PCOLS].to_numpy(), np.asarray(p_elo), load_settings())
     for c in ["xg_home", "xg_away", "p_over25", "p_btts"]:
         out[c] = dc[c].to_numpy()
     # Predicted score: the most likely scoreline *within* the most likely result, so it
@@ -150,9 +151,18 @@ def save(preds: pd.DataFrame, created_at: datetime, model: str = "blend_v1") -> 
     con.close()
 
 
+def _model_line() -> str:
+    from fa.learn import load_settings
+    s = load_settings()
+    extra = ("" if s["temperature"] == 1 and s["draw_boost"] == 0 else
+             f", confidence ×{s['temperature']:.2f}, draws {s['draw_boost']:+.1%}")
+    return (f"Model: {s['blend_weight_dc']:.0%} Dixon–Coles (goals + shots) + "
+            f"{1 - s['blend_weight_dc']:.0%} Elo{extra} (settings learned weekly from results). ")
+
+
 def to_markdown(preds: pd.DataFrame, as_of: pd.Timestamp, unknown: list[str]) -> str:
     lines = [f"# Predictions · generated {as_of:%Y-%m-%d}", "",
-             "Model: 55% Dixon–Coles (goals + shots) + 45% Elo. "
+             _model_line() +
              "Probabilities are home / draw / away. For analysis, not betting advice.", "",
              "*Predicted score* is the most likely scoreline within the most likely result. "
              "Any single scoreline is unlikely (usually 8–14%), so read the percentages first.", ""]

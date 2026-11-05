@@ -109,7 +109,7 @@ python -m fa.telegram --send                  # post to Telegram
 
 Cards are drawn in English for now (`CARD_LANGUAGES` in `src/fa/config.py`; Arabic is
 built in and switched back on with `("en", "ar")`).
-Cards: one per big match (probabilities, predicted score, goal markets, expected goals),
+Cards: one per big match (the 10 biggest of the period) (probabilities, predicted score, goal markets, expected goals),
 one per competition with every upcoming match, a weekly scorecard that includes the
 misses, a season-simulation table per league (with the biggest movers since last week),
 a post-match "who deserved it?" card per league built from shots on target, and a
@@ -253,6 +253,23 @@ The Premier League comes out strongest and Ligue 1 weakest, by modest margins.
 
 Full results: [`reports/week2d_champions_league.md`](reports/week2d_champions_league.md).
 
+## Learning from results
+
+```bash
+python -m fa.learn                      # weekly self-check (~15 s); runs every Monday
+```
+
+Team strengths update every day from the latest results. On top of that, the model
+learns from its own mistakes: every Monday it replays the last year of league matches as
+it would have forecast them (only earlier data each week), searches three settings (the
+mix of goals model and ratings model, how confident forecasts are, how likely draws are)
+on the older weeks, and adopts new settings only if they also beat the current ones on
+the most recent 8 weeks, which the search never saw. Settings in use:
+`records/learned.json`; every decision: `records/learning_log.csv` and
+[`reports/learning.md`](reports/learning.md). In the first run (on 2024-25 data) the
+search found settings that fit the older weeks better but did worse on the recent ones,
+so nothing changed: the check is there to stop chasing noise.
+
 ## Written analysis (Gemini, checked)
 
 ```bash
@@ -323,6 +340,7 @@ src/fa/
   run_cl.py              week 2d experiment
   run_halftime.py        half-time model backtest
   live.py                half-time updates (scheduled every 15 min)
+  learn.py               weekly learning from results
   facts.py               fact sheets for the written analysis
   writer.py              Gemini paragraphs + fact checker
   models/live.py         in-match win probabilities

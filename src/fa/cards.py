@@ -1,7 +1,7 @@
 """Shareable PNG cards (English and Arabic) from saved forecasts and results.
 
     python -m fa.cards                  # upcoming forecasts -> reports/cards/<date>/
-    python -m fa.cards --featured 6     # how many single-match cards to make
+    python -m fa.cards --featured 10    # how many single-match cards to make
 
 Cards:
   match_<id>_<lang>.png     one big match: probabilities, predicted score, goal markets
@@ -402,8 +402,15 @@ def round_card(rows: pd.DataFrame, league: str, lang: str, record=None, handle="
         p.text(W - 90, y + 40, right_name, rs, bold=True, align="end" if not p.rtl else "start")
         p.text(90 if not p.rtl else W - 90, y + 80, when(r.date, r.get("kickoff_utc"), lang), 20,
                fill=MUTED, align="start")
-        outcome_bar(p, 90 + name_w + 20, y + 4, W - 180 - 2 * (name_w + 20), 56,
-                    [r.p_home, r.p_draw, r.p_away], None, size=22)
+        bar_x, bar_w = 90 + name_w + 20, W - 180 - 2 * (name_w + 20)
+        outcome_bar(p, bar_x, y + 4, bar_w, 56, [r.p_home, r.p_draw, r.p_away], None, size=22)
+        score = r.get("top_score")
+        if isinstance(score, str) and "-" in score:          # league matches: scoreline model
+            if p.rtl:
+                score = "-".join(score.split("-")[::-1])
+            label = t["score"]
+            p.text(bar_x + bar_w / 2, y + 88, f"{label} {score}" if not p.rtl else f"{score} {label}",
+                   20, bold=True, fill=INK2, align="center")
         p.d.line((90, y + row_h - 14, W - 90, y + row_h - 14), fill=RULE, width=1)
         y += row_h
     footer(p, H - 170, t, record, handle)
@@ -484,7 +491,7 @@ def track_record(con) -> tuple[int, int] | None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--featured", type=int, default=6)
+    ap.add_argument("--featured", type=int, default=10)    # Telegram albums hold up to 10
     ap.add_argument("--handle", default="", help="channel name printed on all cards, e.g. @mychannel")
     ap.add_argument("--handle-en", default="", help="channel name on English cards")
     ap.add_argument("--handle-ar", default="", help="channel name on Arabic cards")
@@ -538,7 +545,7 @@ def main() -> None:
                 made.append(path)
                 missing |= miss
             for league, rows in fc.groupby("league", sort=False):
-                img, miss = round_card(rows.head(12), league, lang, record, handle[lang])
+                img, miss = round_card(rows.head(20), league, lang, record, handle[lang])
                 path = out / f"round_{league}_{lang}.png"
                 img.save(path)
                 made.append(path)
