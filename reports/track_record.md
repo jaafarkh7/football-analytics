@@ -1,4 +1,4 @@
-# Track record · updated 2026-11-05
+# Track record · updated 2026-11-06
 
 Every forecast here was saved *before* kickoff and scored afterwards. Only the latest pre-kickoff forecast per match counts; nothing is excluded after the fact.
 
