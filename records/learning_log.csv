@@ -1,0 +1,2 @@
+date,adopted,current_blend_weight_dc,current_temperature,current_draw_boost,candidate_blend_weight_dc,candidate_temperature,candidate_draw_boost,tune_matches,check_matches,tune_current,tune_candidate,check_current,check_candidate
+2026-11-09,False,0.55,1.0,0.0,0.7,1.05,0.1,1412,306,0.99714,0.99634,0.96025,0.96347
