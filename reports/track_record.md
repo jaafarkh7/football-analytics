@@ -1,14 +1,14 @@
-# Track record · updated 2026-11-09
+# Track record · updated 2026-11-10
 
 Every forecast here was saved *before* kickoff and scored afterwards. Only the latest pre-kickoff forecast per match counts; nothing is excluded after the fact.
 
-Scored matches: **79** · forecasts waiting for results: 48
+Scored matches: **127** · forecasts waiting for results: 0
 
 ## Overall
 
 | Model | Matches | Log loss ↓ | RPS ↓ | Result right | Exact score | Over 2.5 right | Both score right |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| League model (Dixon–Coles + Elo) | 61 | 0.9317 | 0.2151 | 57% | 11% | 56% | 56% |
+| League model (Dixon–Coles + Elo) | 109 | 0.9119 | 0.1967 | 59% | 14% | 55% | 56% |
 | Champions League model (cross-league Elo) | 18 | 0.8132 | 0.1966 | 67% | — | — | — |
 
 For reference: guessing 1/3 each gives log loss 1.0986. Over a full season our test-season log loss was ~0.99 and the market's ~0.98. With few matches, expect big swings: one weekend says almost nothing.
@@ -17,20 +17,20 @@ For reference: guessing 1/3 each gives log loss 1.0986. Over a full season our t
 
 | | Matches | Log loss ↓ | Result right |
 |---|---:|---:|---:|
-| Model | 10 | 0.8799 | 60% |
-| Market | 10 | 0.9259 | 60% |
+| Model | 53 | 0.8793 | 60% |
+| Market | 53 | 0.8682 | 58% |
 
-Fewer than 30 matches with odds: too few for a meaningful comparison yet.
+Model minus market: +0.0114 (95% interval [-0.0170, +0.0381]).
 
 ## By competition
 
 | Competition | Matches | Log loss ↓ | Result right |
 |---|---:|---:|---:|
-| BUNDESLIGA | 9 | 1.0989 | 33% |
-| EPL | 10 | 1.0631 | 50% |
-| LALIGA | 10 | 0.8376 | 80% |
-| LIGUE1 | 12 | 0.8574 | 58% |
-| SERIEA | 20 | 0.8822 | 60% |
+| BUNDESLIGA | 18 | 0.8535 | 61% |
+| EPL | 20 | 0.9890 | 55% |
+| LALIGA | 20 | 0.9090 | 65% |
+| LIGUE1 | 21 | 0.9014 | 57% |
+| SERIEA | 30 | 0.9049 | 57% |
 | UCL | 18 | 0.8132 | 67% |
 
 ## By week
@@ -38,7 +38,19 @@ Fewer than 30 matches with odds: too few for a meaningful comparison yet.
 | Week of | Matches | Log loss ↓ | Result right |
 |---|---:|---:|---:|
 | 2026-10-26 | 56 | 0.9028 | 61% |
-| 2026-11-02 | 23 | 0.9091 | 57% |
+| 2026-11-02 | 71 | 0.8941 | 59% |
+
+## Calibration (all outcomes)
+
+When the model says X%, does it happen about X% of the time?
+
+| Predicted | Happened | Outcomes |
+|---:|---:|---:|
+| 15% | 4% | 51 |
+| 27% | 25% | 215 |
+| 48% | 54% | 89 |
+| 69% | 88% | 25 |
+| 84% | 100% | 1 |
 
 ## Biggest surprises
 
