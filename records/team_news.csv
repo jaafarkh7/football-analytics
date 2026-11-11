@@ -1,78 +1,81 @@
 fetched_at,league,team,player,kind,status,chance,news,news_added,minutes
-2026-11-10 06:25:00,EPL,Arsenal,Saka,out,i,0,Thigh injury - Unknown return date,2026-10-21T20:30:09.540957Z,596
-2026-11-10 06:25:00,EPL,Arsenal,Dowman,out,s,0,Suspended until 29 Nov,2026-10-27T22:30:09.534466Z,19
-2026-11-10 06:25:00,EPL,Aston Villa,Ruggeri,out,i,0,Hamstring injury - Expected back 2 Jan,2026-10-10T18:00:10.750593Z,158
-2026-11-10 06:25:00,EPL,Aston Villa,Onana,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.352497Z,0
-2026-11-10 06:25:00,EPL,Aston Villa,Wan-Bissaka,doubt,d,50,Hamstring injury - 50% chance of playing,2026-10-17T19:30:10.120990Z,273
-2026-11-10 06:25:00,EPL,Bournemouth,Sanchez,out,i,0,Ankle injury - Unknown return date,2026-11-05T21:30:08.441541Z,18
-2026-11-10 06:25:00,EPL,Bournemouth,Tóth.A,out,i,0,Hamstring injury - Unknown return date,2026-10-23T11:30:09.133819Z,17
-2026-11-10 06:25:00,EPL,Bournemouth,Milosavljević,out,i,0,Thigh injury - Expected back 31 Oct,2026-08-06T10:00:10.456051Z,0
-2026-11-10 06:25:00,EPL,Bournemouth,J.Araujo,out,i,0,Thigh injury - Unknown return date,2026-08-09T08:00:05.645826Z,0
-2026-11-10 06:25:00,EPL,Brentford,Thiago,out,s,0,Suspended until 5 Dec,2026-11-08T14:30:09.097484Z,824
-2026-11-10 06:25:00,EPL,Brentford,Carvalho,out,i,0,Knock - Expected back 23 Nov,2026-10-30T14:30:09.456391Z,3
-2026-11-10 06:25:00,EPL,Brentford,Henry,out,i,0,Hip injury - Unknown return date,2026-10-27T16:30:09.444144Z,2
-2026-11-10 06:25:00,EPL,Brentford,Milambo,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.384798Z,0
-2026-11-10 06:25:00,EPL,Brentford,Furo,out,i,0,Unspecified injury - Unknown return date,2026-09-14T14:00:09.985723Z,0
-2026-11-10 06:25:00,EPL,Brentford,Dasilva,doubt,d,25,Hamstring injury - 25% chance of playing,2026-09-04T13:30:08.371955Z,0
-2026-11-10 06:25:00,EPL,Brighton,Struijk,out,i,0,Hamstring injury - Expected back 8 Nov,2026-10-16T17:30:09.428175Z,154
-2026-11-10 06:25:00,EPL,Brighton,Yohanna,out,i,0,Unspecified injury - Expected back 22 Nov,2026-09-10T13:00:08.617941Z,12
-2026-11-10 06:25:00,EPL,Brighton,Mitoma,out,i,0,Hamstring injury - Expected back 22 Nov,2026-07-24T18:30:10.661894Z,0
-2026-11-10 06:25:00,EPL,Brighton,Tzimas,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.432796Z,0
-2026-11-10 06:25:00,EPL,Brighton,Ferguson,out,i,0,Ankle injury - Unknown return date,2026-07-23T12:01:23.448357Z,0
-2026-11-10 06:25:00,EPL,Brighton,Azeez,out,i,0,Hamstring injury - Expected back 8 Nov,2026-09-04T11:30:08.661589Z,0
-2026-11-10 06:25:00,EPL,Chelsea,Lacroix,out,i,0,Hamstring injury - Unknown return date,2026-10-28T23:00:10.088612Z,634
-2026-11-10 06:25:00,EPL,Chelsea,João Pedro,out,i,0,Thigh injury - Unknown return date,2026-10-24T16:30:09.687729Z,521
-2026-11-10 06:25:00,EPL,Chelsea,Hato,out,i,0,Unspecified injury - Unknown return date,2026-10-29T22:00:09.909621Z,412
-2026-11-10 06:25:00,EPL,Chelsea,James,out,i,0,Knee injury - Unknown return date,2026-10-10T13:30:08.699019Z,292
-2026-11-10 06:25:00,EPL,Chelsea,Gittens,out,i,0,Ankle injury - Unknown return date,2026-09-26T05:30:09.245832Z,0
-2026-11-10 06:25:00,EPL,Chelsea,Acheampong,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-08T15:00:09.230933Z,581
-2026-11-10 06:25:00,EPL,Chelsea,Martinez,doubt,d,75,Head injury - 75% chance of playing,2026-10-17T13:30:08.724000Z,524
-2026-11-10 06:25:00,EPL,Coventry,Amenda,out,i,0,Calf injury - Unknown return date,2026-09-17T07:30:09.329041Z,360
-2026-11-10 06:25:00,EPL,Coventry,Woolfenden,out,i,0,Knee injury - Unknown return date,2026-08-27T14:56:28.718566Z,0
-2026-11-10 06:25:00,EPL,Coventry,Eccles,out,i,0,Ankle injury - Unknown return date,2026-09-10T18:30:08.877110Z,0
-2026-11-10 06:25:00,EPL,Coventry,Wright,out,i,0,Thigh injury - Unknown return date,2026-08-14T22:00:07.214508Z,0
-2026-11-10 06:25:00,EPL,Coventry,Thomas,doubt,d,50,Calf injury - 50% chance of playing,2026-10-24T17:00:09.115906Z,676
-2026-11-10 06:25:00,EPL,Coventry,Onyeka,doubt,d,50,Groin injury - 50% chance of playing,2026-11-05T09:00:09.236330Z,379
-2026-11-10 06:25:00,EPL,Crystal Palace,Tomiyasu,out,i,0,Calf injury - Expected back 21 Nov,2026-09-21T13:30:09.030724Z,189
-2026-11-10 06:25:00,EPL,Crystal Palace,Mateta,out,s,0,Suspended until 2 Dec,2026-10-31T18:00:09.547671Z,164
-2026-11-10 06:25:00,EPL,Crystal Palace,Chadi Riad,out,i,0,Knee injury - Unknown return date,2026-08-22T18:00:07.352049Z,72
-2026-11-10 06:25:00,EPL,Crystal Palace,Sarr,out,i,0,Groin injury - Expected back 21 Nov,2026-10-27T10:30:09.385934Z,15
-2026-11-10 06:25:00,EPL,Fulham,Cairney,out,i,0,Knee injury - Expected back 21 Nov,2026-11-06T10:30:09.529201Z,36
-2026-11-10 06:25:00,EPL,Hull,Morita,out,i,0,Groin injury - Unknown return date,2026-11-05T18:30:08.257672Z,106
-2026-11-10 06:25:00,EPL,Hull,Targett,out,i,0,Ankle injury - Unknown return date,2026-09-17T14:00:26.419938Z,5
-2026-11-10 06:25:00,EPL,Hull,Hughes,out,i,0,Groin injury - Unknown return date,2026-08-02T09:00:11.030017Z,0
-2026-11-10 06:25:00,EPL,Hull,Matazo,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.532635Z,0
-2026-11-10 06:25:00,EPL,Hull,Ansah,out,i,0,Back injury - Unknown return date,2026-09-09T10:00:08.919489Z,0
-2026-11-10 06:25:00,EPL,Hull,Gyabi,doubt,d,75,Thigh injury - 75% chance of playing,2026-08-04T18:30:11.027155Z,0
-2026-11-10 06:25:00,EPL,Leeds,Mateo Joseph,out,i,0,Knee injury - Unknown return date,2026-07-29T18:00:10.338170Z,0
-2026-11-10 06:25:00,EPL,Leeds,Stach,doubt,d,50,Foot injury - 50% chance of playing,2026-11-05T18:30:07.925529Z,676
-2026-11-10 06:25:00,EPL,Leeds,Gudmundsson,doubt,d,75,Hamstring injury - 75% chance of playing,2026-11-08T12:30:09.622622Z,631
-2026-11-10 06:25:00,EPL,Liverpool,Frimpong,out,i,0,Hamstring injury - Unknown return date,2026-10-17T15:30:09.979166Z,199
-2026-11-10 06:25:00,EPL,Liverpool,Jaros,out,i,0,Knee injury - Unknown return date,2026-07-29T18:00:10.351066Z,0
-2026-11-10 06:25:00,EPL,Liverpool,Bradley,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.565711Z,0
-2026-11-10 06:25:00,EPL,Liverpool,Leoni,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.596909Z,0
-2026-11-10 06:25:00,EPL,Liverpool,Ekitiké,out,i,0,Achilles injury - Unknown return date,2026-07-23T12:01:23.643771Z,0
-2026-11-10 06:25:00,EPL,Liverpool,Virgil,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-09T18:00:09.325472Z,900
-2026-11-10 06:25:00,EPL,Liverpool,Gravenberch,doubt,d,75,Foot injury - 75% chance of playing,2026-11-03T17:00:09.626695Z,341
-2026-11-10 06:25:00,EPL,Man City,Semenyo,out,i,0,Knee injury - Unknown return date,2026-10-17T17:30:09.977110Z,553
-2026-11-10 06:25:00,EPL,Man City,Guéhi,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-07T21:30:08.741792Z,720
-2026-11-10 06:25:00,EPL,Man City,Gvardiol,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-07T21:30:08.752464Z,700
-2026-11-10 06:25:00,EPL,Man United,Shaw,out,i,0,Unspecified injury - Unknown return date,2026-10-12T21:30:08.995810Z,425
-2026-11-10 06:25:00,EPL,Man United,Rashford,out,i,0,Hip injury - Unknown return date,2026-10-20T20:00:09.925594Z,352
-2026-11-10 06:25:00,EPL,Man United,Baleba,out,i,0,Hamstring injury - Unknown return date,2026-11-03T22:00:07.995956Z,232
-2026-11-10 06:25:00,EPL,Man United,Šeško,out,i,0,Shin injury - Unknown return date,2026-09-20T19:30:08.505755Z,76
-2026-11-10 06:25:00,EPL,Man United,Ugarte,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.706702Z,0
-2026-11-10 06:25:00,EPL,Newcastle,Joelinton,out,i,0,Unspecified injury - Unknown return date,2026-11-05T16:57:40.468946Z,278
-2026-11-10 06:25:00,EPL,Newcastle,Jaouen,out,i,0,Hamstring injury - Unknown return date,2026-09-10T16:00:09.127466Z,0
-2026-11-10 06:25:00,EPL,Nott'm Forest,Dominguez,out,i,0,Muscular injury - Expected back 30 Dec,2026-10-24T13:00:08.751863Z,74
-2026-11-10 06:25:00,EPL,Nott'm Forest,Savona,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.816304Z,0
-2026-11-10 06:25:00,EPL,Sunderland,Ballard,out,i,0,Hamstring injury - Unknown return date,2026-09-25T21:30:10.370384Z,450
-2026-11-10 06:25:00,EPL,Sunderland,Diarra,out,i,0,Muscular injury - Unknown return date,2026-11-01T08:30:09.264068Z,70
-2026-11-10 06:25:00,EPL,Sunderland,Mundle,out,i,0,Knee injury - Unknown return date,2026-09-09T14:00:08.462705Z,1
-2026-11-10 06:25:00,EPL,Sunderland,Xhaka,doubt,d,75,Calf injury - 75% chance of playing,2026-11-08T14:30:09.504002Z,813
-2026-11-10 06:25:00,EPL,Tottenham,Sávio,out,i,0,Muscular injury - Expected back 21 Nov,2026-10-18T13:00:09.266321Z,330
-2026-11-10 06:25:00,EPL,Tottenham,Bergvall,out,i,0,Knee injury - Unknown return date,2026-10-18T13:00:09.356060Z,143
-2026-11-10 06:25:00,EPL,Tottenham,Mudryk,out,i,0,Ankle injury - Unknown return date,2026-09-11T18:00:09.154412Z,16
-2026-11-10 06:25:00,EPL,Tottenham,Xavi,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.864304Z,0
-2026-11-10 06:25:00,EPL,Tottenham,Odobert,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.879434Z,0
-2026-11-10 06:25:00,EPL,Tottenham,Tel,doubt,d,75,Ankle injury - 75% chance of playing,2026-11-07T18:30:09.104275Z,477
+2026-11-11 06:24:00,EPL,Arsenal,Saka,out,i,0,Thigh injury - Unknown return date,2026-10-21T20:30:09.540957Z,596
+2026-11-11 06:24:00,EPL,Arsenal,Dowman,out,s,0,Suspended until 29 Nov,2026-10-27T22:30:09.534466Z,19
+2026-11-11 06:24:00,EPL,Aston Villa,Ruggeri,out,i,0,Hamstring injury - Expected back 2 Jan,2026-10-10T18:00:10.750593Z,158
+2026-11-11 06:24:00,EPL,Aston Villa,Onana,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.352497Z,0
+2026-11-11 06:24:00,EPL,Aston Villa,Wan-Bissaka,doubt,d,50,Hamstring injury - 50% chance of playing,2026-10-17T19:30:10.120990Z,273
+2026-11-11 06:24:00,EPL,Bournemouth,Sanchez,out,i,0,Ankle injury - Unknown return date,2026-11-05T21:30:08.441541Z,18
+2026-11-11 06:24:00,EPL,Bournemouth,Tóth.A,out,i,0,Hamstring injury - Unknown return date,2026-10-23T11:30:09.133819Z,17
+2026-11-11 06:24:00,EPL,Bournemouth,Milosavljević,out,i,0,Thigh injury - Expected back 31 Oct,2026-08-06T10:00:10.456051Z,0
+2026-11-11 06:24:00,EPL,Bournemouth,J.Araujo,out,i,0,Thigh injury - Unknown return date,2026-08-09T08:00:05.645826Z,0
+2026-11-11 06:24:00,EPL,Brentford,Thiago,out,s,0,Suspended until 5 Dec,2026-11-08T14:30:09.097484Z,824
+2026-11-11 06:24:00,EPL,Brentford,Carvalho,out,i,0,Knock - Expected back 23 Nov,2026-10-30T14:30:09.456391Z,3
+2026-11-11 06:24:00,EPL,Brentford,Henry,out,i,0,Hip injury - Unknown return date,2026-10-27T16:30:09.444144Z,2
+2026-11-11 06:24:00,EPL,Brentford,Milambo,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.384798Z,0
+2026-11-11 06:24:00,EPL,Brentford,Furo,out,i,0,Unspecified injury - Unknown return date,2026-09-14T14:00:09.985723Z,0
+2026-11-11 06:24:00,EPL,Brentford,Dasilva,doubt,d,25,Hamstring injury - 25% chance of playing,2026-09-04T13:30:08.371955Z,0
+2026-11-11 06:24:00,EPL,Brighton,Struijk,out,i,0,Hamstring injury - Expected back 8 Nov,2026-10-16T17:30:09.428175Z,154
+2026-11-11 06:24:00,EPL,Brighton,Yohanna,out,i,0,Unspecified injury - Expected back 22 Nov,2026-09-10T13:00:08.617941Z,12
+2026-11-11 06:24:00,EPL,Brighton,Mitoma,out,i,0,Hamstring injury - Expected back 22 Nov,2026-07-24T18:30:10.661894Z,0
+2026-11-11 06:24:00,EPL,Brighton,Tzimas,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.432796Z,0
+2026-11-11 06:24:00,EPL,Brighton,Ferguson,out,i,0,Ankle injury - Unknown return date,2026-07-23T12:01:23.448357Z,0
+2026-11-11 06:24:00,EPL,Brighton,Azeez,out,i,0,Hamstring injury - Expected back 8 Nov,2026-09-04T11:30:08.661589Z,0
+2026-11-11 06:24:00,EPL,Chelsea,Lacroix,out,i,0,Hamstring injury - Unknown return date,2026-10-28T23:00:10.088612Z,634
+2026-11-11 06:24:00,EPL,Chelsea,João Pedro,out,i,0,Thigh injury - Unknown return date,2026-10-24T16:30:09.687729Z,521
+2026-11-11 06:24:00,EPL,Chelsea,Hato,out,i,0,Unspecified injury - Unknown return date,2026-10-29T22:00:09.909621Z,412
+2026-11-11 06:24:00,EPL,Chelsea,James,out,i,0,Knee injury - Unknown return date,2026-10-10T13:30:08.699019Z,292
+2026-11-11 06:24:00,EPL,Chelsea,Gittens,out,i,0,Ankle injury - Unknown return date,2026-09-26T05:30:09.245832Z,0
+2026-11-11 06:24:00,EPL,Chelsea,Acheampong,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-08T15:00:09.230933Z,581
+2026-11-11 06:24:00,EPL,Chelsea,Martinez,doubt,d,75,Head injury - 75% chance of playing,2026-10-17T13:30:08.724000Z,524
+2026-11-11 06:24:00,EPL,Coventry,Amenda,out,i,0,Calf injury - Unknown return date,2026-09-17T07:30:09.329041Z,360
+2026-11-11 06:24:00,EPL,Coventry,Woolfenden,out,i,0,Knee injury - Unknown return date,2026-08-27T14:56:28.718566Z,0
+2026-11-11 06:24:00,EPL,Coventry,Eccles,out,i,0,Ankle injury - Unknown return date,2026-09-10T18:30:08.877110Z,0
+2026-11-11 06:24:00,EPL,Coventry,Wright,out,i,0,Thigh injury - Unknown return date,2026-08-14T22:00:07.214508Z,0
+2026-11-11 06:24:00,EPL,Coventry,Thomas,doubt,d,50,Calf injury - 50% chance of playing,2026-10-24T17:00:09.115906Z,676
+2026-11-11 06:24:00,EPL,Coventry,Onyeka,doubt,d,50,Groin injury - 50% chance of playing,2026-11-05T09:00:09.236330Z,379
+2026-11-11 06:24:00,EPL,Crystal Palace,Tomiyasu,out,i,0,Calf injury - Expected back 21 Nov,2026-09-21T13:30:09.030724Z,189
+2026-11-11 06:24:00,EPL,Crystal Palace,Mateta,out,s,0,Suspended until 2 Dec,2026-10-31T18:00:09.547671Z,164
+2026-11-11 06:24:00,EPL,Crystal Palace,Chadi Riad,out,i,0,Knee injury - Unknown return date,2026-08-22T18:00:07.352049Z,72
+2026-11-11 06:24:00,EPL,Crystal Palace,Sarr,out,i,0,Groin injury - Expected back 21 Nov,2026-10-27T10:30:09.385934Z,15
+2026-11-11 06:24:00,EPL,Fulham,Cairney,out,i,0,Knee injury - Expected back 21 Nov,2026-11-06T10:30:09.529201Z,36
+2026-11-11 06:24:00,EPL,Hull,Morita,out,i,0,Groin injury - Unknown return date,2026-11-05T18:30:08.257672Z,106
+2026-11-11 06:24:00,EPL,Hull,Targett,out,i,0,Ankle injury - Unknown return date,2026-09-17T14:00:26.419938Z,5
+2026-11-11 06:24:00,EPL,Hull,Hughes,out,i,0,Groin injury - Unknown return date,2026-08-02T09:00:11.030017Z,0
+2026-11-11 06:24:00,EPL,Hull,Matazo,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.532635Z,0
+2026-11-11 06:24:00,EPL,Hull,Ansah,out,i,0,Back injury - Unknown return date,2026-09-09T10:00:08.919489Z,0
+2026-11-11 06:24:00,EPL,Hull,Belloumi,doubt,d,75,Hamstring injury - 75% chance of playing,2026-11-10T19:00:09.431074Z,685
+2026-11-11 06:24:00,EPL,Hull,Gyabi,doubt,d,75,Thigh injury - 75% chance of playing,2026-08-04T18:30:11.027155Z,0
+2026-11-11 06:24:00,EPL,Leeds,Mateo Joseph,out,i,0,Knee injury - Unknown return date,2026-07-29T18:00:10.338170Z,0
+2026-11-11 06:24:00,EPL,Leeds,Stach,doubt,d,50,Foot injury - 50% chance of playing,2026-11-05T18:30:07.925529Z,676
+2026-11-11 06:24:00,EPL,Leeds,Gudmundsson,doubt,d,75,Hamstring injury - 75% chance of playing,2026-11-08T12:30:09.622622Z,631
+2026-11-11 06:24:00,EPL,Liverpool,Frimpong,out,i,0,Hamstring injury - Unknown return date,2026-10-17T15:30:09.979166Z,199
+2026-11-11 06:24:00,EPL,Liverpool,Jaros,out,i,0,Knee injury - Unknown return date,2026-07-29T18:00:10.351066Z,0
+2026-11-11 06:24:00,EPL,Liverpool,Bradley,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.565711Z,0
+2026-11-11 06:24:00,EPL,Liverpool,Leoni,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.596909Z,0
+2026-11-11 06:24:00,EPL,Liverpool,Ekitiké,out,i,0,Achilles injury - Unknown return date,2026-07-23T12:01:23.643771Z,0
+2026-11-11 06:24:00,EPL,Liverpool,Virgil,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-09T18:00:09.325472Z,900
+2026-11-11 06:24:00,EPL,Liverpool,Gravenberch,doubt,d,75,Foot injury - 75% chance of playing,2026-11-03T17:00:09.626695Z,341
+2026-11-11 06:24:00,EPL,Man City,Semenyo,out,i,0,Knee injury - Unknown return date,2026-10-17T17:30:09.977110Z,553
+2026-11-11 06:24:00,EPL,Man City,Guéhi,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-07T21:30:08.741792Z,720
+2026-11-11 06:24:00,EPL,Man City,Gvardiol,doubt,d,75,Unspecified injury - 75% chance of playing,2026-11-07T21:30:08.752464Z,700
+2026-11-11 06:24:00,EPL,Man United,Shaw,out,i,0,Unspecified injury - Unknown return date,2026-10-12T21:30:08.995810Z,425
+2026-11-11 06:24:00,EPL,Man United,Rashford,out,i,0,Hip injury - Unknown return date,2026-10-20T20:00:09.925594Z,352
+2026-11-11 06:24:00,EPL,Man United,Baleba,out,i,0,Hamstring injury - Unknown return date,2026-11-03T22:00:07.995956Z,232
+2026-11-11 06:24:00,EPL,Man United,Šeško,out,i,0,Shin injury - Unknown return date,2026-09-20T19:30:08.505755Z,76
+2026-11-11 06:24:00,EPL,Man United,Ugarte,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.706702Z,0
+2026-11-11 06:24:00,EPL,Man United,Maguire,doubt,d,75,Back injury - 75% chance of playing,2026-11-11T01:00:09.173434Z,855
+2026-11-11 06:24:00,EPL,Newcastle,Joelinton,out,i,0,Unspecified injury - Unknown return date,2026-11-05T16:57:40.468946Z,278
+2026-11-11 06:24:00,EPL,Newcastle,Jaouen,out,i,0,Hamstring injury - Unknown return date,2026-09-10T16:00:09.127466Z,0
+2026-11-11 06:24:00,EPL,Nott'm Forest,Dominguez,out,i,0,Muscular injury - Expected back 30 Dec,2026-10-24T13:00:08.751863Z,74
+2026-11-11 06:24:00,EPL,Nott'm Forest,Savona,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.816304Z,0
+2026-11-11 06:24:00,EPL,Sunderland,Ballard,out,i,0,Hamstring injury - Unknown return date,2026-09-25T21:30:10.370384Z,450
+2026-11-11 06:24:00,EPL,Sunderland,Diarra,out,i,0,Muscular injury - Unknown return date,2026-11-01T08:30:09.264068Z,70
+2026-11-11 06:24:00,EPL,Sunderland,Mundle,out,i,0,Knee injury - Unknown return date,2026-09-09T14:00:08.462705Z,1
+2026-11-11 06:24:00,EPL,Sunderland,Xhaka,doubt,d,75,Calf injury - 75% chance of playing,2026-11-08T14:30:09.504002Z,813
+2026-11-11 06:24:00,EPL,Sunderland,Brobbey,doubt,d,75,Muscular injury - 75% chance of playing,2026-11-10T11:30:10.818854Z,619
+2026-11-11 06:24:00,EPL,Tottenham,Sávio,out,i,0,Muscular injury - Expected back 21 Nov,2026-10-18T13:00:09.266321Z,330
+2026-11-11 06:24:00,EPL,Tottenham,Bergvall,out,i,0,Knee injury - Unknown return date,2026-10-18T13:00:09.356060Z,143
+2026-11-11 06:24:00,EPL,Tottenham,Mudryk,out,i,0,Ankle injury - Unknown return date,2026-09-11T18:00:09.154412Z,16
+2026-11-11 06:24:00,EPL,Tottenham,Xavi,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.864304Z,0
+2026-11-11 06:24:00,EPL,Tottenham,Odobert,out,i,0,Knee injury - Unknown return date,2026-07-23T12:01:23.879434Z,0
+2026-11-11 06:24:00,EPL,Tottenham,Tel,doubt,d,75,Ankle injury - 75% chance of playing,2026-11-07T18:30:09.104275Z,477
