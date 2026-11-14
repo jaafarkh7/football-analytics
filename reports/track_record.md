@@ -1,8 +1,8 @@
-# Track record · updated 2026-11-13
+# Track record · updated 2026-11-14
 
 Every forecast here was saved *before* kickoff and scored afterwards. Only the latest pre-kickoff forecast per match counts; nothing is excluded after the fact.
 
-Scored matches: **127** · forecasts waiting for results: 0
+Scored matches: **127** · forecasts waiting for results: 29
 
 ## Overall
 
@@ -20,7 +20,7 @@ For reference: guessing 1/3 each gives log loss 1.0986. Over a full season our t
 | Model | 53 | 0.8793 | 60% |
 | Market | 53 | 0.8682 | 58% |
 
-Model minus market: +0.0114 (95% interval [-0.0170, +0.0381]).
+Model minus market: +0.0112 (95% interval [-0.0168, +0.0403]).
 
 ## By competition
 
