@@ -1,4 +1,4 @@
-# Track record · updated 2026-11-16
+# Track record · updated 2026-11-17
 
 Every forecast here was saved *before* kickoff and scored afterwards. Only the latest pre-kickoff forecast per match counts; nothing is excluded after the fact.
 
@@ -20,7 +20,7 @@ For reference: guessing 1/3 each gives log loss 1.0986. Over a full season our t
 | Model | 53 | 0.8793 | 60% |
 | Market | 53 | 0.8682 | 58% |
 
-Model minus market: +0.0115 (95% interval [-0.0159, +0.0404]).
+Model minus market: +0.0114 (95% interval [-0.0176, +0.0403]).
 
 ## By competition
 
